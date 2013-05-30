@@ -1,18 +1,29 @@
 package models;
 
-import org.bson.types.ObjectId;
 
-import play.data.validation.Constraints.Required;
+import java.util.Map;
+
+import org.bson.types.ObjectId;
+import org.codehaus.jackson.map.ObjectMapper;
+
 
 import com.google.code.morphia.annotations.Entity;
+import com.sun.syndication.feed.synd.SyndEntry;
 
 @Entity
-public class Article {
+public class Article extends MongoModel{
 
     public ObjectId id;
     
-    @Required
-    public String title;
+    public Map<String,Object> data;
     
-    public String summary;
+    @SuppressWarnings("unchecked")
+    public Article(SyndEntry entry) {
+        ObjectMapper m = new ObjectMapper();
+        this.data = m.convertValue(entry, Map.class);
+    }
+    
+    public Article() {
+        
+    }
 }

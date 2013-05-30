@@ -1,8 +1,5 @@
 package util;
 
-import java.io.FileInputStream;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,15 +9,10 @@ import javax.xml.parsers.SAXParserFactory;
 import models.Category;
 import models.Feed;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-import play.Play;
-
-import com.google.code.morphia.Morphia;
-import com.mongodb.Mongo;
 
 public class GoogleReaderImporterTest {
 
