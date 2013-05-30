@@ -1,16 +1,149 @@
-@(title: String)(content: Html)
+<!doctype html>
+<html>
+  
+  <head>
+    <title>main page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap-responsive.css")">
+    <link rel="stylesheet" href="https://djyhxgczejc94.cloudfront.net/builds/dc3d94894bbf2b38197b9cdc451ac06ec3ec1655.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </head>
+  
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <nav class="main-nav span0 span4" id="menu">
+          <ul>
+            <li>logo</li>
+            <li></li>
+            <li></li>
+          </ul>
+          <div>
+            <br> 
+          </div>
+          <div id="sorting">
+            <a href="#">Sort By<br>
+                magic<br>
+                date<br>
+                popularity<br>
+              </a> 
+          </div>
+          <br>
+          <br>
+          <div id="misc">
+            <a href="#">Popular on Reader</a>
+            <a href="#">Saved</a> 
+          </div>
+          <li></li>
+          <a href="#">All</a>
+          <a href="#">category 1</a>
+          <a href="#">category 2</a>
+          <a href="#">category 3</a>
+          <a href="#">category 4</a>
+          <a href="#">category 5</a>
+          <a href="#">category 6</a>
+          <a href="#">category 7</a> 
+        </nav>
+        <div class="span8">
+          <div class="container-fluid">
+            <h1>Technology</h1>
+          </div>
+          <div class="views">switch view:
+            <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
+            <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a> 
+          </div>
+          <div class="card first_popular read">
+            <a class="pull-left" href="#"></a>
+            <div class="media-body-text-only">
+              <h4 class="media-heading">☆ The Engadget Mobile Podcast, live at 4PM ET!</h4>
+              <span class="info">
+            <span class="date">5 minutes ago</span>
+              <span class="author">by <a>Brad Molen</a></span>
+              <span class="from">from <a>Engadget</a></span> 
+              </span>
+              <p>Google's continuing to romance the casual gaming world with the unveiling
+                of Roll It, the company's latest Chrome Experiment. The title emulates
+                that old.....
+                <a>Continue Reading</a> 
+              </p>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="card second_popular">
+            <a class="pull-left" href="#"></a>
+            <div class="media-body-text-only">
+              <h4 class="media-heading">☆ Google's Roll It Chrome Experiment brings skee ball to your phone and
+                browser</h4>
+              <span class="info">
+            <span class="date">5 minutes ago</span>
+              <span class="author">by <a>Brad Molen</a></span>
+              <span class="from">from <a>Engadget</a></span> 
+              </span>
+              <p>Time to dust off the 'ol microphone and get back to podcasting! As many
+                of you have noted, we're coming off of a short hiatus....
+                <a>Continue Reading</a> 
+              </p>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="card third_popular">
+            <a class="pull-left" href="#"></a>
+            <div class="media-body-text-only">
+              <h4 class="media-heading">☆ Google's Roll It Chrome Experiment brings skee ball to your phone and
+                browser</h4>
+              <span class="info">
+            <span class="date">5 minutes ago</span>
+              <span class="author">by <a>Brad Molen</a></span>
+              <span class="from">from <a>Engadget</a></span> 
+              </span>
+              <p>Time to dust off the 'ol microphone and get back to podcasting! As many
+                of you have noted, we're coming off of a short hiatus....
+                <a>Continue Reading</a> 
+              </p>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="card forth_popular">
+            <a class="pull-left" href="#"></a>
+            <div class="media-body-text-only">
+              <h4 class="media-heading">☆ Google's Roll It Chrome Experiment brings skee ball to your phone and
+                browser</h4>
+              <span class="info">
+            <span class="date">5 minutes ago</span>
+              <span class="author">by <a>Brad Molen</a></span>
+              <span class="from">from <a>Engadget</a></span> 
+              </span>
+              <p>Time to dust off the 'ol microphone and get back to podcasting! As many
+                of you have noted, we're coming off of a short hiatus....
+                <a>Continue Reading</a> 
+              </p>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="card fifth_popular">
+            <a class="pull-left" href="#"></a>
+            <div class="media-body-text-only">
+              <h4 class="media-heading">☆ Google's Roll It Chrome Experiment brings skee ball to your phone and
+                browser</h4>
+              <span class="info">
+            <span class="date">5 minutes ago</span>
+              <span class="author">by <a>Brad Molen</a></span>
+              <span class="from">from <a>Engadget</a></span> 
+              </span>
+              <p>Time to dust off the 'ol microphone and get back to podcasting! As many
+                of you have noted, we're coming off of a short hiatus....
+                <a>Continue Reading</a> 
+              </p>
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="row-fluid"></div>
+        </div>
+      </div>
+    </div>
+  </body>
 
-<!DOCTYPE html>
-
-<html ng-app>
-    <head>
-        <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="http://code.angularjs.org/1.0.7/angular.min.js"></script>
-        <script src="@routes.Assets.at("javascripts/script.js")" type="text/javascript"></script>
-    </head>
-    <body>
-        @content
-    </body>
 </html>
