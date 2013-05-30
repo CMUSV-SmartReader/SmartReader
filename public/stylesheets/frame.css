@@ -14,7 +14,6 @@ body .viewport {
 }
 
 body .viewport .frame {
-  width: 200%;
   height: 100%;
   top: 0;
   bottom: 0;
@@ -78,7 +77,6 @@ body .viewport .frame .menu .navbar .navbar-inner {
 }
 
 body .viewport .frame .view {
-  width: 50%;
   height: 100%;
   overflow: hidden; 
 }
