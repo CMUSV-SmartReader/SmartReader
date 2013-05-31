@@ -16,4 +16,7 @@ public class Feed extends MongoModel {
     public String xmlUrl;
     
     public String htmlUrl;
+    
+    public String author;
+    
 }

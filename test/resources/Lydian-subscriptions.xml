@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>Lydian(小草莓) subscriptions in Google Reader</title>
+    </head>
+    <body>
+        <outline title="FLEX" text="FLEX">
+            <outline text="ActionScript Examples"
+                title="ActionScript Examples" type="rss"
+                xmlUrl="http://feeds.feedburner.com/ActionscriptExamples" htmlUrl="http://actionscriptexamples.com"/>
+            <outline text="Adobe: Most recent Flex Cookbook posts"
+                title="Adobe: Most recent Flex Cookbook posts"
+                type="rss"
+                xmlUrl="http://rss.adobe.com/en/flex_cookbook_most_recent.rss" htmlUrl="http://cookbooks.adobe.com/rss/recent/recipes?technology=flex"/>
+            <outline text="AIR Examples" title="AIR Examples" type="rss"
+                xmlUrl="http://feeds.feedburner.com/AirExamples" htmlUrl="http://airexamples.com"/>
+            <outline text="ANISTAR BLOG - RIA Project"
+                title="ANISTAR BLOG - RIA Project" type="rss"
+                xmlUrl="http://blog.riaproject.com/?feed=rss2" htmlUrl="http://blog.riaproject.com"/>
+            <outline text="blog.FlexExamples.com"
+                title="blog.FlexExamples.com" type="rss"
+                xmlUrl="http://feeds.feedburner.com/FlexExamples" htmlUrl="http://blog.flexexamples.com"/>
+        </outline>
+        <outline text="NTU-Intel Lab news" title="NTU-Intel Lab news"
+            type="rss"
+            xmlUrl="http://intellab.ntu.edu.tw/index.php/feed/" htmlUrl="http://intellab.ntu.edu.tw/index.php/feed/news/"/>
+        <outline text="Planet Python" title="Planet Python" type="rss"
+            xmlUrl="http://planet.python.org/rss10.xml" htmlUrl="http://planet.python.org/"/>
+        <outline text="Statistical Analysis and Data Mi..."
+            title="Statistical Analysis and Data Mi..." type="rss"
+            xmlUrl="http://www3.interscience.wiley.com/rss/journal/112701062" htmlUrl="http://onlinelibrary.wiley.com/resolve/doi?DOI=10.1002%2F%28ISSN%291932-1872"/>
+        <outline text="和學習追逐" title="和學習追逐" type="rss"
+            xmlUrl="http://lisa660105.blogspot.com/feeds/posts/default" htmlUrl="http://lisa660105.blogspot.com/"/>
+        <outline text="阿米巴的椰子湖" title="阿米巴的椰子湖" type="rss"
+            xmlUrl="http://amebajoe.blogspot.com/feeds/posts/default" htmlUrl="http://amebajoe.blogspot.com/"/>
+        <outline title="02_shouldRead" text="02_shouldRead">
+            <outline text="Anchorite Yao" title="Anchorite Yao"
+                type="rss"
+                xmlUrl="http://peiyaoh.blogspot.com/feeds/posts/default" htmlUrl="http://peiyaoh.blogspot.com/"/>
+            <outline text="Artificial Intelligence - 人工智慧研究部落格"
+                title="Artificial Intelligence - 人工智慧研究部落格" type="rss"
+                xmlUrl="http://feeds2.feedburner.com/ai-mmdays" htmlUrl="http://ai.mmdays.com"/>
+            <outline text="Engadget" title="Engadget" type="rss"
+                xmlUrl="http://www.engadget.com/rss.xml" htmlUrl="http://www.engadget.com"/>
+            <outline text="Information Design Watch"
+                title="Information Design Watch" type="rss"
+                xmlUrl="http://dd.dynamicdiagrams.com/?feed=rss2" htmlUrl="http://dd.dynamicdiagrams.com"/>
+            <outline text="ReadWriteWeb" title="ReadWriteWeb" type="rss"
+                xmlUrl="http://www.readwriteweb.com/rss.xml" htmlUrl="http://readwrite.com"/>
+            <outline text="St. Threath" title="St. Threath" type="rss"
+                xmlUrl="http://st-threath.blogspot.com/feeds/posts/default" htmlUrl="http://st-threath.blogspot.com/"/>
+            <outline text="Visual Design &amp; Analysis"
+                title="Visual Design &amp; Analysis" type="rss"
+                xmlUrl="http://www.joeparry.com/blog/atom.xml" htmlUrl="http://www.joeparry.com/blog"/>
+            <outline text="visualcomplexity.com"
+                title="visualcomplexity.com" type="rss"
+                xmlUrl="http://feeds.feedburner.com/visualcomplexity" htmlUrl="http://www.visualcomplexity.com"/>
+            <outline text="Well-formed data" title="Well-formed data"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/well-formed_data" htmlUrl="http://well-formed-data.net"/>
+            <outline text="Wiki of Intelligent Agent Group"
+                title="Wiki of Intelligent Agent Group" type="rss"
+                xmlUrl="https://wiki.agent.csie.org/feed.php" htmlUrl="https://wiki.agent.csie.org/"/>
+            <outline text="創新使用者互動介面研究 (UIUI)"
+                title="創新使用者互動介面研究 (UIUI)" type="rss"
+                xmlUrl="http://feeds.feedburner.com/uiui" htmlUrl="http://uiui.mmdays.com"/>
+            <outline text="社交網站收集與研究" title="社交網站收集與研究" type="rss"
+                xmlUrl="http://feeds.feedburner.com/mmdays-sn" htmlUrl="http://socialnetwork.mmdays.com"/>
+        </outline>
+        <outline title="friends" text="friends">
+            <outline text="Brian's album - Page2RSS"
+                title="Brian's album - Page2RSS" type="rss"
+                xmlUrl="http://page2rss.com/atom/4bb2fbd412e6a332122af96565f57d47" htmlUrl="http://page2rss.com/4bb2fbd412e6a332122af96565f57d47"/>
+            <outline text="lyBrian's album - Page2RSS"
+                title="lyBrian's album - Page2RSS" type="rss"
+                xmlUrl="http://page2rss.com/atom/35703d7c6b3c5426742569c72dc9ceb4" htmlUrl="http://page2rss.com/35703d7c6b3c5426742569c72dc9ceb4"/>
+            <outline text="暮蟬部落格" title="暮蟬部落格" type="rss"
+                xmlUrl="http://tw.myblog.yahoo.com/taiwan-muchan/rss" htmlUrl="http://tw.myblog.yahoo.com/taiwan-muchan"/>
+        </outline>
+        <outline title="Programming" text="Programming">
+            <outline text="Adobe: Most recent Flex Cookbook posts"
+                title="Adobe: Most recent Flex Cookbook posts"
+                type="rss"
+                xmlUrl="http://rss.adobe.com/en/flex_cookbook_most_recent.rss" htmlUrl="http://cookbooks.adobe.com/rss/recent/recipes?technology=flex"/>
+            <outline text="Artima Python Buzz"
+                title="Artima Python Buzz" type="rss"
+                xmlUrl="http://www.artima.com/buzz/feeds/python.rss" htmlUrl="http://www.artima.com/buzz/community.jsp?forum=122"/>
+            <outline text="Python DevCenter" title="Python DevCenter"
+                type="rss"
+                xmlUrl="http://www.oreillynet.com/pub/feed/13" htmlUrl="http://www.onlamp.com/python/"/>
+            <outline text="Python News" title="Python News" type="rss"
+                xmlUrl="http://www.python.org/channews.rdf" htmlUrl="http://www.python.org/"/>
+        </outline>
+        <outline title="Visualization" text="Visualization">
+            <outline text="EagerEyes.org" title="EagerEyes.org"
+                type="rss" xmlUrl="http://eagereyes.org/atom/feed" htmlUrl="http://eagereyes.org"/>
+            <outline text="FlowingData" title="FlowingData" type="rss"
+                xmlUrl="http://feeds.feedburner.com/FlowingData" htmlUrl="http://flowingdata.com"/>
+            <outline text="Neoformix" title="Neoformix" type="rss"
+                xmlUrl="http://www.neoformix.com/index.xml" htmlUrl="http://neoformix.com"/>
+        </outline>
+        <outline title="Social Network" text="Social Network">
+            <outline text="Many Eyes blog" title="Many Eyes blog"
+                type="rss" xmlUrl="http://blog.many-eyes.com/feed/" htmlUrl="http://manyeyes.alphaworks.ibm.com/blog"/>
+            <outline text="Network Weaving" title="Network Weaving"
+                type="rss"
+                xmlUrl="http://www.networkweaving.com/Blog/atom.xml" htmlUrl="http://www.networkweaving.com/blog/"/>
+            <outline text="Social Media Research Blog"
+                title="Social Media Research Blog" type="rss"
+                xmlUrl="http://feeds.feedburner.com/SocialMediaResearchBlog" htmlUrl="http://socialmedia.typepad.com/blog/"/>
+            <outline text="TNT — The Network Thinker"
+                title="TNT — The Network Thinker" type="rss"
+                xmlUrl="http://www.thenetworkthinker.com/feeds/posts/default" htmlUrl="http://www.thenetworkthinkers.com/"/>
+            <outline text="Wiki of Intelligent Agent Group"
+                title="Wiki of Intelligent Agent Group" type="rss"
+                xmlUrl="https://wiki.agent.csie.org/feed.php" htmlUrl="https://wiki.agent.csie.org/"/>
+            <outline text="社交網站收集與研究" title="社交網站收集與研究" type="rss"
+                xmlUrl="http://feeds.feedburner.com/mmdays-sn" htmlUrl="http://socialnetwork.mmdays.com"/>
+        </outline>
+        <outline title="InfoVis" text="InfoVis">
+            <outline
+                text="Data Mining: Text Mining, Visualization and Social Media"
+                title="Data Mining: Text Mining, Visualization and Social Media"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/DataMining" htmlUrl="http://datamining.typepad.com/data_mining/"/>
+            <outline text="EagerEyes.org" title="EagerEyes.org"
+                type="rss" xmlUrl="http://eagereyes.org/rss.xml" htmlUrl="http://eagereyes.org"/>
+            <outline text="information aesthetics"
+                title="information aesthetics" type="rss"
+                xmlUrl="http://infosthetics.com/atom.xml" htmlUrl="http://infosthetics.com/"/>
+            <outline text="Information Design Watch"
+                title="Information Design Watch" type="rss"
+                xmlUrl="http://dd.dynamicdiagrams.com/?feed=rss2" htmlUrl="http://dd.dynamicdiagrams.com"/>
+            <outline text="InfoVis:Wiki - News [en]"
+                title="InfoVis:Wiki - News [en]" type="rss"
+                xmlUrl="http://www.infovis-wiki.net/index.php?title=Special:Newsfeed&amp;feed=rss" htmlUrl="http://www.infovis-wiki.net/index.php?title=Special:Newsfeed"/>
+            <outline text="mentegrafica | infovis solutions"
+                title="mentegrafica | infovis solutions" type="rss"
+                xmlUrl="http://www.mentegrafica.it/blog/feed/" htmlUrl="http://www.mentegrafica.it/blog"/>
+            <outline text="Visual Design &amp; Analysis"
+                title="Visual Design &amp; Analysis" type="rss"
+                xmlUrl="http://www.joeparry.com/blog/atom.xml" htmlUrl="http://www.joeparry.com/blog"/>
+            <outline text="visualcomplexity.com"
+                title="visualcomplexity.com" type="rss"
+                xmlUrl="http://feeds.feedburner.com/visualcomplexity" htmlUrl="http://www.visualcomplexity.com"/>
+            <outline text="Visuale" title="Visuale" type="rss"
+                xmlUrl="http://diuf.unifr.ch/people/bertinie/visuale/atom.xml" htmlUrl="http://diuf.unifr.ch/people/bertinie/visuale/"/>
+            <outline text="Well-formed data" title="Well-formed data"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/well-formed_data" htmlUrl="http://well-formed-data.net"/>
+        </outline>
+        <outline title="MA" text="MA">
+            <outline text="Artificial Intelligence - 人工智慧研究部落格"
+                title="Artificial Intelligence - 人工智慧研究部落格" type="rss"
+                xmlUrl="http://feeds2.feedburner.com/ai-mmdays" htmlUrl="http://ai.mmdays.com"/>
+            <outline text="vgod's blog" title="vgod's blog" type="rss"
+                xmlUrl="http://feeds.feedburner.com/vgod/blog" htmlUrl="http://blog.vgod.tw/"/>
+            <outline text="最新上載 已標籤 nmw2008" title="最新上載 已標籤 nmw2008"
+                type="rss"
+                xmlUrl="http://api.flickr.com/services/feeds/photos_public.gne?tags=nmw2008&amp;lang=zh-hk&amp;format=rss_200" htmlUrl="http://www.flickr.com/photos/tags/nmw2008/"/>
+        </outline>
+        <outline title="Design" text="Design">
+            <outline text="petitinvention" title="petitinvention"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/petitinvention" htmlUrl="http://petitinvention.wordpress.com"/>
+            <outline text="swissmiss" title="swissmiss" type="rss"
+                xmlUrl="http://swissmiss.typepad.com/weblog/atom.xml" htmlUrl="http://www.swiss-miss.com"/>
+            <outline text="Yanko Design" title="Yanko Design" type="rss"
+                xmlUrl="http://www.yankodesign.com/index.php/feed/" htmlUrl="http://www.yankodesign.com"/>
+            <outline text="創新使用者互動介面研究 (UIUI)"
+                title="創新使用者互動介面研究 (UIUI)" type="rss"
+                xmlUrl="http://feeds.feedburner.com/uiui" htmlUrl="http://uiui.mmdays.com"/>
+        </outline>
+    </body>
+</opml>

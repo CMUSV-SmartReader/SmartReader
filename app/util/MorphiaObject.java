@@ -15,16 +15,17 @@ public class MorphiaObject {
     
     public static void setUp() {
         Logger.info("** onStart **");
-        try {
-            MorphiaObject.mongo = new Mongo("127.0.0.1", 27017);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+        if (MorphiaObject.mongo == null) {
+            try {
+                MorphiaObject.mongo = new Mongo("127.0.0.1", 27017);
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+            MorphiaObject.morphia = new Morphia();
+            MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, "SmartReader");
+            MorphiaObject.datastore.ensureIndexes();
+            MorphiaObject.datastore.ensureCaps();
         }
-        MorphiaObject.morphia = new Morphia();
-        MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, "SmartReader");
-        MorphiaObject.datastore.ensureIndexes();
-        MorphiaObject.datastore.ensureCaps();
-
         Logger.info("** Morphia datastore: " + MorphiaObject.datastore.getDB());
     }
 }

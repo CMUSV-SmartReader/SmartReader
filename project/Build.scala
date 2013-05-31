@@ -12,11 +12,13 @@ object ApplicationBuild extends Build {
     javaCore,
     javaJdbc,
     javaEbean,
-    "com.google.code.morphia" % "morphia" % "0.99",
-    "org.mongodb" % "mongo-java-driver" % "2.7.3",
+    "com.google.code.morphia" % "morphia" % "0.99.1-SNAPSHOT",
+    "org.mongodb" % "mongo-java-driver" % "2.7.2",
     "com.google.code.morphia" % "morphia-logging-slf4j" % "0.99",
     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
     "securesocial" %% "securesocial" % "master-SNAPSHOT"
+    "commons-beanutils" % "commons-beanutils" % "1.8.3",
+    "rome" % "rome" % "1.0"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
