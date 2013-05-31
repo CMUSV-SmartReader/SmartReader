@@ -50,6 +50,7 @@ body .viewport .frame .menu.collapse.width {
   position: relative;
   width: 0;
   overflow: hidden;
+  overflow-y: auto;
   -webkit-transition: width 0.35s ease;
   -moz-transition: width 0.35s ease;
   -o-transition: width 0.35s ease;
@@ -75,7 +76,6 @@ body .viewport .frame .menu .navbar .navbar-inner {
   font-size: 1.2em;
   line-height: 38px; 
 }
-
 body .viewport .frame .view {
   height: 100%;
   overflow: hidden; 
@@ -88,5 +88,9 @@ body .viewport .frame .view .navbar .navbar-inner .btn-navbar {
 
 body .viewport .frame .view #content {
   margin: auto 15px;
-  text-align: justify; 
+  text-align: justify;
+  overflow: auto;
+  height: 100%;
+  padding-right: 15px;
+  margin-right: 0px;
 }
