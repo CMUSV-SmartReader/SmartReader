@@ -31,6 +31,7 @@ public class GoogleReaderImporterTest {
         XMLReader xmlReader = parser.getXMLReader();
         xmlReader.setContentHandler(mRSSHandler);
         xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/subscriptions.xml")));
+        xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/lydian-subscriptions.xml")));
         List<Map<String, String>> dataList = mRSSHandler.getOutlineDataList();
         for (Map<String, String> map : dataList) {
             if (!map.containsKey("xmlUrl")) {
