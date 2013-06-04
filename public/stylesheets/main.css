@@ -12,29 +12,20 @@
 div.card{
   border: 1px solid #AAA;
   margin: 10px;
-  padding: 5px 20px;  
+  padding: 5px 20px;
   border-left: 10px solid black;
 }
 div.card.read{
   background-color: GhostWhite ;
 }
-div.card.popular1{
-  border-left-color: red;
-}
-div.card.popular2{
-  border-left-color: orange;
-}
-div.card.popular3{
-  border-left-color: gold;
-}
-div.card.popular4{
-  border-left-color: greenyellow;
-}
-div.card.popular5{
-  border-left-color: lightskyblue;
-}
+div.card.popular1{ border-left-color: red; }
+div.card.popular2{ border-left-color: orange; }
+div.card.popular3{ border-left-color: gold; }
+div.card.popular4{ border-left-color: greenyellow; }
+div.card.popular5{ border-left-color: lightskyblue; }
+
 .card .info{
-  color: gray;  
+  color: gray;
   font-size: 85%;
 }
 .views{
@@ -59,56 +50,57 @@ div.card.popular5{
   padding-top: 10px;
   float: left;
 }
+
 /* slide menu*/
 .menu {
   min-height:100%;
-  }
-   
-  .menu.collapse {
-    float:left;
-   height: 100% !important;
-  width: auto;
-  }
-   
-  menu.collapse.height {
-    position: relative;
-   height: 0;
-  overflow: hidden;
-    -webkit-transition: height 0.35s ease;
-   -moz-transition: height 0.35s ease;
-  -o-transition: height 0.35s ease;
-    transition: height 0.35s ease;
- }
-  
- menu.collapse.width {
-   position: relative;
-  width: 0;
-    overflow: hidden;
-   -webkit-transition: width 0.35s ease;
-  -moz-transition: width 0.35s ease;
-    -o-transition: width 0.35s ease;
-   transition: width 0.35s ease;
 }
- 
+
+.menu.collapse {
+  float:left;
+  height: 100% !important;
+  width: auto;
+}
+
+menu.collapse.height {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+  -moz-transition: height 0.35s ease;
+  -o-transition: height 0.35s ease;
+  transition: height 0.35s ease;
+}
+
+menu.collapse.width {
+  position: relative;
+  width: 0;
+  overflow: hidden;
+  -webkit-transition: width 0.35s ease;
+  -moz-transition: width 0.35s ease;
+  -o-transition: width 0.35s ease;
+  transition: width 0.35s ease;
+}
+
 menu.collapse.in.width {
   width: auto;
-  }
-   
-  menu.collapse.in.height {
-    height: auto;
- }
-  
- menu.collapse-inner {
-   position: relative;
+}
+
+menu.collapse.in.height {
+  height: auto;
+}
+
+menu.collapse-inner {
+  position: relative;
   width: 250px;
-    height: 100%;
- }
+  height: 100%;
+}
 
 
 
 /* ====== title bar  ======= */
 #titleBar{
-   background-color: darkgrey;
+  background-color: darkgrey;
 }
 
 /* ====== swiping panel  ======= */
@@ -144,10 +136,11 @@ menu.collapse.in.width {
   border-bottom: 1px solid #2E2E2E;
   padding: 15px;
   color: white;
-/*    &:hover, &:focus {
+  /* &:hover, &:focus {
     background: linear-gradient(#484848, #383838);
   }*/
-  }
+}
+
 .main-nav a:hover {
   background: linear-gradient(#484848, #383838);
 }
