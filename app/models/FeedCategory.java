@@ -11,7 +11,7 @@ import com.google.code.morphia.annotations.Reference;
 import org.bson.types.ObjectId;
 
 @Entity
-public class UserCategory extends MongoModel {
+public class FeedCategory extends MongoModel {
 
     @Id
     public ObjectId id;
@@ -21,7 +21,7 @@ public class UserCategory extends MongoModel {
     @Reference
     public User user;
     
-    @Reference
+    @Reference(concreteClass = ArrayList.class)
     public List<Feed> feeds = new ArrayList<Feed>();
     
 }
