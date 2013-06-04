@@ -1,5 +1,13 @@
 package controllers;
 
+import java.io.IOException;
+
+import models.User;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+
 import play.*;
 import play.mvc.*;
 import securesocial.core.Identity;
@@ -18,7 +26,7 @@ public class Application extends Controller {
      *
      * @return
      */
-     @SecureSocial.SecuredAction
+    @SecureSocial.SecuredAction
     public static Result index() {
         Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
         // return ok(main.render(user));
@@ -43,5 +51,12 @@ public class Application extends Controller {
     public static Result onlyTwitter() {
         return ok("You are seeing this because you logged in using Twitter");
     }
-
+    
+    @SecureSocial.SecuredAction
+    public static Result userFeed() throws JsonGenerationException, JsonMappingException, IOException {
+    	User user = new User();
+    	return ok(new ObjectMapper().writeValueAsString(user));
+    }
+    
+    
 }
