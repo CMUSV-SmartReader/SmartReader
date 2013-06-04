@@ -1,6 +1,8 @@
 package controllers;
 
+import models.User;
 import play.*;
+import play.api.libs.json.JacksonJson;
 import play.mvc.*;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
@@ -21,7 +23,6 @@ public class Application extends Controller {
     @SecureSocial.SecuredAction
     public static Result index() {
         Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
-        // return ok(main.render(user));
         return ok(main.render());
     }
 
@@ -43,5 +44,6 @@ public class Application extends Controller {
     public static Result onlyTwitter() {
         return ok("You are seeing this because you logged in using Twitter");
     }
+    
 
 }
