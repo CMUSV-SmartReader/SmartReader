@@ -8,6 +8,9 @@ import javax.xml.parsers.SAXParserFactory;
 
 import models.Category;
 import models.Feed;
+import models.User;
+import models.UserCategory;
+import models.UserFeed;
 
 import org.junit.Test;
 import org.xml.sax.InputSource;
@@ -30,14 +33,24 @@ public class GoogleReaderImporterTest {
         SAXParser parser = factory.newSAXParser();
         XMLReader xmlReader = parser.getXMLReader();
         xmlReader.setContentHandler(mRSSHandler);
-        xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/subscriptions.xml")));
-        xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/lydian-subscriptions.xml")));
+        xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/Sean-subscriptions.xml")));
+//        xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/lydian-subscriptions.xml")));
         List<Map<String, String>> dataList = mRSSHandler.getOutlineDataList();
+        User user = User.findByEmail("seanlionheart@gmail.com");
+        Category category = null;
+        UserCategory userCategory = null;
         for (Map<String, String> map : dataList) {
+            
             if (!map.containsKey("xmlUrl")) {
-                Category category = new Category();
+                if (userCategory != null) {
+                    userCategory.create();
+                }
+                category = new Category();
                 category.name = map.get("title");
                 category.create();
+                userCategory = new UserCategory();
+                userCategory.user = user;
+                user.userCategories.add(userCategory);
             }
             else {
                 Feed feed = new Feed();
@@ -46,7 +59,13 @@ public class GoogleReaderImporterTest {
                 feed.title = map.get("title");
                 feed.type = map.get("type");
                 feed.create();
+                UserFeed userFeed = new UserFeed();
+                userFeed.user = user;
+                userFeed.feed = feed;
+                userFeed.create();
+                userCategory.feeds.add(feed);
             }
         }
     }
+    
 }

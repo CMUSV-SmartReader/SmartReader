@@ -18,6 +18,7 @@ object ApplicationBuild extends Build {
     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
     "securesocial" %% "securesocial" % "master-SNAPSHOT",
     "commons-beanutils" % "commons-beanutils" % "1.8.3",
+    "com.github.jmkgreen.morphia" % "morphia-logging-slf4j" % "1.00",
     "rome" % "rome" % "1.0"
   )
 

@@ -17,6 +17,7 @@
 package service;
 
 import play.Application;
+import play.Logger;
 import scala.Option;
 import securesocial.core.Identity;
 import securesocial.core.UserId;
@@ -27,6 +28,9 @@ import securesocial.core.java.Token;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import models.User;
+
 
 /**
  * A Sample In Memory user service in Java
@@ -44,10 +48,12 @@ public class UserService extends BaseUserService {
 
     @Override
     public Identity doSave(Identity user) {
-        users.put(user.id().id() + user.id().providerId(), user);
-        // this sample returns the same user object, but you could return an instance of your own class
-        // here as long as it implements the Identity interface. This will allow you to use your own class in the
-        // protected actions and event callbacks. The same goes for the doFind(UserId userId) method.
+        String email = user.email().get();
+        User existingUser = User.findByEmail(email);
+        if (existingUser == null) {
+            User newUser = new User(user);
+            newUser.create();
+        }
         return user;
     }
 
