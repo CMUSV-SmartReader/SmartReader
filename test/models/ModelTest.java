@@ -16,4 +16,14 @@ public class ModelTest {
             System.out.println(feed.title);
         }
     }
+    
+    @Test
+    public void getUserCategory() {
+        MorphiaObject.setUp();
+        User user = User.findByEmail("seanlionheart@gmail.com");
+        List<FeedCategory> userCategories = user.userCategories;
+        for (FeedCategory userCategory : userCategories) {
+            System.out.println(userCategory.name);
+        }
+    }
 }

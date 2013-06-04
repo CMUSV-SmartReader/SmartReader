@@ -29,10 +29,10 @@ public class User extends MongoModel {
     @Indexed
     public String email;
 
-    @Reference
-    public List<UserCategory> userCategories = new ArrayList<UserCategory>();
+    @Reference(concreteClass = ArrayList.class)
+    public List<FeedCategory> userCategories = new ArrayList<FeedCategory>();
 
-    @Reference
+    @Reference(concreteClass = ArrayList.class)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
 
     public static User findByEmail(String email) {

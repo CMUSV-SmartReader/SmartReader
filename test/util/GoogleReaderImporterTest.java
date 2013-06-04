@@ -6,10 +6,9 @@ import java.util.Map;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import models.Category;
 import models.Feed;
 import models.User;
-import models.UserCategory;
+import models.FeedCategory;
 import models.UserFeed;
 
 import org.junit.Test;
@@ -42,20 +41,18 @@ public class GoogleReaderImporterTest {
             user.email = "seanlionheart@gmail.com";
             user.create();
         }
-        Category category = null;
-        UserCategory userCategory = null;
+        FeedCategory feedCategory = null;
         for (Map<String, String> map : dataList) {
             
             if (!map.containsKey("xmlUrl")) {
-                if (userCategory != null) {
-                    userCategory.create();
+                if (feedCategory != null) {
+                    feedCategory.create();
+                    user.userCategories.add(feedCategory);
                 }
-                category = new Category();
-                category.name = map.get("title");
-                category.create();
-                userCategory = new UserCategory();
-                userCategory.user = user;
-                user.userCategories.add(userCategory);
+                feedCategory = new FeedCategory();
+                feedCategory.name = map.get("title");
+                feedCategory.user = user;
+                user.userCategories.add(feedCategory);
             }
             else {
                 Feed feed = new Feed();
@@ -68,12 +65,13 @@ public class GoogleReaderImporterTest {
                 userFeed.user = user;
                 userFeed.feed = feed;
                 userFeed.create();
-                userCategory.feeds.add(feed);
+                feedCategory.feeds.add(feed);
             }
         }
-        if (userCategory != null) {
-            userCategory.create();
+        if (feedCategory != null) {
+            feedCategory.create();
         }
+        user.update();
     }
     
 }
