@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.code.morphia.annotations.Entity;
@@ -21,6 +22,6 @@ public class UserCategory extends MongoModel {
     public User user;
     
     @Reference
-    public List<Feed> feeds;
+    public List<Feed> feeds = new ArrayList<Feed>();
     
 }

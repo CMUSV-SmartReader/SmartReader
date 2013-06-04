@@ -1,17 +1,21 @@
 package models;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import org.bson.types.ObjectId;
 
+import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Reference;
+
+@Entity
 public class UserFeed extends MongoModel {
     
-    ObjectId id;
+    @Id
+    public ObjectId id;
     
-    @ManyToOne
+    @Reference
     public User user;
     
-    @OneToOne
+    @Reference
     public Feed feed;
 }

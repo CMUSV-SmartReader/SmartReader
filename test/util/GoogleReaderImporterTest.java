@@ -37,6 +37,11 @@ public class GoogleReaderImporterTest {
 //        xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/lydian-subscriptions.xml")));
         List<Map<String, String>> dataList = mRSSHandler.getOutlineDataList();
         User user = User.findByEmail("seanlionheart@gmail.com");
+        if (user == null) {
+            user = new User();
+            user.email = "seanlionheart@gmail.com";
+            user.create();
+        }
         Category category = null;
         UserCategory userCategory = null;
         for (Map<String, String> map : dataList) {
@@ -65,6 +70,9 @@ public class GoogleReaderImporterTest {
                 userFeed.create();
                 userCategory.feeds.add(feed);
             }
+        }
+        if (userCategory != null) {
+            userCategory.create();
         }
     }
     
