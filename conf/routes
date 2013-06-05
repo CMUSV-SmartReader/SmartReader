@@ -32,4 +32,4 @@ POST    /authenticate/:provider     securesocial.controllers.ProviderController.
 GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized
 
 # Feeds Retrieving
-GET		/userfeed					controllers.Application.userFeed()
+GET		/feeds					controllers.Application.userFeeds()

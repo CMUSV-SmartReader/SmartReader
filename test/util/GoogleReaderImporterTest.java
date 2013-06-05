@@ -46,12 +46,12 @@ public class GoogleReaderImporterTest {
             if (!map.containsKey("xmlUrl")) {
                 if (feedCategory != null) {
                     feedCategory.create();
-                    user.userCategories.add(feedCategory);
+                    user.feedCategories.add(feedCategory);
                 }
                 feedCategory = new FeedCategory();
                 feedCategory.name = map.get("title");
                 feedCategory.user = user;
-                user.userCategories.add(feedCategory);
+                user.feedCategories.add(feedCategory);
             }
             else {
                 Feed feed = new Feed();

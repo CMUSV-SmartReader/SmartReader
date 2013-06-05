@@ -48,8 +48,10 @@ public class UserService extends BaseUserService {
 
     @Override
     public Identity doSave(Identity user) {
-        String email = user.email().get();
+        Option<String> emailId = user.email();
+        String email = emailId.get();
         User existingUser = User.findByEmail(email);
+//        User existingUser = null;
         if (existingUser == null) {
             User newUser = new User(user);
             newUser.create();
