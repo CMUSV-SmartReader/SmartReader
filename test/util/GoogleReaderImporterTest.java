@@ -1,45 +1,37 @@
 package util;
 
-import java.util.List;
-import java.util.Map;
 
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import models.Feed;
 import models.User;
-import models.FeedCategory;
-import models.UserFeed;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 
 
 public class GoogleReaderImporterTest {
 
+    @Before
+    public void setUp() {
+        MorphiaObject.setUp();
+    }
+    
     @Test
     public void testLogin() {
-        GoogleReaderImporter.importFeeds("seanlionheart@gmail.com",
+        GoogleReaderImporter.importFromGoogle("seanlionheart@gmail.com",
                 "314159265358979");
     }
+    
 
     @Test
     public void testOPMLParser() throws Exception {
-        MorphiaObject.setUp();
-        OPMLParser mRSSHandler = new OPMLParser();
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        SAXParser parser = factory.newSAXParser();
-        XMLReader xmlReader = parser.getXMLReader();
-        xmlReader.setContentHandler(mRSSHandler);
-        xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/Sean-subscriptions.xml")));
-        List<Map<String, String>> dataList = mRSSHandler.getOutlineDataList();
+        InputSource inputSource = new InputSource(getClass().getResourceAsStream("/resources/Sean-subscriptions.xml"));
         User user = User.findByEmail("seanlionheart@gmail.com");
         if (user == null) {
             user = new User();
             user.email = "seanlionheart@gmail.com";
             user.create();
         }
+
         FeedCategory feedCategory = null;
         for (Map<String, String> map : dataList) {
             
@@ -71,6 +63,9 @@ public class GoogleReaderImporterTest {
             feedCategory.create();
         }
         user.update();
+
+        GoogleReaderImporter.importWithEmail(user, inputSource);
+
     }
     
 }

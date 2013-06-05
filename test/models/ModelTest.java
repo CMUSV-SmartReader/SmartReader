@@ -9,6 +9,7 @@ import util.MorphiaObject;
 public class ModelTest {
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testList() {
         MorphiaObject.setUp();
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);

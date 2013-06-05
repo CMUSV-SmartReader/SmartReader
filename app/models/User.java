@@ -102,6 +102,9 @@ public class User extends MongoModel implements Identity{
     @Reference(concreteClass = ArrayList.class, lazy = true)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
 
+    @Reference(concreteClass = ArrayList.class, lazy = true)
+    public List<Feed> feeds = new ArrayList<Feed>();
+    
     public static User findByEmail(String email) {
         return MorphiaObject.datastore.find(User.class).filter("email", email).get();
     }
