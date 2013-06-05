@@ -1,29 +1,19 @@
 package models;
 
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 
 import play.Logger;
-
 import util.FeedParser;
 import util.MorphiaObject;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Reference;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.SyndFeedInput;
-import com.sun.syndication.io.XmlReader;
 
 @Entity
 public class Feed extends MongoModel {
@@ -41,9 +31,10 @@ public class Feed extends MongoModel {
     
     public String author;
     
+
     public DateTime lastAccessedTime; 
     
-    @Reference
+    @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
     
     public void crawl() throws Exception{

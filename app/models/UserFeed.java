@@ -13,9 +13,9 @@ public class UserFeed extends MongoModel {
     @Id
     public ObjectId id;
     
-    @Reference
+    @Reference(lazy = true)
     public User user;
     
-    @Reference
+    @Reference(lazy = true)
     public Feed feed;
 }

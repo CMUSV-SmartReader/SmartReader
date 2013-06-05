@@ -33,7 +33,6 @@ public class GoogleReaderImporterTest {
         XMLReader xmlReader = parser.getXMLReader();
         xmlReader.setContentHandler(mRSSHandler);
         xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/Sean-subscriptions.xml")));
-//        xmlReader.parse(new InputSource(getClass().getResourceAsStream("/resources/lydian-subscriptions.xml")));
         List<Map<String, String>> dataList = mRSSHandler.getOutlineDataList();
         User user = User.findByEmail("seanlionheart@gmail.com");
         if (user == null) {
