@@ -17,9 +17,10 @@ public class FeedParserTest {
         for (Feed feed : feeds) {
             try {
                 System.out.println("Parsing: " + feed.xmlUrl + " " + feed.htmlUrl);
-                FeedParser.parseFeed(feed.xmlUrl);
+                FeedParser.parseFeed(feed);    
             } catch (Exception e) {
-                System.out.println("Error: " + feed.xmlUrl);
+      	
+                System.out.print("Error: " + feed.xmlUrl);
             }
         }
     }
@@ -27,7 +28,9 @@ public class FeedParserTest {
     @Test
     public void testParsingOneFeed() throws Exception {
         MorphiaObject.setUp();
-        List<Article> articles = FeedParser.parseFeed("http://www.engadget.com/rss.xml");
+        Feed feed = new Feed();
+        feed.xmlUrl = "http://www.engadget.com/rss.xml";
+        List<Article> articles = FeedParser.parseFeed(feed);
         for (Article article : articles) {
             article.create();
         }
