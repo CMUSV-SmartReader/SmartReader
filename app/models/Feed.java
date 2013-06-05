@@ -32,6 +32,10 @@ public class Feed extends MongoModel {
 
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
+    
+    public static Feed find(String feedId) {
+        return MorphiaObject.datastore.get(Feed.class, feedId);
+    }
 
     public void crawl() throws Exception {
         // if being parsed 30 minutes ago, ignore it.

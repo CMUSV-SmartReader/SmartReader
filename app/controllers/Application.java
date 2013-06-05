@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 
+import models.FeedCategory;
 import models.User;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -52,16 +53,26 @@ public class Application extends Controller {
         return ok("You are seeing this because you logged in using Twitter");
     }
 
-    public static Result userFeeds() throws JsonGenerationException, JsonMappingException, IOException {
-    	User user = (User) ctx().args.get(SecureSocial.USER_KEY);
-    	return ok(new ObjectMapper().writeValueAsString(user));
+    public static Result getFeeds() throws JsonGenerationException, JsonMappingException, IOException {
+        Identity identity = SecureSocial.currentUser();
+        User user = User.findByEmail(identity.email().get());
+        return ok(new ObjectMapper().writeValueAsString(user.feeds));
     }
 
-    public static Result userCategories() throws JsonGenerationException, JsonMappingException, IOException {
-    	User user = (User) ctx().args.get(SecureSocial.USER_KEY);
-    	
-    	return ok(new ObjectMapper().writeValueAsString(user.feedCategories));
+    public static Result getFeed(String id) throws JsonGenerationException, JsonMappingException, IOException {
+        Identity identity = SecureSocial.currentUser();
+        User user = User.findByEmail(identity.email().get());
+        return ok(new ObjectMapper().writeValueAsString(user.feeds));
     }
 
-    
+    public static Result getCategories() throws JsonGenerationException, JsonMappingException, IOException {
+        Identity identity = SecureSocial.currentUser();
+        User user = User.findByEmail(identity.email().get());
+        return ok(new ObjectMapper().writeValueAsString(user.feedCategories));
+    }
+
+    public static Result getCategory(String categoryId) throws JsonGenerationException, JsonMappingException, IOException {
+        return ok(new ObjectMapper().writeValueAsString(FeedCategory.find(categoryId)));
+    }
+
 }
