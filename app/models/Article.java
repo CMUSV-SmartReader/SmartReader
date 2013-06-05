@@ -9,12 +9,18 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.code.morphia.annotations.Entity;
 import com.sun.syndication.feed.synd.SyndEntry;
+import com.google.code.morphia.annotations.Id;
 
 @Entity
 public class Article extends MongoModel{
 
+	@Id
     public ObjectId id;
+	
+	public Class<?> reference;
     
+	public ObjectId referenceId;
+	
     public Map<String,Object> data;
     
     @SuppressWarnings("unchecked")
@@ -25,5 +31,10 @@ public class Article extends MongoModel{
     
     public Article() {
         
+    }
+    
+    public void setReference(Class<?> reference, ObjectId referenceId){
+    	this.reference = reference;
+    	this.referenceId = referenceId;
     }
 }
