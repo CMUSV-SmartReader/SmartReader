@@ -18,7 +18,8 @@ object ApplicationBuild extends Build {
     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
     "securesocial" %% "securesocial" % "master-SNAPSHOT",
     "commons-beanutils" % "commons-beanutils" % "1.8.3",
-    "rome" % "rome" % "1.0"
+    "rome" % "rome" % "1.0",
+    "com.amazonaws" % "aws-java-sdk" % "1.4.5"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
