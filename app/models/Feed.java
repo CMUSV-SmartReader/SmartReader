@@ -35,9 +35,9 @@ public class Feed extends MongoModel {
 
     public void crawl() throws Exception {
         // if being parsed 30 minutes ago, ignore it.
-        if (lastAccessedTime.plusMinutes(30).isAfterNow())
+        
+    	if (lastAccessedTime != null && lastAccessedTime.plusMinutes(30).isAfterNow())
             return;
-
         lastAccessedTime = DateTime.now();
         List<Article> articles = FeedParser.parseFeed(this);
         for (Article article : articles) {
