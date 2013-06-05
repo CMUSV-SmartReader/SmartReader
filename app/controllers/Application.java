@@ -1,5 +1,14 @@
 package controllers;
 
+import java.io.IOException;
+
+import models.FeedCategory;
+import models.User;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+
 import play.*;
 import play.mvc.*;
 import securesocial.core.Identity;
@@ -18,10 +27,9 @@ public class Application extends Controller {
      *
      * @return
      */
-     @SecureSocial.SecuredAction
+    @SecureSocial.SecuredAction
     public static Result index() {
         Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
-        // return ok(main.render(user));
         return ok(main.render());
     }
 
@@ -42,6 +50,28 @@ public class Application extends Controller {
     @SecureSocial.SecuredAction( authorization = WithProvider.class, params = {"twitter"})
     public static Result onlyTwitter() {
         return ok("You are seeing this because you logged in using Twitter");
+    }
+
+    public static Result getFeeds() throws JsonGenerationException, JsonMappingException, IOException {
+        Identity identity = SecureSocial.currentUser();
+        User user = User.findByEmail(identity.email().get());
+        return ok(new ObjectMapper().writeValueAsString(user.feeds));
+    }
+
+    public static Result getFeed(String id) throws JsonGenerationException, JsonMappingException, IOException {
+        Identity identity = SecureSocial.currentUser();
+        User user = User.findByEmail(identity.email().get());
+        return ok(new ObjectMapper().writeValueAsString(user.feeds));
+    }
+
+    public static Result getCategories() throws JsonGenerationException, JsonMappingException, IOException {
+        Identity identity = SecureSocial.currentUser();
+        User user = User.findByEmail(identity.email().get());
+        return ok(new ObjectMapper().writeValueAsString(user.feedCategories));
+    }
+
+    public static Result getCategory(String categoryId) throws JsonGenerationException, JsonMappingException, IOException {
+        return ok(new ObjectMapper().writeValueAsString(FeedCategory.find(categoryId)));
     }
 
 }

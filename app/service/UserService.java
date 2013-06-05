@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import models.User;
+
+
 /**
  * A Sample In Memory user service in Java
  *
@@ -44,10 +47,15 @@ public class UserService extends BaseUserService {
 
     @Override
     public Identity doSave(Identity user) {
+        System.out.println(user.getClass().toString());
+        Option<String> emailId = user.email();
+        String email = emailId.get();
+        User existingUser = User.findByEmail(email);
+        if (existingUser == null) {
+            User newUser = new User(user);
+            newUser.create();
+        }
         users.put(user.id().id() + user.id().providerId(), user);
-        // this sample returns the same user object, but you could return an instance of your own class
-        // here as long as it implements the Identity interface. This will allow you to use your own class in the
-        // protected actions and event callbacks. The same goes for the doFind(UserId userId) method.
         return user;
     }
 

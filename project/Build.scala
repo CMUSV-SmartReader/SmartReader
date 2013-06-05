@@ -16,8 +16,13 @@ object ApplicationBuild extends Build {
     "org.mongodb" % "mongo-java-driver" % "2.7.2",
     "com.google.code.morphia" % "morphia-logging-slf4j" % "0.99",
     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
-    "securesocial" %% "securesocial" % "master-SNAPSHOT",
+    "securesocial" %% "securesocial" % "master-SNAPSHOT" withSources(),
     "commons-beanutils" % "commons-beanutils" % "1.8.3",
+    "com.github.jmkgreen.morphia" % "morphia-logging-slf4j" % "1.00",
+    "com.google.code.gson" % "gson" % "2.2.4",
+    "asm" % "asm" % "3.3.1",
+    "cglib" % "cglib" % "2.2.2",
+    "com.thoughtworks.proxytoys" % "proxytoys" % "1.0",
     "rome" % "rome" % "1.0"
   )
 

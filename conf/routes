@@ -30,3 +30,9 @@ POST    /password                   securesocial.controllers.PasswordChange.hand
 GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
 POST    /authenticate/:provider     securesocial.controllers.ProviderController.authenticateByPost(provider)
 GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized
+
+# Feeds Retrieving
+GET     /feeds                      controllers.Application.getFeeds()
+GET     /feed/:id                   controllers.Application.getFeed(id)
+GET     /categories                 controllers.Application.getCategories()
+GET     /category/:id               controllers.Application.getCategory(id)
