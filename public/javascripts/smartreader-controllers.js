@@ -1,10 +1,10 @@
 var smartreader = smartreader || {};
 
-function menuCtrl($scope) {
+function menuCtrl($scope, $http) {
   $scope.categories = [];
 
   smartreader.addCategory = function(category){
-    $scope.categories.push(category);
+    $scope.categories = $http.get("/categories");
     $scope.$apply();
   }
 
@@ -13,6 +13,9 @@ function menuCtrl($scope) {
     $scope.$apply();
   }
 
+  $http.get("/categories").success(function(data) {
+    smartreader.putCategories(data);
+  });;
 }
 
 function contentCtrl($scope) {

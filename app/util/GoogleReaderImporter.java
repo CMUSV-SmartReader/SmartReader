@@ -108,7 +108,7 @@ public class GoogleReaderImporter {
                 if (!categoryMap.containsKey(title)) {
                     FeedCategory feedCategory = new FeedCategory();
                     feedCategory.name = title;
-                    feedCategory.user = user;
+//                    feedCategory.user = user;
                     categoryMap.put(title, feedCategory);
                 }
                 FeedCategory feedCategory = categoryMap.get(title);
@@ -119,7 +119,7 @@ public class GoogleReaderImporter {
             feedCategory.create();
             user.feedCategories.add(feedCategory);
         }
-        user.create();
+        user.update();
     }
     
     private static String[] loginGoogle(String account, String password) {

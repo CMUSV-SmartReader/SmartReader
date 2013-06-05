@@ -9,6 +9,7 @@ import com.google.code.morphia.annotations.Reference;
 
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import util.MorphiaObject;
 
@@ -21,9 +22,11 @@ public class FeedCategory extends MongoModel {
     public String name;
     
     @Reference(lazy = true)
+    @JsonIgnore
     public User user;
     
     @Reference(concreteClass = ArrayList.class)
+    @JsonIgnore
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
     
     public static FeedCategory find(String categoryId) {
