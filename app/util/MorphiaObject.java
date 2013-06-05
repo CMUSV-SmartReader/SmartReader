@@ -2,11 +2,9 @@ package util;
 
 import java.net.UnknownHostException;
 
-import play.Logger;
 
 import com.google.code.morphia.Datastore;
 import com.google.code.morphia.Morphia;
-import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 
@@ -16,7 +14,6 @@ public class MorphiaObject {
     static public Datastore datastore;
     
     public static void setUp() {
-        Logger.info("** onStart **");
         if (MorphiaObject.mongo == null) {
             try {
                 MongoClient client = new MongoClient("linus.mongohq.com", 10011);
@@ -29,6 +26,5 @@ public class MorphiaObject {
             MorphiaObject.datastore.ensureIndexes();
             MorphiaObject.datastore.ensureCaps();
         }
-        Logger.info("** Morphia datastore: " + MorphiaObject.datastore.getDB());
     }
 }
