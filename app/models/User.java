@@ -31,11 +31,14 @@ public class User extends MongoModel {
     public String email;
 
     @Reference(concreteClass = ArrayList.class, lazy = true)
-    public List<FeedCategory> userCategories = new ArrayList<FeedCategory>();
+    public List<FeedCategory> feedCategories = new ArrayList<FeedCategory>();
 
     @Reference(concreteClass = ArrayList.class, lazy = true)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
 
+    @Reference(concreteClass = ArrayList.class, lazy = true)
+    public List<Feed> feeds = new ArrayList<Feed>();
+    
     public static User findByEmail(String email) {
         return MorphiaObject.datastore.find(User.class).filter("email", email).get();
     }

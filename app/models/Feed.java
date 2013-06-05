@@ -24,8 +24,6 @@ public class Feed extends MongoModel {
     
     public String htmlUrl;
     
-    public String author;
-    
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
 }

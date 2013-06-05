@@ -13,6 +13,7 @@ public class FeedParserTest {
     @Test
     public void testParsingFeed() throws Exception {
         MorphiaObject.setUp();
+        @SuppressWarnings("unchecked")
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
             try {

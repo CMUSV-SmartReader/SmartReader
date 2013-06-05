@@ -19,6 +19,10 @@ object ApplicationBuild extends Build {
     "securesocial" %% "securesocial" % "master-SNAPSHOT",
     "commons-beanutils" % "commons-beanutils" % "1.8.3",
     "com.github.jmkgreen.morphia" % "morphia-logging-slf4j" % "1.00",
+    "com.google.code.gson" % "gson" % "2.2.4",
+    "asm" % "asm" % "3.3.1",
+    "cglib" % "cglib" % "2.2.2",
+    "com.thoughtworks.proxytoys" % "proxytoys" % "1.0",
     "rome" % "rome" % "1.0"
   )
 
