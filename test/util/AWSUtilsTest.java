@@ -8,8 +8,8 @@ public class AWSUtilsTest {
 
 	@Test
 	public void testConnection() {
-		AWSUtils au = new AWSUtils();
-		
+		System.out.println(System.getenv("AWS_ACCESS_KEY_ID"));
+		//AWSUtils au = new AWSUtils();
 		
 	}
 
