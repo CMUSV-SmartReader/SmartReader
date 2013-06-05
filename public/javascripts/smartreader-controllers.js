@@ -13,9 +13,20 @@ function menuCtrl($scope, $http) {
     $scope.$apply();
   }
 
-  $http.get("/categories").success(function(data) {
-    smartreader.putCategories(data);
-  });;
+  smartreader.loadCategories = function(){
+    var userCategories = [];
+    $http.get("/categories").success(function(data) {
+      console.log(data);
+      for(var i=0; i<data.length; ++i){
+        userCategories.push({
+          name : data.name
+        });
+      }
+    });
+
+    smartreader.putCategories(userCategories);
+  }
+
 }
 
 function contentCtrl($scope) {
