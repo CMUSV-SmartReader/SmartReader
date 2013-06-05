@@ -14,6 +14,7 @@ import securesocial.core.Identity;
 import securesocial.core.OAuth1Info;
 import securesocial.core.OAuth2Info;
 import securesocial.core.PasswordInfo;
+import securesocial.core.UserId;
 import util.MorphiaObject;
 
 import com.google.code.morphia.annotations.Entity;
@@ -22,7 +23,7 @@ import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
 
 @Entity
-public class User extends MongoModel {
+public class User extends MongoModel implements Identity {
 
     @Id
     public ObjectId id;
@@ -56,6 +57,63 @@ public class User extends MongoModel {
     }
 
     public User() {
+    }
+    
+    @Override
+    public UserId id() {
+    	return null;
+    }
+    
+    @Override
+    public String lastName() {
+    	return lastName;
+    }
+    
+    @Override
+    public String firstName() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public String fullName() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public Option<String> avatarUrl() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public Option<String> email() {
+    	return Scala.Option(email);
+    }
+    
+    @Override
+    public AuthenticationMethod authMethod() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public Option<OAuth1Info> oAuth1Info() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public Option<OAuth2Info> oAuth2Info() {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+    
+    @Override
+    public Option<PasswordInfo> passwordInfo() {
+    	// TODO Auto-generated method stub
+    	return null;
     }
 
 }

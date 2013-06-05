@@ -51,19 +51,17 @@ public class Application extends Controller {
     public static Result onlyTwitter() {
         return ok("You are seeing this because you logged in using Twitter");
     }
-    
-    @SecureSocial.SecuredAction
+
     public static Result userFeeds() throws JsonGenerationException, JsonMappingException, IOException {
     	User user = (User) ctx().args.get(SecureSocial.USER_KEY);
     	return ok(new ObjectMapper().writeValueAsString(user));
     }
-    
-    @SecureSocial.SecuredAction
+
     public static Result userCategories() throws JsonGenerationException, JsonMappingException, IOException {
     	User user = (User) ctx().args.get(SecureSocial.USER_KEY);
     	
     	return ok(new ObjectMapper().writeValueAsString(user.feedCategories));
     }
-    
+
     
 }
