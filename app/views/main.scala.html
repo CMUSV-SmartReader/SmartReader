@@ -42,7 +42,7 @@
               <a href="#">All</a>
               <div ng-repeat="category in categories">
                 <a> {{category.text}} </a>
-                <a ng-repeat="feed in category.feeds"> {{feed.name}}</a>
+                <a ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}"> {{feed.name}}</a>
               </div>
               <!-- <a ng-repeat="category in categories"> {{category.text}} </a> -->
 
@@ -89,7 +89,7 @@
 
             <!-- Title and Misc -->
             <div class="container-fluid">
-              <h1>{{title}}</h1>
+              <h2>{{title}}</h2>
 
               <div class="views">switch view:
                 <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
@@ -105,7 +105,7 @@
                     <span class="info">
                       <span class="date">{{article.date}}</span>
                       <span class="author">by <a>{{article.author}}</a></span>
-                      <span class="from">from <a>Engadget</a></span>
+                      <span class="from">from <a>{{article.feedName}}</a></span>
                     </span>
                     <p>
                       {{article.description}}
