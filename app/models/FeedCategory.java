@@ -22,6 +22,6 @@ public class FeedCategory extends MongoModel {
     public User user;
     
     @Reference(concreteClass = ArrayList.class)
-    public List<Feed> feeds = new ArrayList<Feed>();
+    public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
     
 }

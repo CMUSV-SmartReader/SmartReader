@@ -1,15 +1,11 @@
 package util;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import models.Feed;
 import models.FeedCategory;
@@ -24,9 +20,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 import com.google.gson.Gson;
 
@@ -45,7 +38,7 @@ public class GoogleReaderImporter {
         importFeeds(jsonResult, user);
     }
     
-    private static String getFeeds(String[] authInfo) {
+    public static String getFeeds(String[] authInfo) {
         HttpGet httpGet = new HttpGet("https://www.google.com/reader/api/0/subscription/list?output=json");
         httpGet.setHeader("Authorization","GoogleLogin auth=" + authInfo[0]);
         httpGet.setHeader("Cookie","SID=" + authInfo[1]);
@@ -68,12 +61,22 @@ public class GoogleReaderImporter {
         List<Map> feeds = feedMap.get("subscriptions");
         Map<String, FeedCategory> categoryMap = new HashMap<String, FeedCategory>();
         for (Map feed : feeds) {
-            Feed feedEntity = new Feed();
-            feedEntity.title = (String)feed.get("title");
-            feedEntity.htmlUrl = (String)feed.get("htmlUrl");
-            feedEntity.xmlUrl = ((String)feed.get("id")).substring("feed/".length());
-            feedEntity.create();
+            String feedXmlUrl = ((String)feed.get("id")).substring("feed/".length());
+            Feed feedEntity = Feed.findByXmlUrl(feedXmlUrl);
+            if (feedEntity == null) {
+                feedEntity = new Feed();
+                feedEntity.title = (String)feed.get("title");
+                feedEntity.htmlUrl = (String)feed.get("htmlUrl");
+                feedEntity.xmlUrl = ((String)feed.get("id")).substring("feed/".length());
+                feedEntity.create();
+            }
             user.feeds.add(feedEntity);
+            UserFeed userFeed = new UserFeed();
+            userFeed.feed = feedEntity;
+            userFeed.user = user;
+            userFeed.create();
+            user.userFeeds.add(userFeed);
+            
             List<Map> categories = (List<Map>)feed.get("categories");
             for (Map category: categories) {
                 String title = (String) category.get("label");
@@ -84,7 +87,7 @@ public class GoogleReaderImporter {
                     categoryMap.put(title, feedCategory);
                 }
                 FeedCategory feedCategory = categoryMap.get(title);
-                feedCategory.feeds.add(feedEntity);
+                feedCategory.userFeeds.add(userFeed);
             }
         }
         for (FeedCategory feedCategory : categoryMap.values()) {
@@ -92,62 +95,6 @@ public class GoogleReaderImporter {
             user.feedCategories.add(feedCategory);
         }
         user.create();
-    }
-    
-    
-    private static void storeData(User user, List<Map<String, String>> dataList) {
-        MorphiaObject.setUp();
-        FeedCategory feedCategory = null;
-        for (Map<String, String> map : dataList) {
-            if (!map.containsKey("xmlUrl")) {
-                if (feedCategory != null) {
-                    feedCategory.create();
-                    user.feedCategories.add(feedCategory);
-                }
-                feedCategory = new FeedCategory();
-                feedCategory.name = map.get("title");
-                feedCategory.user = user;
-            }
-            else {
-                Feed feed = new Feed();
-                feed.htmlUrl = map.get("htmlUrl");
-                feed.xmlUrl = map.get("xmlUrl");
-                feed.title = map.get("title");
-                feed.type = map.get("type");
-                feed.users.add(user);
-                feed.create();
-                user.feeds.add(feed);
-                UserFeed userFeed = new UserFeed();
-                userFeed.user = user;
-                userFeed.feed = feed;
-                userFeed.create();
-                feedCategory.feeds.add(feed);
-            }
-        }
-        if (feedCategory != null) {
-            feedCategory.create();
-        }
-        user.update();
-    }
-    
-    public static void importWithEmail(User user, InputSource inputSource) {
-        
-        OPMLParser mRSSHandler = new OPMLParser();
-        SAXParserFactory factory = SAXParserFactory.newInstance();
-        try {
-            SAXParser parser = factory.newSAXParser();
-            XMLReader xmlReader = parser.getXMLReader();
-            xmlReader.setContentHandler(mRSSHandler);
-            xmlReader.parse(inputSource);
-            List<Map<String, String>> dataList = mRSSHandler.getOutlineDataList();
-            storeData(user, dataList);
-        } catch (SAXException e) {
-            
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
     
     private static String[] loginGoogle(String account, String password) {

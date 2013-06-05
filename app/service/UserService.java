@@ -17,7 +17,6 @@
 package service;
 
 import play.Application;
-import play.Logger;
 import scala.Option;
 import securesocial.core.Identity;
 import securesocial.core.UserId;
@@ -48,6 +47,7 @@ public class UserService extends BaseUserService {
 
     @Override
     public Identity doSave(Identity user) {
+        System.out.println(user.getClass().toString());
         Option<String> emailId = user.email();
         String email = emailId.get();
         User existingUser = User.findByEmail(email);

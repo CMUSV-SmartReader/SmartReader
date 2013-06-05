@@ -12,6 +12,7 @@ import util.MorphiaObject;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
 
 @Entity
@@ -24,6 +25,7 @@ public class Feed extends MongoModel {
 
     public String type;
 
+    @Indexed
     public String xmlUrl;
 
     public String htmlUrl;
@@ -33,6 +35,10 @@ public class Feed extends MongoModel {
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
 
+    public static Feed findByXmlUrl(String xmlUrl) {
+        return MorphiaObject.datastore.find(Feed.class).filter("xmlUrl", xmlUrl).get();
+    }
+    
     public void crawl() throws Exception {
         // if being parsed 30 minutes ago, ignore it.
         

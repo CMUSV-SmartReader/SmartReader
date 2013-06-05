@@ -9,7 +9,6 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import play.*;
-import play.api.libs.json.JacksonJson;
 import play.mvc.*;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;

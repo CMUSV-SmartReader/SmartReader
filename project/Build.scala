@@ -16,7 +16,7 @@ object ApplicationBuild extends Build {
     "org.mongodb" % "mongo-java-driver" % "2.7.2",
     "com.google.code.morphia" % "morphia-logging-slf4j" % "0.99",
     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
-    "securesocial" %% "securesocial" % "master-SNAPSHOT",
+    "securesocial" %% "securesocial" % "master-SNAPSHOT" withSources(),
     "commons-beanutils" % "commons-beanutils" % "1.8.3",
     "com.github.jmkgreen.morphia" % "morphia-logging-slf4j" % "1.00",
     "com.google.code.gson" % "gson" % "2.2.4",
