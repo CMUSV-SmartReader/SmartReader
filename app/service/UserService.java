@@ -51,11 +51,11 @@ public class UserService extends BaseUserService {
         Option<String> emailId = user.email();
         String email = emailId.get();
         User existingUser = User.findByEmail(email);
-//        User existingUser = null;
         if (existingUser == null) {
             User newUser = new User(user);
             newUser.create();
         }
+        users.put(user.id().id() + user.id().providerId(), user);
         return user;
     }
 

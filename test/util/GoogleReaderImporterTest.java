@@ -32,38 +32,6 @@ public class GoogleReaderImporterTest {
             user.create();
         }
 
-        FeedCategory feedCategory = null;
-        for (Map<String, String> map : dataList) {
-            
-            if (!map.containsKey("xmlUrl")) {
-                if (feedCategory != null) {
-                    feedCategory.create();
-                    user.feedCategories.add(feedCategory);
-                }
-                feedCategory = new FeedCategory();
-                feedCategory.name = map.get("title");
-                feedCategory.user = user;
-                user.feedCategories.add(feedCategory);
-            }
-            else {
-                Feed feed = new Feed();
-                feed.htmlUrl = map.get("htmlUrl");
-                feed.xmlUrl = map.get("xmlUrl");
-                feed.title = map.get("title");
-                feed.type = map.get("type");
-                feed.create();
-                UserFeed userFeed = new UserFeed();
-                userFeed.user = user;
-                userFeed.feed = feed;
-                userFeed.create();
-                feedCategory.feeds.add(feed);
-            }
-        }
-        if (feedCategory != null) {
-            feedCategory.create();
-        }
-        user.update();
-
         GoogleReaderImporter.importWithEmail(user, inputSource);
 
     }

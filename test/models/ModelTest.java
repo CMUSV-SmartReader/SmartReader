@@ -25,6 +25,9 @@ public class ModelTest {
         List<FeedCategory> userCategories = user.feedCategories;
         for (FeedCategory userCategory : userCategories) {
             System.out.println(userCategory.name);
+            for (Feed feed : userCategory.feeds) {
+                System.out.println("--" + feed.title);
+            }
         }
     }
 }
