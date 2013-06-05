@@ -10,13 +10,18 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.xml.sax.InputSource;
 
 public class GoogleReaderImporter {
 
     public static void importFeeds(String account, String password) {
         loginGoogle(account, password);
+    }
+    
+    public static void importWithEmail(String email, InputSource inputSource) {
+        MorphiaObject.setUp();
+        
     }
     
     private static void loginGoogle(String account, String password) {
@@ -28,7 +33,7 @@ public class GoogleReaderImporter {
         params.add(new BasicNameValuePair("service", "reader"));
         params.add(new BasicNameValuePair("source", "SMARTREADER"));
         try {
-            httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+            httpPost.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
         }
         catch (UnsupportedEncodingException e) {
             e.printStackTrace();

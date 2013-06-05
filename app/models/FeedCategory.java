@@ -18,7 +18,7 @@ public class FeedCategory extends MongoModel {
     
     public String name;
     
-    @Reference
+    @Reference(lazy = true)
     public User user;
     
     @Reference(concreteClass = ArrayList.class)
