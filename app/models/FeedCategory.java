@@ -10,6 +10,8 @@ import com.google.code.morphia.annotations.Reference;
 
 import org.bson.types.ObjectId;
 
+import util.MorphiaObject;
+
 @Entity
 public class FeedCategory extends MongoModel {
 
@@ -24,4 +26,7 @@ public class FeedCategory extends MongoModel {
     @Reference(concreteClass = ArrayList.class)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
     
+    public static FeedCategory find(String categoryId) {
+        return MorphiaObject.datastore.get(FeedCategory.class, categoryId);
+    }
 }

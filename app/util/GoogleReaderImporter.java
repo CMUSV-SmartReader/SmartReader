@@ -38,7 +38,32 @@ public class GoogleReaderImporter {
         importFeeds(jsonResult, user);
     }
     
-    public static String getFeeds(String[] authInfo) {
+    public static void oAuthImportFromGoogle(String account, String token) {
+        String jsonResult = getFeeds(token);
+        User user = User.findByEmail(account);
+        if (user == null) {
+            user = new User();
+            user.email = account;
+            user.create();
+        }
+        importFeeds(jsonResult, user);
+    }
+    
+    public static String getFeeds(String token) {
+        HttpGet httpGet = new HttpGet("https://www.google.com/reader/api/0/subscription/list?output=json");
+        httpGet.setHeader("Authorization","Bearer " + token);
+        DefaultHttpClient httpclient = new DefaultHttpClient();
+        try {
+            HttpResponse response = httpclient.execute(httpGet);
+            return EntityUtils.toString(response.getEntity());
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    private static String getFeeds(String[] authInfo) {
         HttpGet httpGet = new HttpGet("https://www.google.com/reader/api/0/subscription/list?output=json");
         httpGet.setHeader("Authorization","GoogleLogin auth=" + authInfo[0]);
         httpGet.setHeader("Cookie","SID=" + authInfo[1]);

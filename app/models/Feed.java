@@ -34,6 +34,10 @@ public class Feed extends MongoModel {
 
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
+    
+    public static Feed find(String feedId) {
+        return MorphiaObject.datastore.get(Feed.class, feedId);
+    }
 
     public static Feed findByXmlUrl(String xmlUrl) {
         return MorphiaObject.datastore.find(Feed.class).filter("xmlUrl", xmlUrl).get();

@@ -15,8 +15,11 @@ public class GoogleReaderImporterTest {
     
     @Test
     public void testImport() {
-        GoogleReaderImporter.importFromGoogle("seanlionheart@gmail.com",
-                "314159265358979");
+    }
+    
+    @Test
+    public void testOAuthImport() {
+        GoogleReaderImporter.oAuthImportFromGoogle("seanlionheart@gmail.com", "ya29.AHES6ZQUYDS4vtQALl1b8suwkoLVVs8B4EVTMtxYQSTXBCvUpPz8xA");
     }
     
 }
