@@ -67,9 +67,9 @@ public class Application extends Controller {
     }
 
     public static Result getFeed(String id) throws JsonGenerationException, JsonMappingException, IOException {
-        Identity identity = SecureSocial.currentUser();
-        User user = User.findByEmail(identity.email().get());
-        return ok(new ObjectMapper().writeValueAsString(user.feeds));
+        Feed feed = Feed.find(id);
+        Gson gson = SmartReaderUtils.builder.create();
+        return ok(gson.toJson(feed));
     }
 
     public static Result getCategories() throws JsonGenerationException, JsonMappingException, IOException {
@@ -91,7 +91,7 @@ public class Application extends Controller {
     }
     public static Result getUserArticles() throws JsonGenerationException, JsonMappingException, IOException{
         Identity identity = SecureSocial.currentUser();
-        User user = User.findByEmail(identity.email().get());        
+        User user = User.findByEmail(identity.email().get());
         return ok(new ObjectMapper().writeValueAsString(user.articles));
     }
 }

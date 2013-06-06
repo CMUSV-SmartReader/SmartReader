@@ -2,6 +2,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.codehaus.jackson.map.SerializationConfig;
 
+import models.Article;
 import models.Feed;
 import models.FeedCategory;
 import models.UserFeed;
@@ -25,21 +26,12 @@ public class Global extends GlobalSettings {
         MorphiaLoggerFactory.reset();
         MorphiaLoggerFactory.registerLogger(SLF4JLogrImplFactory.class);
         MorphiaObject.setUp();
-        
-
-//        Akka.system()
-//                .scheduler()
-//                .schedule(Duration.create(0, TimeUnit.SECONDS),
-//                        Duration.create(30, TimeUnit.MINUTES), new Runnable() {
-//                            public void run() {
-//                                Logger.debug("Start Crawling");
-//                                Feed.crawAll();
-//                            }
-//                        }, Akka.system().dispatcher());
     }
     
     private void initJsonSerializer() {
         SmartReaderUtils.builder.registerTypeAdapter(FeedCategory.class, new FeedCategory.Serializer());
         SmartReaderUtils.builder.registerTypeAdapter(UserFeed.class, new UserFeed.Serializer());
+        SmartReaderUtils.builder.registerTypeAdapter(Feed.class, new Feed.Serializer());
+        SmartReaderUtils.builder.registerTypeAdapter(Article.class, new Article.Serializer());
     }
 }

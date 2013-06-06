@@ -1,10 +1,10 @@
 package models;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
 
 import play.Logger;
@@ -15,6 +15,11 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 @Entity
 public class Feed extends MongoModel {
@@ -34,14 +39,13 @@ public class Feed extends MongoModel {
     public DateTime lastAccessedTime;
     
     @Reference(concreteClass=ArrayList.class, lazy = true)
-    @JsonIgnore
     public List<Article> articles = new ArrayList<Article>();
 
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
     
     public static Feed find(String feedId) {
-        return MorphiaObject.datastore.get(Feed.class, feedId);
+        return MorphiaObject.datastore.get(Feed.class, new ObjectId(feedId));
     }
 
     public static Feed findByXmlUrl(String xmlUrl) {
@@ -70,6 +74,19 @@ public class Feed extends MongoModel {
                 Logger.warn("parse [" + feed.xmlUrl + "] fail : "
                         + e.getMessage());
             }
+        }
+    }
+    
+    public static class Serializer implements JsonSerializer<Feed> {
+
+        @Override
+        public JsonElement serialize(Feed src, Type type,
+                JsonSerializationContext ctx) {
+            JsonObject feedObject = new JsonObject();
+            feedObject.add("id", new JsonPrimitive(src.id.toString()));
+            feedObject.add("title", new JsonPrimitive(src.title));
+            feedObject.add("articles", ctx.serialize(src.articles));
+            return feedObject;
         }
     }
 
