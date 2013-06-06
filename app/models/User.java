@@ -48,6 +48,9 @@ public class User extends MongoModel implements Identity {
     @Reference(concreteClass = ArrayList.class, lazy = true)
     public List<Feed> feeds = new ArrayList<Feed>();
     
+    @Reference(concreteClass = ArrayList.class, lazy = true)
+    public List<Article> articles = new ArrayList<Article>();
+    
     public static User findByEmail(String email) {
         return MorphiaObject.datastore.find(User.class).filter("email", "seanlionheart@gmail.com").get();
     }
@@ -55,7 +58,7 @@ public class User extends MongoModel implements Identity {
     public User(Identity identity) {
         this.email = identity.email().get();
     }
-
+   
     public User() {
     }
     
@@ -115,5 +118,11 @@ public class User extends MongoModel implements Identity {
     	// TODO Auto-generated method stub
     	return null;
     }
-
+    
+    public void crawl() throws Exception{
+        for(FeedCategory feedCategory: this.feedCategories){
+            this.articles.addAll(feedCategory.crawl());
+        }
+    }
+    
 }
