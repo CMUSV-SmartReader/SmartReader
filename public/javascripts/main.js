@@ -7,6 +7,9 @@ $(window).on('load', function(){
 //    {text:'category 3', feeds: [new smartreader.feed("4", "Feed4"), new smartreader.feed("5", "Feed5")]},
 //  ]);
 
+  smartreader.loadCategories();
+
+
   // Put dummy articles
   smartreader.putTitle("Technology");
   smartreader.putArticles([

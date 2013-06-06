@@ -1,9 +1,14 @@
 package controllers;
 
 import java.io.IOException;
+import models.Feed;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import models.FeedCategory;
 import models.User;
+import models.UserFeed;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -17,7 +22,7 @@ import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import util.SmartReaderUtils;
 import views.html.*;
-
+import models.Article;
 public class Application extends Controller {
 
 
@@ -77,5 +82,16 @@ public class Application extends Controller {
     public static Result getCategory(String categoryId) throws JsonGenerationException, JsonMappingException, IOException {
         return ok(new ObjectMapper().writeValueAsString(FeedCategory.find(categoryId)));
     }
-
+    
+    public static Result getUserArticles(String categoryId) throws JsonGenerationException, JsonMappingException, IOException{
+        Identity identity = SecureSocial.currentUser();
+        User user = User.findByEmail(identity.email().get());
+        List<Article> articles = FeedCategory.find(categoryId).articles;
+        return ok(new ObjectMapper().writeValueAsString(articles));
+    }
+    public static Result getUserArticles() throws JsonGenerationException, JsonMappingException, IOException{
+        Identity identity = SecureSocial.currentUser();
+        User user = User.findByEmail(identity.email().get());        
+        return ok(new ObjectMapper().writeValueAsString(user.articles));
+    }
 }

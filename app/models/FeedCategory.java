@@ -33,8 +33,18 @@ public class FeedCategory extends MongoModel {
     @Reference(concreteClass = ArrayList.class)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
     
+    @Reference(concreteClass = ArrayList.class)
+    public List<Article> articles = new ArrayList<Article>();
+    
     public static FeedCategory find(String categoryId) {
         return MorphiaObject.datastore.get(FeedCategory.class, categoryId);
+    }
+    
+    public List<Article> crawl() throws Exception{
+        for(UserFeed userFeed: this.userFeeds){
+            this.articles.addAll(userFeed.feed.crawl());
+        }
+        return this.articles;
     }
     
     public static class Serializer implements JsonSerializer<FeedCategory> {
@@ -48,4 +58,5 @@ public class FeedCategory extends MongoModel {
             return feedObject;
         }
     }
+    
 }

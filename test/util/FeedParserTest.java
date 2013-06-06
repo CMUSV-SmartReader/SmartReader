@@ -8,8 +8,14 @@ import models.MongoModel;
 
 import org.junit.Test;
 
-public class FeedParserTest {
+import models.User;
 
+public class FeedParserTest {
+    @Test 
+    public void testCrawlUserArticles() throws Exception{
+        User user = User.findByEmail("");
+        user.crawl();
+    }
     @Test
     public void testParsingFeed() throws Exception {
         MorphiaObject.setUp();
