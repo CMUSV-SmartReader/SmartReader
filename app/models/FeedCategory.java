@@ -55,6 +55,7 @@ public class FeedCategory extends MongoModel {
             JsonObject feedObject = new JsonObject();
             feedObject.add("id", new JsonPrimitive(src.id.toString()));
             feedObject.add("name", new JsonPrimitive(src.name));
+            feedObject.add("userFeeds", ctx.serialize(src.userFeeds));
             return feedObject;
         }
     }

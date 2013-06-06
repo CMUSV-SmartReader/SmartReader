@@ -4,6 +4,7 @@ import org.codehaus.jackson.map.SerializationConfig;
 
 import models.Feed;
 import models.FeedCategory;
+import models.UserFeed;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.Akka;
@@ -39,5 +40,6 @@ public class Global extends GlobalSettings {
     
     private void initJsonSerializer() {
         SmartReaderUtils.builder.registerTypeAdapter(FeedCategory.class, new FeedCategory.Serializer());
+        SmartReaderUtils.builder.registerTypeAdapter(UserFeed.class, new UserFeed.Serializer());
     }
 }
