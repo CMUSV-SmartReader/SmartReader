@@ -54,7 +54,7 @@ div.card.popular5{ border-left-color: lightskyblue; }
 /* slide menu*/
 .menu {
   min-height:100%;
-  text-align: right;
+
 }
 
 .menu.collapse {
