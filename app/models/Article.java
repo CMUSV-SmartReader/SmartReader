@@ -1,10 +1,13 @@
 package models;
 
 
+import java.util.List;
 import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
+
+import util.MorphiaObject;
 
 
 import com.google.code.morphia.annotations.Entity;
@@ -30,9 +33,10 @@ public class Article extends MongoModel{
     }
     
     public Article() {
-        
     }
-    
+    public static List<Article> findByFeed(Feed feed) {
+        return (List<Article>) MorphiaObject.datastore.find(Article.class).filter("refereceId", feed.id).get();
+    }
     public void setReference(Class<?> reference, ObjectId referenceId){
     	this.reference = reference;
     	this.referenceId = referenceId;

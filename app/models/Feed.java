@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.DateTime;
 
 import play.Logger;
@@ -31,6 +32,10 @@ public class Feed extends MongoModel {
     public String htmlUrl;
 
     public DateTime lastAccessedTime;
+    
+    @Reference(concreteClass=ArrayList.class, lazy = true)
+    @JsonIgnore
+    public List<Article> articles = new ArrayList<Article>();
 
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
@@ -43,20 +48,17 @@ public class Feed extends MongoModel {
         return MorphiaObject.datastore.find(Feed.class).filter("xmlUrl", xmlUrl).get();
     }
     
-    public void crawl() throws Exception {
-        // if being parsed 30 minutes ago, ignore it.
-        
-    	if (lastAccessedTime != null && lastAccessedTime.plusMinutes(30).isAfterNow())
-            return;
+    public List<Article> crawl() throws Exception {
         lastAccessedTime = DateTime.now();
         List<Article> articles = FeedParser.parseFeed(this);
         for (Article article : articles) {
             article.setReference(this.getClass(), this.id);
             article.create();
         }
-        return;
+        this.articles = articles;
+        return articles;
     }
-
+    
     public static void crawAll() {
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
