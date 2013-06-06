@@ -10,7 +10,7 @@ function menuCtrl($scope, $http) {
 
   smartreader.putCategories = function(categories){
     $scope.categories = categories;
-    $scope.$apply();
+    //$scope.$apply();
   }
 
   smartreader.loadCategories = function(){
