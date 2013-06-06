@@ -3,20 +3,24 @@ import java.util.concurrent.TimeUnit;
 import org.codehaus.jackson.map.SerializationConfig;
 
 import models.Feed;
+import models.FeedCategory;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.Akka;
 import scala.concurrent.duration.Duration;
 import util.MorphiaObject;
+import util.SmartReaderUtils;
 
 import com.google.code.morphia.logging.MorphiaLoggerFactory;
 import com.google.code.morphia.logging.slf4j.SLF4JLogrImplFactory;
+import com.google.gson.GsonBuilder;
 
 public class Global extends GlobalSettings {
 
     @Override
     public void onStart(play.Application arg0) {
         super.beforeStart(arg0);
+        initJsonSerializer();
         MorphiaLoggerFactory.reset();
         MorphiaLoggerFactory.registerLogger(SLF4JLogrImplFactory.class);
         MorphiaObject.setUp();
@@ -31,5 +35,9 @@ public class Global extends GlobalSettings {
 //                                Feed.crawAll();
 //                            }
 //                        }, Akka.system().dispatcher());
+    }
+    
+    private void initJsonSerializer() {
+        SmartReaderUtils.builder.registerTypeAdapter(FeedCategory.class, new FeedCategory.Serializer());
     }
 }
