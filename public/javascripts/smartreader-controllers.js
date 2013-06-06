@@ -10,7 +10,7 @@ function menuCtrl($scope, $http) {
 
   smartreader.putCategories = function(categories){
     $scope.categories = categories;
-    $scope.$apply();
+    //$scope.$apply();
   }
 
   smartreader.loadCategories = function(){
@@ -19,8 +19,15 @@ function menuCtrl($scope, $http) {
       console.log(data);
       for(var i=0; i<data.length; ++i){
         userCategories.push({
-          name : data.name
+          name : data[i].name,
+          feeds : []
         });
+        for(var j=0; j<data[i].userFeeds.length; ++j){
+          userCategories[i].feeds.push(
+            new smartreader.feed(data[i].userFeeds[j].id, data[i].userFeeds[j].name)
+          );
+        }
+
       }
     });
 

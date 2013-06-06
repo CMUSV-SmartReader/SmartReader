@@ -109,16 +109,27 @@ menu.collapse-inner {
   background-color: darkgrey;
 }
 
+
 .main-nav {
   /*position: fixed;*/
   top: 0;
   /*width: 340px;*/
-  height: 100%;
+  min-height: 100%;
   background: #3B3B3B;
   /* overflow: hidden; */
   transition: width 0.3s ease;
   color: white;
 }
+
+.main-nav li a{
+  color: #fff;
+}
+
+.main-nav li a:hover{
+  background-color: #000;
+}
+
+/*
 
 .main-nav li {
   list-style-type: none;
@@ -136,11 +147,12 @@ menu.collapse-inner {
   border-bottom: 1px solid #2E2E2E;
   padding: 15px;
   color: white;
-  /* &:hover, &:focus {
+  &:hover, &:focus {
     background: linear-gradient(#484848, #383838);
-  }*/
+  }
 }
 
 .main-nav a:hover {
   background: linear-gradient(#484848, #383838);
 }
+*/
