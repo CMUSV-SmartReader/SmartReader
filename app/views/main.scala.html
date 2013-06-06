@@ -35,14 +35,20 @@
               <br><br> -->
 
               <div id="misc">
-                <a href="#">Popular on Reader</a>
-                <a href="#">Saved</a>
+                <ul class="nav nav-list">
+                  <li> <a href="#"> Popular </a> </li>
+                  <li> <a href="#"> Saved </a> </li>
+                </ul>
               </div>
 
-              <a href="#">All</a>
+              <!-- <a href="#">All</a> -->
               <div ng-repeat="category in categories">
-                <a> {{category.name}} </a>
-                <a ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}"> {{feed.name}}</a>
+                <ul class="nav nav-list">
+                  <li class="nav-header">{{category.name}}</li>
+                  <li ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}">
+                    <a href="#"> {{feed.name}} </a>
+                  </li>
+                </ul>
               </div>
 
             </nav>
@@ -64,8 +70,8 @@
                 </button>
                 <div class="span3"><span class="brand">Smart Reader</span></div>
                 <div class="span4">
-                  <form class="navbar-form">
-                    <input type="text" class="navbar-search" placeholder="Search">
+                  <form class="navbar-form pull-left">
+                    <input type="text" style="height:30px" placeholder="Search">
                   </form>
                 </div>
                 <div id="user_info" class="dropdown pull-right">

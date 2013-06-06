@@ -17,11 +17,11 @@ function menuCtrl($scope, $http) {
     var userCategories = [];
     $http.get("/categories").success(function(data) {
       console.log(data);
-      for(var i=0; i<data.length; ++i){
+      /*for(var i=0; i<data.length; ++i){
         userCategories.push({
-          name : data.name
+          name : data[i].name
         });
-      }
+      }*/
     });
 
     smartreader.putCategories(userCategories);

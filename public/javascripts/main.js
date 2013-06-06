@@ -9,12 +9,22 @@ $(window).on('load', function(){
 
   smartreader.loadCategories();
 
+  /*$('a').on('click', ''){
+    $.ajax({
+      dataType: "json",
+      url: "",
+      //data: data,
+      success: function(data){
+        smartreader.putTitle("Technology");
+      }
+    });
+  };*/
 
   // Put dummy articles
-  smartreader.putTitle("Technology");
+  /*smartreader.putTitle("Technology");
   smartreader.putArticles([
     new smartreader.article( "Title1", "Author1", (new Date()), "Feed1", "Description 1" ),
     new smartreader.article( "Title2", "Author2", (new Date()), "Feed2", "Description 2" ),
     new smartreader.article( "Title3", "Author3", (new Date()), "Feed3", "Description 3" ),
-  ]);
+  ]);*/
 });
