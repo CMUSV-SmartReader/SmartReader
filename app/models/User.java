@@ -123,6 +123,7 @@ public class User extends MongoModel implements Identity {
         for(FeedCategory feedCategory: this.feedCategories){
             this.articles.addAll(feedCategory.crawl());
         }
+        this.update();
     }
     
 }

@@ -56,6 +56,7 @@ public class Feed extends MongoModel {
             article.create();
         }
         this.articles = articles;
+        this.update();
         return articles;
     }
     
