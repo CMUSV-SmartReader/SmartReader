@@ -14,10 +14,13 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.google.gson.Gson;
+
 import play.*;
 import play.mvc.*;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import util.SmartReaderUtils;
 import views.html.*;
 import models.Article;
 public class Application extends Controller {
@@ -71,8 +74,9 @@ public class Application extends Controller {
 
     public static Result getCategories() throws JsonGenerationException, JsonMappingException, IOException {
         Identity identity = SecureSocial.currentUser();
-        User user = User.findByEmail(identity.email().get());
-        return ok("[{\"id\":{\"time\":1370470360000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470360,\"inc\":1738744913},\"name\":\"资讯\"},{\"id\":{\"time\":1370470360000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470360,\"inc\":1738744914},\"name\":\"娱乐\"},{\"id\":{\"time\":1370470360000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470360,\"inc\":1738744915},\"name\":\"财经资讯\"},{\"id\":{\"time\":1370470360000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470360,\"inc\":1738744916},\"name\":\"资料\"},{\"id\":{\"time\":1370470360000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470360,\"inc\":1738744917},\"name\":\"IT.数码\"},{\"id\":{\"time\":1370470360000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470360,\"inc\":1738744918},\"name\":\"技术资料\"},{\"id\":{\"time\":1370470361000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470361,\"inc\":1738744919},\"name\":\"独立Blog\"},{\"id\":{\"time\":1370470361000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470361,\"inc\":1738744920},\"name\":\"产品经理\"},{\"id\":{\"time\":1370470361000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470361,\"inc\":1738744921},\"name\":\"个人Blog\"},{\"id\":{\"time\":1370470361000,\"new\":false,\"machine\":56941615,\"timeSecond\":1370470361,\"inc\":1738744922},\"name\":\"海外媒体\"}]");
+        User user = User.findByEmail("seanlionheart@gmail.com");
+        Gson gson = SmartReaderUtils.builder.create();
+        return ok(gson.toJson(user.feedCategories));
     }
 
     public static Result getCategory(String categoryId) throws JsonGenerationException, JsonMappingException, IOException {

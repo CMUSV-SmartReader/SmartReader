@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanMap;
 
+import com.google.gson.GsonBuilder;
+
 public class SmartReaderUtils {
 
     @SuppressWarnings("rawtypes")
@@ -16,4 +18,6 @@ public class SmartReaderUtils {
         }
         return results;
     }
+    
+    public static GsonBuilder builder = new GsonBuilder();
 }
