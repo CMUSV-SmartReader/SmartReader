@@ -1,14 +1,16 @@
 $(window).on('load', function(){
 
   // Put dummy categories
-//  smartreader.putCategories([
-//    {text:'category 1', feeds: [new smartreader.feed("1", "Feed1"), new smartreader.feed("2", "Feed2")]},
-//    {text:'category 2', feeds: [new smartreader.feed("3", "Feed3")]},
-//    {text:'category 3', feeds: [new smartreader.feed("4", "Feed4"), new smartreader.feed("5", "Feed5")]},
-//  ]);
+  /*smartreader.putCategories([
+    {text:'category 1', feeds: [new smartreader.feed("1", "Feed1"), new smartreader.feed("2", "Feed2")]},
+    {text:'category 2', feeds: [new smartreader.feed("3", "Feed3")]},
+    {text:'category 3', feeds: [new smartreader.feed("4", "Feed4"), new smartreader.feed("5", "Feed5")]},
+  ]);*/
 
   smartreader.loadCategories();
   smartreader.putTitle("Home");
+  $('#menu .collapse-inner').perfectScrollbar();
+
 
   /*$('li').on('click', ''){
     $.ajax({
