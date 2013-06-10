@@ -40,7 +40,7 @@ public class FeedCategory extends MongoModel {
         return MorphiaObject.datastore.get(FeedCategory.class, categoryId);
     }
     
-    public List<Article> crawl() throws Exception{
+    public List<Article> crawl() {
         for(UserFeed userFeed: this.userFeeds){
             this.articles.addAll(userFeed.feed.crawl());
         }

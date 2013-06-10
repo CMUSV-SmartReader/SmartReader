@@ -54,7 +54,6 @@ public class Feed extends MongoModel {
     
     public List<Article> crawl() {
         lastAccessedTime = new Date();
-        System.out.println(this.xmlUrl);
         try {
             List<Article> articles = FeedParser.parseFeed(this);
             for (Article article : articles) {
@@ -65,7 +64,7 @@ public class Feed extends MongoModel {
             this.update();
 
         } catch (Exception e) {
-            System.err.println(e);
+            System.out.println(e);
         }
         return this.articles;
     }

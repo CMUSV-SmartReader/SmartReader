@@ -58,6 +58,13 @@ public class User extends MongoModel implements Identity {
     public User(Identity identity) {
         this.email = identity.email().get();
     }
+    
+    public static User getUserFromIdentity(Identity userId) {
+        if (userId != null && userId.email() != null) {
+            return User.findByEmail(userId.email().get());
+        }
+        return null;
+    }
    
     public User() {
     }
@@ -119,7 +126,7 @@ public class User extends MongoModel implements Identity {
     	return null;
     }
     
-    public void crawl() throws Exception{
+    public void crawl() {
         for(FeedCategory feedCategory: this.feedCategories){
             this.articles.addAll(feedCategory.crawl());
         }
