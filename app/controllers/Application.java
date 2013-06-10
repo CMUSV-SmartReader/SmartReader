@@ -16,6 +16,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import securesocial.core.java.SecureSocial.SecuredAction;
+import util.GoogleReaderImporter;
 import util.SmartReaderUtils;
 import views.html.main;
 
@@ -45,16 +47,17 @@ public class Application extends Controller {
         return ok("Hello " + userName + ", you are seeing a public page");
     }
 
-    // @SecureSocial.SecuredAction(ajaxCall = true)
-    // public static Result ajaxCall() {
-    //     // return some json
-    //     return null;
-    // }
-    
     // example for twitter
     @SecureSocial.SecuredAction( authorization = WithProvider.class, params = {"twitter"})
     public static Result onlyTwitter() {
         return ok("You are seeing this because you logged in using Twitter");
+    }
+
+    @SecureSocial.UserAwareAction
+    public static Result importFromGooglereader() {
+        Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+        GoogleReaderImporter.oAuthImportFromGoogle(user.email().get(), user.oAuth2Info().get().accessToken());
+        return ok();
     }
 
     public static Result getFeeds() throws JsonGenerationException, JsonMappingException, IOException {
