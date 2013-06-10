@@ -36,7 +36,7 @@
               </div>
               <br><br> -->
 
-              <div id="misc">
+              <div id="main-feeds">
                 <ul class="nav nav-list">
                   <li> <a href="#"> Home </a> </li>
                   <li> <a href="#"> Popular </a> </li>
@@ -45,15 +45,16 @@
               </div>
 
               <!-- <a href="#">All</a> -->
-              <div ng-repeat="category in categories">
-                <ul class="nav nav-list">
-                  <li class="nav-header">{{category.name}}</li>
-                  <li ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}">
-                    <a href="#"> {{feed.name}} </a>
-                  </li>
-                </ul>
+              <div id="user-feeds">
+                <div ng-repeat="category in categories">
+                  <ul class="nav nav-list">
+                    <li class="nav-header">{{category.name}}</li>
+                    <li ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}">
+                      <a href="#"> {{feed.name}} </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-
             </nav>
 
           </div>

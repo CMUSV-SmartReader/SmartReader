@@ -7,21 +7,31 @@ $(window).on('load', function(){
     {text:'category 3', feeds: [new smartreader.feed("4", "Feed4"), new smartreader.feed("5", "Feed5")]},
   ]);*/
 
+  $.ajax({
+    type: "POST",
+    url: "/import",
+    success: function(){
+      console.log("try import");
+    }
+  });
+
   smartreader.loadCategories();
   smartreader.putTitle("Home");
   $('#menu .collapse-inner').perfectScrollbar();
 
 
-  /*$('li').on('click', ''){
-    $.ajax({
-      dataType: "json",
-      url: "",
-      //data: data,
-      success: function(data){
-        smartreader.putTitle("Technology");
-      }
-    });
-  };*/
+  $('#menu').on('click', 'li', function(){
+    var feedid = $(this).attr("data-feedid");
+    if(feedid){
+      $.ajax({
+        dataType: "json",
+        url: "/feed/"+feedid,
+        success: function(data){
+          console.log(data);
+        }
+      });
+    }
+  });
 
   // Put dummy articles
   //smartreader.putTitle("Technology");
