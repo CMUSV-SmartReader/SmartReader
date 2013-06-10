@@ -74,7 +74,7 @@ public class Application extends Controller {
 
     public static Result getCategories() throws JsonGenerationException, JsonMappingException, IOException {
         Identity identity = SecureSocial.currentUser();
-        User user = User.findByEmail("seanlionheart@gmail.com");
+        User user = User.findByEmail(identity.email().get());
         Gson gson = SmartReaderUtils.builder.create();
         return ok(gson.toJson(user.feedCategories));
     }
