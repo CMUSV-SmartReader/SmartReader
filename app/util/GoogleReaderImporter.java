@@ -27,26 +27,26 @@ import com.google.gson.Gson;
 public class GoogleReaderImporter {
 
     public static void importFromGoogle(String account, String password) {
-        String[] authInfo = loginGoogle(account, password);
-        String jsonResult = getFeeds(authInfo);
-        User user = User.findByEmail(account);
-        if (user == null) {
-            user = new User();
-            user.email = account;
-            user.create();
-        }
-        importFeeds(jsonResult, user);
+//        String[] authInfo = loginGoogle(account, password);
+//        String jsonResult = getFeeds(authInfo);
+//        User user = User.findByEmail(account);
+//        if (user == null) {
+//            user = new User();
+//            user.email = account;
+//            user.create();
+//        }
+//        importFeeds(jsonResult, user);
     }
     
     public static void oAuthImportFromGoogle(String account, String token) {
-        String jsonResult = getFeeds(token);
-        User user = User.findByEmail(account);
-        if (user == null) {
-            user = new User();
-            user.email = account;
-            user.create();
-        }
-        importFeeds(jsonResult, user);
+//        String jsonResult = getFeeds(token);
+//        User user = User.findByEmail(account);
+//        if (user == null) {
+//            user = new User();
+//            user.email = account;
+//            user.create();
+//        }
+//        importFeeds(jsonResult, user);
     }
     
     public static String getFeeds(String token) {
@@ -81,45 +81,45 @@ public class GoogleReaderImporter {
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static void importFeeds(String jsonResult, User user) {
-        Gson gson = new Gson();
-        Map<String, List> feedMap = gson.fromJson(jsonResult, Map.class);
-        List<Map> feeds = feedMap.get("subscriptions");
-        Map<String, FeedCategory> categoryMap = new HashMap<String, FeedCategory>();
-        for (Map feed : feeds) {
-            String feedXmlUrl = ((String)feed.get("id")).substring("feed/".length());
-            Feed feedEntity = Feed.findByXmlUrl(feedXmlUrl);
-            if (feedEntity == null) {
-                feedEntity = new Feed();
-                feedEntity.title = (String)feed.get("title");
-                feedEntity.htmlUrl = (String)feed.get("htmlUrl");
-                feedEntity.xmlUrl = ((String)feed.get("id")).substring("feed/".length());
-                feedEntity.create();
-            }
-            user.feeds.add(feedEntity);
-            UserFeed userFeed = new UserFeed();
-            userFeed.feed = feedEntity;
-            userFeed.user = user;
-            userFeed.create();
-            user.userFeeds.add(userFeed);
-            
-            List<Map> categories = (List<Map>)feed.get("categories");
-            for (Map category: categories) {
-                String title = (String) category.get("label");
-                if (!categoryMap.containsKey(title)) {
-                    FeedCategory feedCategory = new FeedCategory();
-                    feedCategory.name = title;
-                    feedCategory.user = user;
-                    categoryMap.put(title, feedCategory);
-                }
-                FeedCategory feedCategory = categoryMap.get(title);
-                feedCategory.userFeeds.add(userFeed);
-            }
-        }
-        for (FeedCategory feedCategory : categoryMap.values()) {
-            feedCategory.create();
-            user.feedCategories.add(feedCategory);
-        }
-        user.update();
+//        Gson gson = new Gson();
+//        Map<String, List> feedMap = gson.fromJson(jsonResult, Map.class);
+//        List<Map> feeds = feedMap.get("subscriptions");
+//        Map<String, FeedCategory> categoryMap = new HashMap<String, FeedCategory>();
+//        for (Map feed : feeds) {
+//            String feedXmlUrl = ((String)feed.get("id")).substring("feed/".length());
+//            Feed feedEntity = Feed.findByXmlUrl(feedXmlUrl);
+//            if (feedEntity == null) {
+//                feedEntity = new Feed();
+//                feedEntity.title = (String)feed.get("title");
+//                feedEntity.htmlUrl = (String)feed.get("htmlUrl");
+//                feedEntity.xmlUrl = ((String)feed.get("id")).substring("feed/".length());
+//                feedEntity.create();
+//            }
+//            user.feeds.add(feedEntity);
+//            UserFeed userFeed = new UserFeed();
+//            userFeed.feed = feedEntity;
+//            userFeed.user = user;
+//            userFeed.create();
+//            user.userFeeds.add(userFeed);
+//            
+//            List<Map> categories = (List<Map>)feed.get("categories");
+//            for (Map category: categories) {
+//                String title = (String) category.get("label");
+//                if (!categoryMap.containsKey(title)) {
+//                    FeedCategory feedCategory = new FeedCategory();
+//                    feedCategory.name = title;
+//                    feedCategory.user = user;
+//                    categoryMap.put(title, feedCategory);
+//                }
+//                FeedCategory feedCategory = categoryMap.get(title);
+//                feedCategory.userFeeds.add(userFeed);
+//            }
+//        }
+//        for (FeedCategory feedCategory : categoryMap.values()) {
+//            feedCategory.create();
+//            user.feedCategories.add(feedCategory);
+//        }
+//        user.update();
     }
     
     private static String[] loginGoogle(String account, String password) {

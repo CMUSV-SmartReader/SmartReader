@@ -16,7 +16,9 @@ object ApplicationBuild extends Build {
     "org.mongodb" % "mongo-java-driver" % "2.7.2",
     "com.google.code.morphia" % "morphia-logging-slf4j" % "0.99",
     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
-    "securesocial" %% "securesocial" % "master-SNAPSHOT" withSources(),
+    "be.objectify"  %%  "deadbolt-java"     % "2.1-SNAPSHOT",
+    "com.feth"      %%  "play-authenticate" % "0.2.5-SNAPSHOT",
+    // "securesocial" %% "securesocial" % "master-SNAPSHOT" withSources(),
     "commons-beanutils" % "commons-beanutils" % "1.8.3",
     "com.github.jmkgreen.morphia" % "morphia-logging-slf4j" % "1.00",
     "com.google.code.gson" % "gson" % "2.2.4",
@@ -30,9 +32,15 @@ object ApplicationBuild extends Build {
     // Add your own project settings here
     resolvers += "Maven repository" at "http://morphia.googlecode.com/svn/mavenrepo/",
     resolvers += "MongoDb Java Driver Repository" at "http://repo1.maven.org/maven2/org/mongodb/mongo-java-driver/",
+
+    resolvers += Resolver.url("Objectify Play Repository (release)", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
+    resolvers += Resolver.url("Objectify Play Repository (snapshot)", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
+
     resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
     resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
-    resolvers += Resolver.url("sbt-plugin-snapshots", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots/"))(Resolver.ivyStylePatterns)
+    // resolvers += Resolver.url("sbt-plugin-snapshots", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots/"))(Resolver.ivyStylePatterns)
+    resolvers += Resolver.url("play-authenticate (release)", url("http://joscha.github.com/play-authenticate/repo/releases/"))(Resolver.ivyStylePatterns),
+    resolvers += Resolver.url("play-authenticate (snapshot)", url("http://joscha.github.com/play-authenticate/repo/snapshots/"))(Resolver.ivyStylePatterns)
   )
 
 }
