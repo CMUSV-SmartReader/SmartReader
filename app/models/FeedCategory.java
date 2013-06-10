@@ -27,13 +27,13 @@ public class FeedCategory extends MongoModel {
     
     public String name;
     
-    @Reference(lazy = true)
+    @Reference(lazy=true)
     public User user;
     
-    @Reference(concreteClass = ArrayList.class)
+    @Reference(concreteClass = ArrayList.class, lazy=true)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
     
-    @Reference(concreteClass = ArrayList.class)
+    @Reference(concreteClass = ArrayList.class, lazy=true)
     public List<Article> articles = new ArrayList<Article>();
     
     public static FeedCategory find(String categoryId) {

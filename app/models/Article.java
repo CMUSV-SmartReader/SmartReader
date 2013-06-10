@@ -1,15 +1,19 @@
 package models;
 
 import java.lang.reflect.Type;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanMap;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import util.MorphiaObject;
 
 import com.google.code.morphia.annotations.Entity;
+import com.google.code.morphia.annotations.Reference;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.google.code.morphia.annotations.Id;
 import com.google.gson.JsonElement;
@@ -24,16 +28,29 @@ public class Article extends MongoModel {
     @Id
     public ObjectId id;
 
-    public Class<?> reference;
+    @Reference
+    public Feed feed;
 
-    public ObjectId referenceId;
+    public String title;
+    
+    public String desc;
 
-    public Map<String, Object> data;
+    public String link;
+    
+    public Date publishDate;
+    
+    public Date updateDate;
+    
+    public String author;
 
     @SuppressWarnings("unchecked")
     public Article(SyndEntry entry) {
-        ObjectMapper m = new ObjectMapper();
-        this.data = m.convertValue(entry, Map.class);
+        this.title = entry.getTitle();
+        this.link = entry.getLink();
+        this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
+        this.publishDate = entry.getPublishedDate();
+        this.updateDate = entry.getUpdatedDate();
+        this.author = entry.getAuthor();
     }
 
     public Article() {
@@ -44,11 +61,6 @@ public class Article extends MongoModel {
                 .filter("refereceId", feed.id).get();
     }
 
-    public void setReference(Class<?> reference, ObjectId referenceId) {
-        this.reference = reference;
-        this.referenceId = referenceId;
-    }
-
     public static class Serializer implements JsonSerializer<Article> {
 
         @Override
@@ -56,7 +68,12 @@ public class Article extends MongoModel {
                 JsonSerializationContext ctx) {
             JsonObject article = new JsonObject();
             article.add("id", new JsonPrimitive(src.id.toString()));
-            article.add("data", ctx.serialize(src.data));
+            article.add("title", new JsonPrimitive(src.title));
+            article.add("desc", new JsonPrimitive(src.desc));
+            article.add("link", new JsonPrimitive(src.link));
+            article.add("publishDate", ctx.serialize(src.publishDate));
+            article.add("updateDate", ctx.serialize(src.updateDate));
+            article.add("author", new JsonPrimitive(src.author));
             return article;
         }
     }

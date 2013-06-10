@@ -20,10 +20,10 @@ public class UserFeed extends MongoModel {
     @Id
     public ObjectId id;
     
-    @Reference(lazy = true)
+    @Reference(lazy = false)
     public User user;
     
-    @Reference(lazy = true)
+    @Reference(lazy = false)
     public Feed feed;
     
     public static class Serializer implements JsonSerializer<UserFeed> {
@@ -32,7 +32,7 @@ public class UserFeed extends MongoModel {
         public JsonElement serialize(UserFeed src, Type type,
                 JsonSerializationContext ctx) {
             JsonObject userFeedObj = new JsonObject();
-            userFeedObj.add("id", new JsonPrimitive(src.feed.id.toString()));
+            userFeedObj.add("id", new JsonPrimitive(src.feed.id.toStringMongod()));
             userFeedObj.add("name", new JsonPrimitive(src.feed.title));
             return userFeedObj;
         }

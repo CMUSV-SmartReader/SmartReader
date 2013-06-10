@@ -1,28 +1,25 @@
 package controllers;
 
 import java.io.IOException;
-import models.Feed;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import models.Article;
+import models.Feed;
 import models.FeedCategory;
 import models.User;
-import models.UserFeed;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.google.gson.Gson;
-
-import play.*;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
 import util.SmartReaderUtils;
-import views.html.*;
-import models.Article;
+import views.html.main;
+
+import com.google.gson.Gson;
 public class Application extends Controller {
 
 

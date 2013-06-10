@@ -108,7 +108,7 @@ public class GoogleReaderImporter {
                 if (!categoryMap.containsKey(title)) {
                     FeedCategory feedCategory = new FeedCategory();
                     feedCategory.name = title;
-//                    feedCategory.user = user;
+                    feedCategory.user = user;
                     categoryMap.put(title, feedCategory);
                 }
                 FeedCategory feedCategory = categoryMap.get(title);

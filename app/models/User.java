@@ -52,7 +52,7 @@ public class User extends MongoModel implements Identity {
     public List<Article> articles = new ArrayList<Article>();
     
     public static User findByEmail(String email) {
-        return MorphiaObject.datastore.find(User.class).filter("email", "seanlionheart@gmail.com").get();
+        return MorphiaObject.datastore.find(User.class).filter("email", email).get();
     }
 
     public User(Identity identity) {

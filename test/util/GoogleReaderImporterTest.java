@@ -13,7 +13,7 @@ public class GoogleReaderImporterTest {
     }
     
     @Test
-    public void testLogin() {
+    public void testImportingUsingAccountAndPassword() {
         GoogleReaderImporter.importFromGoogle("seanlionheart@gmail.com",
                 "314159265358979");
     }

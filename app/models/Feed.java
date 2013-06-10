@@ -2,10 +2,10 @@ package models;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.joda.time.DateTime;
 
 import play.Logger;
 import util.FeedParser;
@@ -36,9 +36,9 @@ public class Feed extends MongoModel {
 
     public String htmlUrl;
 
-    public DateTime lastAccessedTime;
+    public Date lastAccessedTime;
     
-    @Reference(concreteClass=ArrayList.class, lazy = true)
+    @Reference(lazy = true)
     public List<Article> articles = new ArrayList<Article>();
 
     @Reference(lazy = true)
@@ -52,16 +52,22 @@ public class Feed extends MongoModel {
         return MorphiaObject.datastore.find(Feed.class).filter("xmlUrl", xmlUrl).get();
     }
     
-    public List<Article> crawl() throws Exception {
-        lastAccessedTime = DateTime.now();
-        List<Article> articles = FeedParser.parseFeed(this);
-        for (Article article : articles) {
-            article.setReference(this.getClass(), this.id);
-            article.create();
+    public List<Article> crawl() {
+        lastAccessedTime = new Date();
+        System.out.println(this.xmlUrl);
+        try {
+            List<Article> articles = FeedParser.parseFeed(this);
+            for (Article article : articles) {
+                article.feed = this;
+                article.create();
+                this.articles.add(article);
+            }
+            this.update();
+
+        } catch (Exception e) {
+            System.err.println(e);
         }
-        this.articles = articles;
-        this.update();
-        return articles;
+        return this.articles;
     }
     
     public static void crawAll() {

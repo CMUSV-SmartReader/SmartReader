@@ -1,5 +1,6 @@
 package util;
 
+import models.Article;
 import models.Feed;
 import models.FeedCategory;
 import models.User;
@@ -24,5 +25,12 @@ public class DBUtils {
         ds.delete(ds.createQuery(UserFeed.class));
         ds.delete(ds.createQuery(Feed.class));
         ds.delete(ds.createQuery(FeedCategory.class));
+        ds.delete(ds.createQuery(Article.class));
+    }
+    
+    @Test
+    public void deleteArticle() {
+        Datastore ds = MorphiaObject.datastore;
+        ds.delete(ds.createQuery(Article.class));
     }
 }
