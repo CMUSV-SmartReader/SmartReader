@@ -25,7 +25,8 @@ GET     /reset/:token               securesocial.controllers.Registration.resetP
 POST    /reset/:token               securesocial.controllers.Registration.handleResetPassword(token)
 GET     /password                   securesocial.controllers.PasswordChange.page
 POST    /password                   securesocial.controllers.PasswordChange.handlePasswordChange
-POST     /import                     controllers.Application.importFromGooglereader
+POST    /import                     controllers.Application.importFromGooglereader
+POST    /crawl                      controllers.Application.crawl
 
 # Providers entry points
 GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)

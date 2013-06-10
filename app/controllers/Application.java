@@ -59,6 +59,15 @@ public class Application extends Controller {
         GoogleReaderImporter.oAuthImportFromGoogle(user.email().get(), user.oAuth2Info().get().accessToken());
         return ok();
     }
+    
+    @SecureSocial.UserAwareAction
+    public static Result crawl() {
+        Identity userId = (Identity) ctx().args.get(SecureSocial.USER_KEY);
+        User user = User.getUserFromIdentity(userId);
+        user.crawl();
+        return ok();
+    }
+    
 
     public static Result getFeeds() throws JsonGenerationException, JsonMappingException, IOException {
         Identity identity = SecureSocial.currentUser();
@@ -82,13 +91,14 @@ public class Application extends Controller {
     public static Result getCategory(String categoryId) throws JsonGenerationException, JsonMappingException, IOException {
         return ok(new ObjectMapper().writeValueAsString(FeedCategory.find(categoryId)));
     }
-    
+
     public static Result getUserArticles(String categoryId) throws JsonGenerationException, JsonMappingException, IOException{
         Identity identity = SecureSocial.currentUser();
         User user = User.findByEmail(identity.email().get());
         List<Article> articles = FeedCategory.find(categoryId).articles;
         return ok(new ObjectMapper().writeValueAsString(articles));
     }
+
     public static Result getUserArticles() throws JsonGenerationException, JsonMappingException, IOException{
         Identity identity = SecureSocial.currentUser();
         User user = User.findByEmail(identity.email().get());
