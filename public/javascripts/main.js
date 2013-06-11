@@ -15,6 +15,14 @@ $(window).on('load', function(){
     }
   });
 
+  $.ajax({
+    type: "POST",
+    url: "/crawl",
+    success: function(){
+      console.log("try crawl");
+    }
+  });
+
   smartreader.loadCategories();
   smartreader.putTitle("Home");
   $('#menu .collapse-inner').perfectScrollbar();
@@ -22,6 +30,7 @@ $(window).on('load', function(){
 
   $('#menu').on('click', 'li', function(){
     var feedid = $(this).attr("data-feedid");
+    console.log(feedid);
     if(feedid){
       $.ajax({
         dataType: "json",
