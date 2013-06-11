@@ -2,25 +2,22 @@ package models;
 
 import java.lang.reflect.Type;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.beanutils.BeanMap;
 import org.bson.types.ObjectId;
-import org.codehaus.jackson.map.ObjectMapper;
 
 import util.MorphiaObject;
 
 import com.google.code.morphia.annotations.Entity;
-import com.google.code.morphia.annotations.Reference;
-import com.sun.syndication.feed.synd.SyndEntry;
 import com.google.code.morphia.annotations.Id;
+import com.google.code.morphia.annotations.Reference;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.mongodb.DBObject;
+import com.sun.syndication.feed.synd.SyndEntry;
 
 @Entity
 public class Article extends MongoModel {
@@ -32,15 +29,15 @@ public class Article extends MongoModel {
     public Feed feed;
 
     public String title;
-    
+
     public String desc;
 
     public String link;
-    
+
     public Date publishDate;
-    
+
     public Date updateDate;
-    
+
     public String author;
 
     @SuppressWarnings("unchecked")
@@ -54,6 +51,18 @@ public class Article extends MongoModel {
     }
 
     public Article() {
+
+    }
+
+    public static Article createArticle(DBObject articleDB) {
+        Article article = new Article();
+        article.title = articleDB.get("title").toString();
+        article.link = articleDB.get("link").toString();
+        article.desc = articleDB.get("desc").toString();
+        article.author = articleDB.get("author").toString();
+        article.publishDate = (Date) articleDB.get("publishDate");
+        article.updateDate = (Date) articleDB.get("updateDate");
+        return article;
     }
 
     public static List<Article> findByFeed(Feed feed) {

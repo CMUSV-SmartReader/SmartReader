@@ -1,11 +1,8 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.List;
 
-import models.Article;
 import models.Feed;
-import models.FeedCategory;
 import models.User;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -16,7 +13,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
-import securesocial.core.java.SecureSocial.SecuredAction;
 import util.GoogleReaderImporter;
 import util.SmartReaderUtils;
 import views.html.main;
@@ -59,7 +55,7 @@ public class Application extends Controller {
         GoogleReaderImporter.oAuthImportFromGoogle(user.email().get(), user.oAuth2Info().get().accessToken());
         return ok();
     }
-    
+
     @SecureSocial.UserAwareAction
     public static Result crawl() {
         Identity userId = (Identity) ctx().args.get(SecureSocial.USER_KEY);
@@ -67,7 +63,7 @@ public class Application extends Controller {
         user.crawl();
         return ok();
     }
-    
+
 
     public static Result getFeeds() throws JsonGenerationException, JsonMappingException, IOException {
         Identity identity = SecureSocial.currentUser();
@@ -76,7 +72,7 @@ public class Application extends Controller {
     }
 
     public static Result getFeed(String id) throws JsonGenerationException, JsonMappingException, IOException {
-        Feed feed = Feed.find(id);
+        Feed feed = Feed.findWithArticle(id);
         Gson gson = SmartReaderUtils.builder.create();
         return ok(gson.toJson(feed));
     }
@@ -85,23 +81,7 @@ public class Application extends Controller {
         Identity identity = SecureSocial.currentUser();
         User user = User.findByEmail(identity.email().get());
         Gson gson = SmartReaderUtils.builder.create();
-        return ok(gson.toJson(user.feedCategories));
+        return ok(gson.toJson(user.allFeedCategories()));
     }
 
-    public static Result getCategory(String categoryId) throws JsonGenerationException, JsonMappingException, IOException {
-        return ok(new ObjectMapper().writeValueAsString(FeedCategory.find(categoryId)));
-    }
-
-    public static Result getUserArticles(String categoryId) throws JsonGenerationException, JsonMappingException, IOException{
-        Identity identity = SecureSocial.currentUser();
-        User user = User.findByEmail(identity.email().get());
-        List<Article> articles = FeedCategory.find(categoryId).articles;
-        return ok(new ObjectMapper().writeValueAsString(articles));
-    }
-
-    public static Result getUserArticles() throws JsonGenerationException, JsonMappingException, IOException{
-        Identity identity = SecureSocial.currentUser();
-        User user = User.findByEmail(identity.email().get());
-        return ok(new ObjectMapper().writeValueAsString(user.articles));
-    }
 }
