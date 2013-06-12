@@ -5,8 +5,8 @@ smartreader.ui = (function(){
   var
     binding = function(){
       $('#menu-toggle-btn').on('click', function(){
-        $('#side-container').toggleClass('span3').toggleClass('span1');
-        $('#content-container').toggleClass('span9').toggleClass('span11');
+        $('#side-container').toggleClass('span3 span1 hidden');
+        $('#content-container').toggleClass('span9 span10');
       });
 
       $('#side-menu').on('click', 'li', function(){
@@ -25,7 +25,8 @@ smartreader.ui = (function(){
                   data.articles[i].author || data.title,
                   data.articles[i].publishDate,
                   data.title,
-                  data.articles[i].desc
+                  data.articles[i].desc,
+                  data.articles[i].link
                 ))
               }
               smartreader.core.putTitle(data.title);
@@ -38,8 +39,8 @@ smartreader.ui = (function(){
 
   return {
     init : function(){
-      $('#side-container').perfectScrollbar();
-      $('#content-container').perfectScrollbar();
+      $('#side-container').perfectScrollbar({wheelSpeed: 60});
+      $('#content-container').perfectScrollbar({wheelSpeed: 60});
       binding();
     }
   };

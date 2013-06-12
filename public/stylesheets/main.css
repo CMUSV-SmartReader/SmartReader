@@ -16,7 +16,7 @@ body { padding-top: 40px; }
 
 .sub-container {
   max-height: 100%;
-  transition: width 300ms ease;
+  transition: all 300ms ease;
   position: relative;
   overflow-y: hidden;
 }
@@ -25,7 +25,7 @@ body { padding-top: 40px; }
   background-color: #222;
 }
 #side-container.hidden {
-  width: 0;
+  opacity: 0;
 }
 
 /* sidemenu */
@@ -152,40 +152,6 @@ menu.collapse-inner {
 }
 
 
-
-/* ====== title bar  ======= */
-#titleBar{
-  background-color: darkgrey;
-}
-
-/* ====== swiping panel  ======= */
-#panel {
-  height: 500px;
-  background-color: darkgrey;
-}
-
-
-.main-nav {
-  /*position: fixed;*/
-  top: 0;
-  /*width: 340px;*/
-  min-height: 100%;
-  background: #3B3B3B;
-  margin: 0;
-  /* overflow: hidden; */
-  transition: width 0.3s ease;
-  color: white;
-}
-
-.main-nav li a{
-  color: #fff;
-}
-
-.main-nav li a:hover{
-  background-color: #000;
-}*/
-
-/*
 
 .main-nav li {
   list-style-type: none;

@@ -7,21 +7,21 @@ $(window).on('load', function(){
     {text:'category 3', feeds: [new smartreader.feed("4", "Feed4"), new smartreader.feed("5", "Feed5")]},
   ]);*/
 
-  /*$.ajax({
+  $.ajax({
     type: "POST",
     url: "/import",
     success: function(){
       console.log("try import");
     }
-  });*/
+  });
 
-  /*$.ajax({
+  $.ajax({
     type: "POST",
     url: "/crawl",
     success: function(){
       console.log("try crawl");
     }
-  });*/
+  });
 
   smartreader.core.loadCategories();
   smartreader.core.putTitle("Home");

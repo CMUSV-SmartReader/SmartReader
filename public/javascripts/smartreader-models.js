@@ -7,10 +7,11 @@ smartreader.feed = function(id, name, updated, articles) {
   this.articles = articles || [];
 };
 
-smartreader.article = function(title, author, date, feedName, des) {
+smartreader.article = function(title, author, date, feedName, des, link) {
   this.title = title || "";
   this.author = author || "";
   this.date = date || {};
   this.feedName = feedName || "";
   this.description = des || "";
+  this.link = link || "";
 }
