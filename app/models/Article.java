@@ -32,7 +32,7 @@ public class Article extends MongoModel {
     public String title;
 
     public String desc;
-    
+
     public String summary;
 
     public String link;
@@ -42,15 +42,15 @@ public class Article extends MongoModel {
     public Date updateDate;
 
     public String author;
-    
-    public boolean isRead; 
-    
+
+    public boolean isRead;
+
     public int popularity;
 
     @SuppressWarnings("unchecked")
     public Article(SyndEntry entry) {
         Random rand = new Random();
-        
+
         this.title = entry.getTitle();
         this.link = entry.getLink();
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
@@ -89,7 +89,6 @@ public class Article extends MongoModel {
         public JsonElement serialize(Article src, Type type,
                 JsonSerializationContext ctx) {
             JsonObject article = new JsonObject();
-            article.add("id", new JsonPrimitive(src.id.toString()));
             article.add("title", new JsonPrimitive(src.title));
             article.add("desc", new JsonPrimitive(src.desc));
             article.add("link", new JsonPrimitive(src.link));

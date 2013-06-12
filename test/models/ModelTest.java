@@ -66,7 +66,9 @@ public class ModelTest {
 
     @Test
     public void getFeed() {
-        Feed feed = Feed.findWithArticle("51b78b94036496dfa64a507f");
+        Feed feed = Feed.findWithArticle("51b795c303646c01824268f7");
+        Gson gson = SmartReaderUtils.builder.create();
+        gson.toJson(feed);
         for (Article article : feed.articles) {
             System.out.println(article.title);
         }
