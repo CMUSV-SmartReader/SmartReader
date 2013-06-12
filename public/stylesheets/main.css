@@ -1,3 +1,8 @@
+body {
+  color: #777;
+  font-family: sans-serif;
+}
+
 #user_info{
    color: silver;
 }
@@ -16,13 +21,13 @@ div.card{
   border-left: 10px solid black;
 }
 div.card.read{
-  background-color: GhostWhite ;
+  background-color: #f9f9f9;
 }
-div.card.popular1{ border-left-color: red; }
-div.card.popular2{ border-left-color: orange; }
-div.card.popular3{ border-left-color: gold; }
-div.card.popular4{ border-left-color: greenyellow; }
-div.card.popular5{ border-left-color: lightskyblue; }
+div.card.popular1{ border-left-color: #F36F74; /*red*/ }
+div.card.popular2{ border-left-color: #FEAE96; /*orange*/ } 
+div.card.popular3{ border-left-color: #FEE595; /*yellow*/ }
+div.card.popular4{ border-left-color: #88C6BA; /*green*/ }
+div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
 .card .info{
   color: gray;
@@ -132,6 +137,47 @@ menu.collapse-inner {
 
 .main-nav li a:hover{
   background-color: #000;
+}
+
+/* Sky's attemp to make soft UI */
+
+div.view {
+  background-color: #f5f5f5;
+}
+
+div.card {
+  background-color: #f9f9f9;
+}
+
+#content .container-fluid h2 a span {
+    width: 15px;
+    height: 30px;
+    float: left;
+    display: inline;
+    text-indent: -9999px;
+}
+
+span.logo_1 {
+  background: #F36F74;
+  margin-top: 15px;
+}
+
+span.logo_2 {
+  background: #FEAE96;
+}
+
+span.logo_3 {
+  background: #FEE595;
+  margin-top: 15px;
+}
+
+span.logo_4 {
+  background: #88C6BA;
+}
+
+span.logo_5 {
+  background: #B2D1F0;
+  margin-top: 15px;
 }
 
 /*
