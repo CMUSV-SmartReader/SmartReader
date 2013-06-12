@@ -100,18 +100,21 @@
 
 
             <!-- Feed Cards -->
-            <div class="card popular1 read" ng-repeat="article in articles">
+            <div class="card popular{{article.popular}}" ng-repeat="article in articles">
               <a class="pull-left" href="#"></a>
                 <div class="media-body-text-only pull-left">
-                  <h4 class="media-heading">☆ {{article.title}}</h4>
+                  <h4 class="media-heading">☆
+                    <a href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
+                  </h4>
                     <span class="info">
                       <span class="date">{{article.date}}</span>
                       <span class="author">by <a>{{article.author}}</a></span>
                       <span class="from">from <a>{{article.feedName}}</a></span>
                     </span>
                     <p>
-                      {{article.description}}
-                      <a href="{{article.link}}" rel="external" target="_blank">Continue Reading...</a>
+                      <div class="article-summary">{{article.summary}}</div>
+                      <div class="article-description hidden">{{article.description}}</div>
+                      <a class ="continue-article" href="#">Continue Reading...</a>
                     </p>
                 </div>
               <div class="clearfix"></div>
