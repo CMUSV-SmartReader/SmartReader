@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import scala.util.Random;
 import util.MorphiaObject;
 
 import com.google.code.morphia.annotations.Entity;
@@ -32,6 +33,8 @@ public class Article extends MongoModel {
 
     public String desc;
 
+    public String summary;
+
     public String link;
 
     public Date publishDate;
@@ -40,11 +43,21 @@ public class Article extends MongoModel {
 
     public String author;
 
+    public boolean isRead;
+
+    public int popularity;
+
     @SuppressWarnings("unchecked")
     public Article(SyndEntry entry) {
+        Random rand = new Random();
+
         this.title = entry.getTitle();
         this.link = entry.getLink();
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
+        this.summary = this.desc;
+        this.desc += " " + this.desc + " " + this.desc;
+        this.isRead = rand.nextBoolean();
+        this.popularity = rand.nextInt(5) + 1;
         this.publishDate = entry.getPublishedDate();
         this.updateDate = entry.getUpdatedDate();
         this.author = entry.getAuthor();
@@ -76,7 +89,6 @@ public class Article extends MongoModel {
         public JsonElement serialize(Article src, Type type,
                 JsonSerializationContext ctx) {
             JsonObject article = new JsonObject();
-            article.add("id", new JsonPrimitive(src.id.toString()));
             article.add("title", new JsonPrimitive(src.title));
             article.add("desc", new JsonPrimitive(src.desc));
             article.add("link", new JsonPrimitive(src.link));
