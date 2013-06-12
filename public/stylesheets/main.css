@@ -39,8 +39,8 @@ body { padding-top: 40px; }
 #side-menu ul li a { color: #ddd; }
 #side-menu ul li a:hover, #side-menu ul li:active { background-color: #555; }
 
-
-
+#content-container .article-summary.hidden { display: none; }
+#content-container .article-description.hidden { display: none; }
 
 
 

@@ -25,6 +25,7 @@ smartreader.ui = (function(){
                   data.articles[i].author || data.title,
                   data.articles[i].publishDate,
                   data.title,
+                  data.articles[i].desc.slice(0, 48),
                   data.articles[i].desc,
                   data.articles[i].link
                 ))
@@ -35,6 +36,17 @@ smartreader.ui = (function(){
           });
         }
       });
+
+      $('#content-container').on('click', '.continue-article', function(){
+        if($(this).html() != 'Less...'){ $(this).html('Less...'); }
+        else {
+          $(this).html('Continue Reading...');
+          $(this).parentsUntil("#content").addClass('read').css('opacity', '0.6');
+        }
+        $(this).prev().prev('.article-summary').toggleClass('hidden');
+        $(this).prev('.article-description').toggleClass('hidden');
+      });
+
     };
 
   return {
