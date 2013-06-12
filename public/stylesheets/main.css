@@ -1,5 +1,9 @@
 /* global */
-body { padding-top: 40px; }
+body {
+  padding-top: 40px;
+  color: #777;
+  font-family: sans-serif;
+}
 
 /* layout related */
 #main-container {
@@ -42,12 +46,6 @@ body { padding-top: 40px; }
 #content-container .article-summary.hidden { display: none; }
 #content-container .article-description.hidden { display: none; }
 
-
-
-
-
-
-
 /* others */
 #user_info{
    color: silver;
@@ -67,13 +65,13 @@ div.card{
   border-left: 10px solid black;
 }
 div.card.read{
-  background-color: GhostWhite ;
+  background-color: #f9f9f9;
 }
-div.card.popular1{ border-left-color: red; }
-div.card.popular2{ border-left-color: orange; }
-div.card.popular3{ border-left-color: gold; }
-div.card.popular4{ border-left-color: greenyellow; }
-div.card.popular5{ border-left-color: lightskyblue; }
+div.card.popular1{ border-left-color: #F36F74; /*red*/ }
+div.card.popular2{ border-left-color: #FEAE96; /*orange*/ } 
+div.card.popular3{ border-left-color: #FEE595; /*yellow*/ }
+div.card.popular4{ border-left-color: #88C6BA; /*green*/ }
+div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
 .card .info{
   color: gray;
@@ -153,6 +151,84 @@ menu.collapse-inner {
 
 
 
+<<<<<<< HEAD
+=======
+/* ====== title bar  ======= */
+#titleBar{
+  background-color: darkgrey;
+}
+
+/* ====== swiping panel  ======= */
+#panel {
+  height: 500px;
+  background-color: darkgrey;
+}
+
+
+.main-nav {
+  /*position: fixed;*/
+  top: 0;
+  /*width: 340px;*/
+  min-height: 100%;
+  background: #3B3B3B;
+  margin: 0;
+  /* overflow: hidden; */
+  transition: width 0.3s ease;
+  color: white;
+}
+
+.main-nav li a{
+  color: #fff;
+}
+
+.main-nav li a:hover{
+  background-color: #000;
+}
+
+/* Sky's attemp to make soft UI */
+
+#main-container {
+  background-color: #f9f9f9;
+}
+
+div.view {
+  background-color: #f5f5f5;
+}
+
+#content-container h2 a span {
+    width: 15px;
+    height: 30px;
+    float: left;
+    display: inline;
+    text-indent: -9999px;
+}
+
+span.logo_1 {
+  background: #F36F74;
+  margin-top: 15px;
+}
+
+span.logo_2 {
+  background: #FEAE96;
+}
+
+span.logo_3 {
+  background: #FEE595;
+  margin-top: 15px;
+}
+
+span.logo_4 {
+  background: #88C6BA;
+}
+
+span.logo_5 {
+  background: #B2D1F0;
+  margin-top: 15px;
+}
+
+/*
+
+>>>>>>> soft-ui
 .main-nav li {
   list-style-type: none;
   padding: 15px

@@ -19,7 +19,7 @@
   <body>
 
     <!-- Navigation Bar -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner"><div class="container-fluid"><div class="row-fluid">
 
         <div class="span12">
@@ -30,7 +30,7 @@
             <span class="icon-bar"></span>
           </button>
 
-          <span class="brand">SmartReader</span>
+          <span class="brand">ThermoReader</span>
           <form class="navbar-form pull-left">
             <input type="text" style="height:30px" placeholder="Search">
           </form>
@@ -83,15 +83,14 @@
         </div>
       </div>
 
-
-
       <div id="content-container" class="span9 sub-container">
           <!-- Main Content Container -->
           <div id="content" ng-controller="contentCtrl">
 
             <!-- Title and Misc -->
-
-              <h2>{{title}}</h2>
+              <h2><a><span class="logo_1"></span><span class="logo_2"></span><span class="logo_3"></span><span class="logo_4"></span><span class="logo_5"></span></a>
+                {{title}}
+              </h2>
 
               <div class="views">switch view:
                 <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
