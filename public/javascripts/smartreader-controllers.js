@@ -1,19 +1,15 @@
 var smartreader = smartreader || {};
+smartreader.core = {};
 
 function menuCtrl($scope, $http) {
   $scope.categories = [];
 
-  smartreader.addCategory = function(category){
-    $scope.categories = $http.get("/categories");
-    $scope.$apply();
-  }
-
-  smartreader.putCategories = function(categories){
+  smartreader.core.putCategories = function(categories){
     $scope.categories = categories;
     //$scope.$apply();
   }
 
-  smartreader.loadCategories = function(){
+  smartreader.core.loadCategories = function(){
     var userCategories = [];
     $http.get("/categories").success(function(data) {
       console.log(data);
@@ -27,11 +23,9 @@ function menuCtrl($scope, $http) {
             new smartreader.feed(data[i].userFeeds[j].id, data[i].userFeeds[j].name)
           );
         }
-
+        smartreader.core.putCategories(userCategories);
       }
     });
-
-    smartreader.putCategories(userCategories);
   }
 
 }
@@ -40,12 +34,12 @@ function contentCtrl($scope) {
   $scope.title = "";
   $scope.articles = [];
 
-  smartreader.putTitle = function(title){
+  smartreader.core.putTitle = function(title){
     $scope.title = title;
     $scope.$apply();
   }
 
-  smartreader.putArticles = function(articles){
+  smartreader.core.putArticles = function(articles){
     $scope.articles = articles;
     $scope.$apply();
   }
