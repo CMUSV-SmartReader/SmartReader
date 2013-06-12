@@ -68,7 +68,7 @@ div.card.read{
   background-color: #f9f9f9;
 }
 div.card.popular1{ border-left-color: #F36F74; /*red*/ }
-div.card.popular2{ border-left-color: #FEAE96; /*orange*/ } 
+div.card.popular2{ border-left-color: #FEAE96; /*orange*/ }
 div.card.popular3{ border-left-color: #FEE595; /*yellow*/ }
 div.card.popular4{ border-left-color: #88C6BA; /*green*/ }
 div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
@@ -100,90 +100,11 @@ div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
   float: left;
 }
 
-/* slide menu*/
-/*#menu {
-  min-height:100%;
-}
 
-#menu .collapse-inner {
-  overflow: hidden;
-}
-
-.menu.collapse {
-  float:left;
-  height: 100% !important;
-  width: auto;
-}
-
-menu.collapse.height {
-  position: relative;
-  height: 0;
-  overflow: hidden;
-  -webkit-transition: height 0.35s ease;
-  -moz-transition: height 0.35s ease;
-  -o-transition: height 0.35s ease;
-  transition: height 0.35s ease;
-}
-
-menu.collapse.width {
-  position: relative;
-  width: 0;
-  overflow: hidden;
-  -webkit-transition: width 0.35s ease;
-  -moz-transition: width 0.35s ease;
-  -o-transition: width 0.35s ease;
-  transition: width 0.35s ease;
-}
-
-menu.collapse.in.width {
-  width: auto;
-}
-
-menu.collapse.in.height {
-  height: auto;
-}
-
-menu.collapse-inner {
-  position: relative;
-  width: 250px;
-  height: 100%;
-}
-
-
-
-<<<<<<< HEAD
-=======
-/* ====== title bar  ======= */
 #titleBar{
   background-color: darkgrey;
 }
 
-/* ====== swiping panel  ======= */
-#panel {
-  height: 500px;
-  background-color: darkgrey;
-}
-
-
-.main-nav {
-  /*position: fixed;*/
-  top: 0;
-  /*width: 340px;*/
-  min-height: 100%;
-  background: #3B3B3B;
-  margin: 0;
-  /* overflow: hidden; */
-  transition: width 0.3s ease;
-  color: white;
-}
-
-.main-nav li a{
-  color: #fff;
-}
-
-.main-nav li a:hover{
-  background-color: #000;
-}
 
 /* Sky's attemp to make soft UI */
 
@@ -225,32 +146,3 @@ span.logo_5 {
   background: #B2D1F0;
   margin-top: 15px;
 }
-
-/*
-
->>>>>>> soft-ui
-.main-nav li {
-  list-style-type: none;
-  padding: 15px
-}
-
-.main-nav #misc a{
-  padding: 5px;
-}
-
-.main-nav a {
-  display: block;
-  background: linear-gradient(#3E3E3E, #383838);
-  border-top: 1px solid #484848;
-  border-bottom: 1px solid #2E2E2E;
-  padding: 15px;
-  color: white;
-  &:hover, &:focus {
-    background: linear-gradient(#484848, #383838);
-  }
-}
-
-.main-nav a:hover {
-  background: linear-gradient(#484848, #383838);
-}
-*/
