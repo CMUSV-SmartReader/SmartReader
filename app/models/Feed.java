@@ -49,6 +49,14 @@ public class Feed extends MongoModel {
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
 
+    public void createUnique() {
+        Feed feedEntity = Feed.findByXmlUrl(this.xmlUrl);
+        if (feedEntity == null) {
+            this.create();
+        }
+    }
+
+
     public static Feed find(String feedId) {
         return MorphiaObject.datastore.get(Feed.class, new ObjectId(feedId));
     }

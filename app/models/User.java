@@ -162,4 +162,8 @@ public class User extends MongoModel implements Identity {
         this.update();
     }
 
+    public void addUserCategory(FeedCategory feedCategory) {
+        feedCategory.create();
+    }
+
 }

@@ -34,6 +34,8 @@ public class FeedCategory extends MongoModel {
     @Reference(concreteClass = ArrayList.class, lazy=true)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
 
+    public List<String> userFeedsTitle = new ArrayList<String>();
+
     @Reference(concreteClass = ArrayList.class, lazy=true)
     public List<Article> articles = new ArrayList<Article>();
 
@@ -57,6 +59,17 @@ public class FeedCategory extends MongoModel {
             this.articles.addAll(userFeed.feed.crawl());
         }
         return this.articles;
+    }
+
+    public void createFeed(User user, Feed feed) {
+        feed.createUnique();
+        UserFeed userFeed = new UserFeed();
+        userFeed.feed = feed;
+        userFeed.user = user;
+        userFeed.create();
+        this.userFeeds.add(userFeed);
+        this.userFeedsTitle.add(feed.title);
+        this.update();
     }
 
     public static class Serializer implements JsonSerializer<FeedCategory> {
