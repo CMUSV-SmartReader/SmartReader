@@ -27,7 +27,8 @@ smartreader.ui = (function(){
                   data.title,
                   data.articles[i].desc.slice(0, 48),
                   data.articles[i].desc,
-                  data.articles[i].link
+                  data.articles[i].link,
+                  Math.floor(Math.random()*5+1)
                 ))
               }
               smartreader.core.putTitle(data.title);
@@ -38,10 +39,12 @@ smartreader.ui = (function(){
       });
 
       $('#content-container').on('click', '.continue-article', function(){
-        if($(this).html() != 'Less...'){ $(this).html('Less...'); }
+        if($(this).html() != 'Less...'){
+          $(this).html('Less...');
+          $(this).parentsUntil("#content").addClass('read');
+        }
         else {
           $(this).html('Continue Reading...');
-          $(this).parentsUntil("#content").addClass('read').css('opacity', '0.6');
         }
         $(this).prev().prev('.article-summary').toggleClass('hidden');
         $(this).prev('.article-description').toggleClass('hidden');
