@@ -10,6 +10,7 @@ import org.bson.types.ObjectId;
 import play.Logger;
 import util.FeedParser;
 import util.MorphiaObject;
+import util.SmartReaderUtils;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -20,6 +21,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 @Entity
 public class Feed extends MongoModel {
@@ -37,21 +42,42 @@ public class Feed extends MongoModel {
     public String htmlUrl;
 
     public Date lastAccessedTime;
-    
+
     @Reference(lazy = true)
     public List<Article> articles = new ArrayList<Article>();
 
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
-    
+
     public static Feed find(String feedId) {
         return MorphiaObject.datastore.get(Feed.class, new ObjectId(feedId));
+    }
+
+    public static Feed findWithArticle(String id) {
+        Feed feed = Feed.find(id);
+        if (feed != null) {
+            DBCollection articleCollection = SmartReaderUtils.db.getCollection("Article");
+            BasicDBObject query = new BasicDBObject();
+            query.put("feed.$id", new ObjectId(feed.id.toString()));
+            DBCursor cursor = articleCollection.find(query);
+            while (cursor.hasNext()) {
+                 feed.articles.add(Article.createArticle(cursor.next()));
+            }
+        }
+        return feed;
+    }
+
+    public static Feed createFeed(DBObject feedDb) {
+        Feed feed = new Feed();
+        feed.id = new ObjectId(feedDb.get("_id").toString());
+        feed.title = feedDb.get("title").toString();
+        return feed;
     }
 
     public static Feed findByXmlUrl(String xmlUrl) {
         return MorphiaObject.datastore.find(Feed.class).filter("xmlUrl", xmlUrl).get();
     }
-    
+
     public List<Article> crawl() {
         lastAccessedTime = new Date();
         try {
@@ -68,7 +94,7 @@ public class Feed extends MongoModel {
         }
         return this.articles;
     }
-    
+
     public static void crawAll() {
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
@@ -82,7 +108,7 @@ public class Feed extends MongoModel {
             }
         }
     }
-    
+
     public static class Serializer implements JsonSerializer<Feed> {
 
         @Override
