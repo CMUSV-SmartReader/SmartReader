@@ -26,7 +26,7 @@ body {
 }
 
 #side-container {
-  background-color: #D7E0E6;
+  background-color: #CDD6DC;
 }
 #side-container.hidden {
   opacity: 0;
@@ -35,7 +35,7 @@ body {
 /* sidemenu */
 #side-menu {
   min-height: 100%;
-  background-color: #D7E0E6;
+  background-color: #CDD6DC;
   margin-top: 2em;
 }
 
@@ -43,17 +43,17 @@ body {
 #side-menu ul li a { color: #413839; }
 #side-menu ul li a:hover, #side-menu ul li:active { 
 	/* IE10 Consumer Preview */ 
-    background-image: -ms-linear-gradient(right, #B2D1F0 0%, #C1C6D2 100%);
+    background-image: -ms-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
     /* Mozilla Firefox */ 
-    background-image: -moz-linear-gradient(right, #B2D1F0 0%, #C1C6D2 100%);
+    background-image: -moz-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
     /* Opera */ 
-    background-image: -o-linear-gradient(right, #B2D1F0 0%, #C1C6D2 100%);
+    background-image: -o-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
     /* Webkit (Safari/Chrome 10) */ 
-    background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #B2D1F0), color-stop(1, #C1C6D2));
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #A8C7E6), color-stop(1, #C1C6D2));
     /* Webkit (Chrome 11+) */ 
-    background-image: -webkit-linear-gradient(right, #B2D1F0 0%, #C1C6D2 100%);
+    background-image: -webkit-linear-gradient(right, #B2D1F0 0%, #A8C7E6 100%);
     /* W3C Markup, IE10 Release Preview */ 
-    background-image: linear-gradient(to left, #B2D1F0 0%, #C1C6D2 100%);
+    background-image: linear-gradient(to left, #A8C7E6 0%, #C1C6D2 100%);
 }
 
 #side-menu #main-feeds{
@@ -78,16 +78,16 @@ body {
    height: 36px;
 }
 div.card{
-  border: 1px solid #AAA;
+  background-color: #f9f9f9;
   margin: 10px;
   padding: 5px 20px;
-  border-left: 10px solid black;
+  border-left: 10px solid;
 }
 div.card.read{
   background-color: #f9f9f9;
 }
 div.card.popular1{ border-left-color: #F36F74; /*red*/ }
-div.card.popular2{ border-left-color: #FEAE96; /*orange*/ } 
+div.card.popular2{ border-left-color: #FEAE96; /*orange*/ }
 div.card.popular3{ border-left-color: #FEE595; /*yellow*/ }
 div.card.popular4{ border-left-color: #88C6BA; /*green*/ }
 div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
@@ -124,37 +124,11 @@ div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
   background-color: darkgrey;
 }
 
-/* ====== swiping panel  ======= */
-#panel {
-  height: 500px;
-  background-color: darkgrey;
-}
-
-
-.main-nav {
-  /*position: fixed;*/
-  top: 0;
-  /*width: 340px;*/
-  min-height: 100%;
-  background: #3B3B3B;
-  margin: 0;
-  /* overflow: hidden; */
-  transition: width 0.3s ease;
-  color: white;
-}
-
-.main-nav li a{
-  color: #fff;
-}
-
-.main-nav li a:hover{
-  background-color: #000;
-}
 
 /* Sky's attemp to make soft UI */
 
 #main-container {
-  background-color: #f9f9f9;
+  background-color: #e6e6e6;
 }
 
 div.view {
@@ -191,4 +165,3 @@ span.logo_5 {
   background: #B2D1F0;
   margin-top: 15px;
 }
-
