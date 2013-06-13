@@ -13,8 +13,7 @@ body {
 }
 
 #menu-toggle-btn {
-  display: block;
-  float: left;
+  float: left; display: block;
   margin-top: 5px;
 }
 
@@ -26,29 +25,16 @@ body {
 }
 
 /* others */
-#user_info{
-   color: silver;
-}
-#user_info>a{
+#user_info > a {
    text-decoration:none;
-   color: silver;
-
+   color: #333;
 }
 #user_info img{
    height: 36px;
 }
 
 
-/* ====== title bar  ======= */
-#titleBar{
-  background-color: darkgrey;
-}
-
-
 /* Sky's attemp to make soft UI */
-
-
-
 span.logo_1 {
   background: #F36F74;
   margin-top: 15px;

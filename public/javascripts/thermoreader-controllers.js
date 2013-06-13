@@ -1,12 +1,21 @@
 var thermoreader = thermoreader || {};
 
-thermoreader.menuCtrl = function($scope, dbFactory) {
+thermoreader.mainCtrl = function($scope, dbFactory) {
   $scope.allFeeds = dbFactory.allFeeds;
-}
+  $scope.selectedFeed = {};
 
-thermoreader.contentCtrl = function($scope, dbFactory) {
-  $scope.title = "Home";
-  $scope.articles = [];
+  $scope.selectFeed = function(feed){
+    console.log(feed.id);
+    $scope.selectedFeed = { title: feed.title, articles: []};
+    dbFactory.getFeed(feed.id).success(function(d){
+      console.log(d);
+      $scope.selectedFeed = { title: d.title, articles: []};
+    });
+  };
+
+
+  //$scope.title = dbFactory.currentFeed.name;
+  //$scope.articles = dbFactory.currentFeed.articles;
 }
 
 /*function menuCtrl($scope, $http) {

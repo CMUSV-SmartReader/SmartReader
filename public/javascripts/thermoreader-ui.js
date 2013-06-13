@@ -5,8 +5,7 @@ thermoreader.ui = (function(){
   var
     binding = function(){
       $('#menu-toggle-btn').on('click', function(){
-        $('#side-container').toggleClass('span3 span1 hidden');
-        $('#content-container').toggleClass('span9 span10');
+        $('#side-container').toggleClass('span2 span1 hidden');
       });
 
       /*$('#side-menu').on('click', 'li', function(){

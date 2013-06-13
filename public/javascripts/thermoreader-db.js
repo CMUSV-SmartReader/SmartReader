@@ -5,7 +5,7 @@ thermoreader.db = function($http){
 	var
     userId = "",
     allFeeds = [],
-    articles = {};
+    articles = {},
 
     getAllFeeds = function(){
       $http.get("/categories").success(function(data) {
@@ -22,13 +22,17 @@ thermoreader.db = function($http){
           }
         }
       });
+    },
+
+    getFeed = function(feedId){
+      return $http.get("/feed/"+feedId);
     };
 
     getAllFeeds();
 
 	return {
     allFeeds : allFeeds,
-    getAllFeeds : getAllFeeds
-	};
+    getFeed : getFeed
+  };
 
 };

@@ -53,10 +53,10 @@
     </div>
 
 
-    <div id="main-container" class="container-fluid"><div class="row-fluid">
+    <div id="main-container" ng-controller="mainCtrl" class="container-fluid"><div class="row-fluid">
 
       <div id ="side-container" class="span2 sub-container">
-        <div id="side-menu" ng-controller="menuCtrl" class="sidebar-nav">
+        <div id="side-menu" class="sidebar-nav">
 
           <!-- FB-like Slide Menu-->
           <div id="main-feeds">
@@ -72,7 +72,7 @@
               <ul class="nav nav-list">
                 <li class="divider"></li>
                 <li class="nav-header"><a href="#"><strong>{{category.name}}</strong></a></li>
-                <li ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}">
+                <li ng-repeat="feed in category.feeds" ng-click="selectFeed(feed)">
                   <a href="#"> {{feed.name}} </a>
                 </li>
               </ul>
@@ -82,13 +82,13 @@
         </div>
       </div>
 
-      <div id="content-container" class="span9 sub-container">
+      <div id="content-container" class="span10 sub-container">
           <!-- Main Content Container -->
-          <div id="content" ng-controller="contentCtrl">
+          <div id="content">
 
             <!-- Title and Misc -->
               <h2><a><span class="logo_1"></span><span class="logo_2"></span><span class="logo_3"></span><span class="logo_4"></span><span class="logo_5"></span></a>
-                {{title}}
+                {{selectedFeed.title}}
               </h2>
 
               <div class="views">switch view:
@@ -98,7 +98,7 @@
 
 
             <!-- Feed Cards -->
-            <div class="card popular{{article.popular}}" ng-repeat="article in articles">
+            <div class="card popular{{article.popular}}" ng-repeat="article in selectedFeed.articles">
               <a class="pull-left" href="#"></a>
                 <div class="media-body-text-only pull-left">
                   <h4 class="media-heading">☆

@@ -2,8 +2,8 @@ var thermoreader = thermoreader || {};
 
 thermoreader.instance = angular.module('thermoReader', [])
   .factory('dbFactory', thermoreader.db)
-  .controller('menuCtrl', thermoreader.menuCtrl)
-  .controller('contentCtrl', thermoreader.contentCtrl);
+  .controller('mainCtrl', thermoreader.mainCtrl);
+
 
 
 $(window).on('load', function(){
