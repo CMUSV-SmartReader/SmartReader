@@ -59,10 +59,10 @@ body {
    height: 36px;
 }
 div.card{
-  border: 1px solid #AAA;
+  background-color: #f9f9f9;
   margin: 10px;
   padding: 5px 20px;
-  border-left: 10px solid black;
+  border-left: 10px solid;
 }
 div.card.read{
   background-color: #f9f9f9;
@@ -109,7 +109,7 @@ div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 /* Sky's attemp to make soft UI */
 
 #main-container {
-  background-color: #f9f9f9;
+  background-color: #e6e6e6;
 }
 
 div.view {
