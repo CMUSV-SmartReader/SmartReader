@@ -1,7 +1,15 @@
-var smartreader = smartreader || {};
-smartreader.core = {};
+var thermoreader = thermoreader || {};
 
-function menuCtrl($scope, $http) {
+thermoreader.menuCtrl = function($scope, dbFactory) {
+  $scope.allFeeds = dbFactory.allFeeds;
+}
+
+thermoreader.contentCtrl = function($scope, dbFactory) {
+  $scope.title = "Home";
+  $scope.articles = [];
+}
+
+/*function menuCtrl($scope, $http) {
   $scope.categories = [];
 
   smartreader.core.putCategories = function(categories){
@@ -30,7 +38,7 @@ function menuCtrl($scope, $http) {
 
 }
 
-function contentCtrl($scope) {
+function function($scope) {
   $scope.title = "";
   $scope.articles = [];
 
@@ -45,4 +53,4 @@ function contentCtrl($scope) {
   }
 
 
-}
+}*/

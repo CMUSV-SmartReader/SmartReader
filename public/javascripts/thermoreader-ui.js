@@ -1,6 +1,6 @@
-var smartreader = smartreader || {};
+var thermoreader = thermoreader || {};
 
-smartreader.ui = (function(){
+thermoreader.ui = (function(){
 
   var
     binding = function(){
@@ -9,7 +9,7 @@ smartreader.ui = (function(){
         $('#content-container').toggleClass('span9 span10');
       });
 
-      $('#side-menu').on('click', 'li', function(){
+      /*$('#side-menu').on('click', 'li', function(){
         var feedid = $(this).attr("data-feedid");
         console.log(feedid);
         if(feedid){
@@ -36,9 +36,9 @@ smartreader.ui = (function(){
             }
           });
         }
-      });
+      });*/
 
-      $('#content-container').on('click', '.continue-article', function(){
+      /*$('#content-container').on('click', '.continue-article', function(){
         if($(this).html() != 'Less...'){
           $(this).html('Less...');
           $(this).parentsUntil("#content").addClass('read');
@@ -48,7 +48,7 @@ smartreader.ui = (function(){
         }
         $(this).prev().prev('.article-summary').toggleClass('hidden');
         $(this).prev('.article-description').toggleClass('hidden');
-      });
+      });*/
 
     };
 

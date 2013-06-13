@@ -1,0 +1,37 @@
+
+#side-container {
+  background-color: #CDD6DC;
+}
+#side-container.hidden {
+  opacity: 0;
+}
+
+#side-menu {
+  min-height: 100%;
+  background-color: #CDD6DC;
+  margin-top: 2em;
+}
+
+#side-menu ul li { text-align: right; }
+#side-menu ul li a { color: #413839; }
+#side-menu ul li a:hover, #side-menu ul li:active {
+  /* IE10 Consumer Preview */
+  background-image: -ms-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
+  /* Mozilla Firefox */
+  background-image: -moz-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
+  /* Opera */
+  background-image: -o-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
+  /* Webkit (Safari/Chrome 10) */
+  background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #A8C7E6), color-stop(1, #C1C6D2));
+  /* Webkit (Chrome 11+) */
+  background-image: -webkit-linear-gradient(right, #B2D1F0 0%, #A8C7E6 100%);
+  /* W3C Markup, IE10 Release Preview */
+  background-image: linear-gradient(to left, #A8C7E6 0%, #C1C6D2 100%);
+}
+
+#side-menu #main-feeds{
+  margin-bottom: 30px;
+}
+#side-menu .nav-header{
+  font-size: 12pt;
+}
