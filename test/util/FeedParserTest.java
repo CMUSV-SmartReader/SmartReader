@@ -9,20 +9,22 @@ import models.MongoModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import models.User;
-
 public class FeedParserTest {
-    
-    
+
+
     @Before
     public void setUp() {
         MorphiaObject.setUp();
     }
-    
+
     @Test
     public void testCrawlUserArticles() throws Exception{
-        User user = User.findByEmail("seanlionheart@gmail.com");
-        user.crawl();
+//        User user = User.findByEmail("seanlionheart@gmail.com");
+//        user.crawl();
+        List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
+        for (Feed feed : feeds) {
+            feed.crawl();
+        }
     }
     @Test
     public void testParsingFeed() throws Exception {
@@ -37,7 +39,7 @@ public class FeedParserTest {
             }
         }
     }
-    
+
     @Test
     public void testParsingOneFeed() throws Exception {
         Feed feed = new Feed();

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import models.Feed;
 import models.FeedCategory;
 import models.User;
@@ -37,18 +36,12 @@ public class GoogleReaderImporter {
         }
         importFeeds(jsonResult, user);
     }
-    
-    public static void oAuthImportFromGoogle(String account, String token) {
+
+    public static void oAuthImportFromGoogle(User user, String token) {
         String jsonResult = getFeeds(token);
-        User user = User.findByEmail(account);
-        if (user == null) {
-            user = new User();
-            user.email = account;
-            user.create();
-        }
         importFeeds(jsonResult, user);
     }
-    
+
     public static String getFeeds(String token) {
         HttpGet httpGet = new HttpGet("https://www.google.com/reader/api/0/subscription/list?output=json");
         httpGet.setHeader("Authorization","Bearer " + token);
@@ -56,13 +49,13 @@ public class GoogleReaderImporter {
         try {
             HttpResponse response = httpclient.execute(httpGet);
             return EntityUtils.toString(response.getEntity());
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
+
     private static String getFeeds(String[] authInfo) {
         HttpGet httpGet = new HttpGet("https://www.google.com/reader/api/0/subscription/list?output=json");
         httpGet.setHeader("Authorization","GoogleLogin auth=" + authInfo[0]);
@@ -72,13 +65,13 @@ public class GoogleReaderImporter {
         try {
             HttpResponse response = httpclient.execute(httpGet);
             return EntityUtils.toString(response.getEntity());
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
-    
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private static void importFeeds(String jsonResult, User user) {
         Gson gson = new Gson();
@@ -101,7 +94,7 @@ public class GoogleReaderImporter {
             userFeed.user = user;
             userFeed.create();
             user.userFeeds.add(userFeed);
-            
+
             List<Map> categories = (List<Map>)feed.get("categories");
             for (Map category: categories) {
                 String title = (String) category.get("label");
@@ -121,7 +114,7 @@ public class GoogleReaderImporter {
         }
         user.update();
     }
-    
+
     private static String[] loginGoogle(String account, String password) {
         HttpPost httpPost = new HttpPost("https://www.google.com/accounts/ClientLogin");
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -145,7 +138,7 @@ public class GoogleReaderImporter {
             results[0] = responseComponents[2].split("=")[1];
             results[1] = responseComponents[0].split("=")[1];
             return results;
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
         }

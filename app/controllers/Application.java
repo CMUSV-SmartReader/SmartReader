@@ -13,17 +13,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
-import util.GoogleReaderImporter;
 import util.SmartReaderUtils;
 import views.html.main;
 
 import com.google.gson.Gson;
 public class Application extends Controller {
-
-
-    // public static Result index() {
-    //     return ok(main.render());
-    // }
 
     /**
      * This action only gets called if the user is logged in.
@@ -50,20 +44,12 @@ public class Application extends Controller {
     }
 
     @SecureSocial.UserAwareAction
-    public static Result importFromGooglereader() {
-        Identity user = (Identity) ctx().args.get(SecureSocial.USER_KEY);
-        GoogleReaderImporter.oAuthImportFromGoogle(user.email().get(), user.oAuth2Info().get().accessToken());
-        return ok();
-    }
-
-    @SecureSocial.UserAwareAction
     public static Result crawl() {
         Identity userId = (Identity) ctx().args.get(SecureSocial.USER_KEY);
         User user = User.getUserFromIdentity(userId);
         user.crawl();
         return ok();
     }
-
 
     public static Result getFeeds() throws JsonGenerationException, JsonMappingException, IOException {
         Identity identity = SecureSocial.currentUser();
