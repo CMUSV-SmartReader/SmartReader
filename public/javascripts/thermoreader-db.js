@@ -15,10 +15,15 @@ thermoreader.db = function($http){
             name : data[i].name,
             feeds : []
           });
-          for(var j=0; j<data[i].userFeeds.length; ++j){
-            allFeeds[i].feeds.push(
-              new thermoreader.model.feed(data[i].userFeeds[j].id, data[i].userFeeds[j].name)
-            );
+          for(var j=0; j<data[i].userFeedsInfos.length; ++j){
+            for(var key in data[i].userFeedsInfos[j]){
+              allFeeds[i].feeds.push(
+                new thermoreader.model.feed(
+                  key,
+                  data[i].userFeedsInfos[j][key]
+                )
+              );
+            }
           }
         }
       });
