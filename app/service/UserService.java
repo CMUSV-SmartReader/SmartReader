@@ -49,8 +49,7 @@ public class UserService extends BaseUserService {
         String email = emailId.get();
         User existingUser = User.findByEmail(email);
         if (existingUser == null) {
-            User newUser = new User(user);
-            newUser.create();
+            User.initUser(user);
         }
         users.put(user.id().id() + user.id().providerId(), user);
         return user;

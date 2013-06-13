@@ -63,25 +63,27 @@ public class User extends MongoModel {
         return null;
     }
 
-    public User(Identity identity) {
-        this.email = identity.email().get();
+    public static void initUser(Identity identity) {
+        User newUser = new User();
+        newUser.email = identity.email().get();
         if (identity.avatarUrl() != null) {
-            this.avatarUrl = identity.avatarUrl().get();
+            newUser.avatarUrl = identity.avatarUrl().get();
         }
         if (identity.firstName() != null) {
-            this.firstName = identity.firstName();
+            newUser.firstName = identity.firstName();
         }
         if (identity.lastName() != null) {
-            this.lastName = identity.lastName();
+            newUser.lastName = identity.lastName();
         }
         if (identity.fullName() != null) {
-            this.fullName = identity.fullName();
+            newUser.fullName = identity.fullName();
         }
+        newUser.create();
         try {
-            GoogleReaderImporter.oAuthImportFromGoogle(this, identity.oAuth2Info().get().accessToken());
+            GoogleReaderImporter.oAuthImportFromGoogle(newUser, identity.oAuth2Info().get().accessToken());
         }
         catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
