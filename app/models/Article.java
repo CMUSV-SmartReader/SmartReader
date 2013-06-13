@@ -67,15 +67,13 @@ public class Article extends MongoModel {
 
     }
 
-    public static Article createArticle(DBObject articleDB) {
-        Article article = new Article();
-        article.title = articleDB.get("title").toString();
-        article.link = articleDB.get("link").toString();
-        article.desc = articleDB.get("desc").toString();
-        article.author = articleDB.get("author").toString();
-        article.publishDate = (Date) articleDB.get("publishDate");
-        article.updateDate = (Date) articleDB.get("updateDate");
-        return article;
+    public Article(DBObject articleDB) {
+        this.title = articleDB.get("title").toString();
+        this.link = articleDB.get("link").toString();
+        this.desc = articleDB.get("desc").toString();
+        this.author = articleDB.get("author").toString();
+        this.publishDate = (Date) articleDB.get("publishDate");
+        this.updateDate = (Date) articleDB.get("updateDate");
     }
 
     public static List<Article> findByFeed(Feed feed) {
@@ -98,4 +96,5 @@ public class Article extends MongoModel {
             return article;
         }
     }
+
 }

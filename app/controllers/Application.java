@@ -1,14 +1,11 @@
 package controllers;
 
-import java.io.IOException;
+import java.util.List;
 
+import models.Article;
 import models.Feed;
+import models.FeedCategory;
 import models.User;
-
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import play.mvc.Controller;
 import play.mvc.Result;
 import securesocial.core.Identity;
@@ -51,23 +48,46 @@ public class Application extends Controller {
         return ok();
     }
 
-    public static Result getFeeds() throws JsonGenerationException, JsonMappingException, IOException {
-        Identity identity = SecureSocial.currentUser();
-        User user = User.findByEmail(identity.email().get());
-        return ok(new ObjectMapper().writeValueAsString(user.feeds));
-    }
-
-    public static Result getFeed(String id) throws JsonGenerationException, JsonMappingException, IOException {
-        Feed feed = Feed.findWithArticle(id);
+    @SecureSocial.UserAwareAction
+    public static Result getFeed(String id) {
+        List<Article> articles = Feed.articlesInFeed(id);
         Gson gson = SmartReaderUtils.builder.create();
-        return ok(gson.toJson(feed));
+        return ok(gson.toJson(articles));
     }
 
-    public static Result getCategories() throws JsonGenerationException, JsonMappingException, IOException {
+    @SecureSocial.UserAwareAction
+    public static Result getCategories() {
         Identity identity = SecureSocial.currentUser();
         User user = User.findByEmail(identity.email().get());
         Gson gson = SmartReaderUtils.builder.create();
-        return ok(gson.toJson(user.allFeedCategories()));
+        return ok(gson.toJson(user.allFeedCategoriesWithFeed()));
+    }
+
+    @SecureSocial.UserAwareAction
+    public static Result addFeedCategory() {
+        User user = getCurrentUser();
+        FeedCategory feedCategory = new FeedCategory();
+        feedCategory.user = user;
+        feedCategory.name = request().queryString().get("name")[0];
+        user.addUserCategory(feedCategory);
+        return ok();
+    }
+
+    @SecureSocial.UserAwareAction
+    public static Result addFeedToCategory(String feedCategoryId) {
+        User user = getCurrentUser();
+        Feed feed = new Feed();
+        feed.title = request().queryString().get("title")[0];
+        feed.xmlUrl = request().queryString().get("xmlUrl")[0];
+        feed.htmlUrl = request().queryString().get("htmlUrl")[0];
+        FeedCategory feedCategory = FeedCategory.find(feedCategoryId);
+        feedCategory.createFeed(user,  feed);
+        return ok();
+    }
+
+    public static User getCurrentUser() {
+        Identity identity = SecureSocial.currentUser();
+        return User.findByEmail(identity.email().get());
     }
 
 }

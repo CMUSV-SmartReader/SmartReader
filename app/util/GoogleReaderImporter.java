@@ -106,6 +106,7 @@ public class GoogleReaderImporter {
                 }
                 FeedCategory feedCategory = categoryMap.get(title);
                 feedCategory.userFeeds.add(userFeed);
+                feedCategory.userFeedsTitles.add(userFeed.feed.title);
             }
         }
         for (FeedCategory feedCategory : categoryMap.values()) {

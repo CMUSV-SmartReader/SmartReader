@@ -28,7 +28,6 @@ public class ModelTest {
 
     @Test
     public void testFeed() {
-        System.out.println(Feed.find("51afde5a036491fe35589d77").title);
     }
 
     @Test
@@ -60,17 +59,28 @@ public class ModelTest {
         long time = System.currentTimeMillis();
         User user = User.findByEmail("seanlionheart@gmail.com");
         Gson gson = SmartReaderUtils.builder.create();
-        System.out.println(gson.toJson(user.allFeedCategories()));
+        System.out.println(gson.toJson(user.allFeedCategoriesWithFeed()));
         System.out.println(System.currentTimeMillis() - time);
     }
 
     @Test
     public void getFeed() {
-        Feed feed = Feed.findWithArticle("51b795c303646c01824268f7");
-        Gson gson = SmartReaderUtils.builder.create();
-        gson.toJson(feed);
-        for (Article article : feed.articles) {
-            System.out.println(article.title);
+        List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
+        for (Feed feed : feeds) {
+            System.err.println(feed.id.toString());
+            List<Article> articles = Feed.articlesInFeed(feed.id.toString());
+            Gson gson = SmartReaderUtils.builder.create();
+            gson.toJson(articles);
+            for (Article article : articles) {
+              System.out.println(article.title);
+            }
         }
+
+////        Feed feed = Feed.findWithArticle("51b795c303646c01824268f7");
+//        Gson gson = SmartReaderUtils.builder.create();
+//        gson.toJson(feed);
+//        for (Article article : feed.articles) {
+//            System.out.println(article.title);
+//        }
     }
 }

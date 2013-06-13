@@ -35,3 +35,7 @@ GET     /not-authorized             securesocial.controllers.ProviderController.
 # Feeds Retrieving
 GET     /feed/:id                   controllers.Application.getFeed(id)
 GET     /categories                 controllers.Application.getCategories()
+
+# Create
+POST    /category/create            controllers.Application.addFeedCategory()
+POST    /category/:id/add_feed      controllers.Application.addFeedToCategory(id)

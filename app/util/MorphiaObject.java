@@ -15,13 +15,13 @@ public class MorphiaObject {
     public static void setUp() {
         if (MorphiaObject.mongo == null) {
             try {
-                MongoClient client = new MongoClient("ec2-54-215-138-196.us-west-1.compute.amazonaws.com", 27017);
+                MongoClient client = new MongoClient("localhost", 27017);
                 MorphiaObject.mongo = client;
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
             MorphiaObject.morphia = new Morphia();
-            MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, "app15993858");
+            MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, "SmartReader");
             //MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, "app15993858", "smartReader", "MonGoGo2013".toCharArray());
             MorphiaObject.datastore.ensureIndexes();
             MorphiaObject.datastore.ensureCaps();

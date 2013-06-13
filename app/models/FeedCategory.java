@@ -2,7 +2,9 @@ package models;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bson.types.ObjectId;
 
@@ -34,6 +36,28 @@ public class FeedCategory extends MongoModel {
     @Reference(concreteClass = ArrayList.class, lazy=true)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
 
+    public List<String> userFeedsTitles = new ArrayList<String>();
+
+    public List<Map<String, String>> userFeedsInfos = new ArrayList<Map<String,String>>();
+
+    public List<Article> crawl() {
+        for(UserFeed userFeed: this.userFeeds){
+            this.articles.addAll(userFeed.feed.crawl());
+        }
+        return this.articles;
+    }
+
+    public void createFeed(User user, Feed feed) {
+        feed.createUnique();
+        UserFeed userFeed = new UserFeed();
+        userFeed.feed = feed;
+        userFeed.user = user;
+        userFeed.create();
+        this.userFeeds.add(userFeed);
+        this.userFeedsTitles.add(feed.title);
+        this.update();
+    }
+
     @Reference(concreteClass = ArrayList.class, lazy=true)
     public List<Article> articles = new ArrayList<Article>();
 
@@ -45,18 +69,14 @@ public class FeedCategory extends MongoModel {
         FeedCategory feedCategory = new FeedCategory();
         feedCategory.name = feedCategoryDB.get("name").toString();
         BasicDBList userFeedList = (BasicDBList) feedCategoryDB.get("userFeeds");
+        BasicDBList userFeedTitleList = (BasicDBList) feedCategoryDB.get("userFeedsTitles");
         for (int i = 0; i < userFeedList.size(); i++) {
-            DBObject userFeedDB = ((DBRef) userFeedList.get(i)).fetch();
-            feedCategory.userFeeds.add(UserFeed.createUserFeed(userFeedDB));
+            HashMap<String, String> info = new HashMap<String, String>();
+            DBRef ref = (DBRef) userFeedList.get(i);
+            info.put(ref.getId().toString(), userFeedTitleList.get(i).toString());
+            feedCategory.userFeedsInfos.add(info);
         }
         return feedCategory;
-    }
-
-    public List<Article> crawl() {
-        for(UserFeed userFeed: this.userFeeds){
-            this.articles.addAll(userFeed.feed.crawl());
-        }
-        return this.articles;
     }
 
     public static class Serializer implements JsonSerializer<FeedCategory> {
@@ -66,7 +86,7 @@ public class FeedCategory extends MongoModel {
                 JsonSerializationContext ctx) {
             JsonObject feedObject = new JsonObject();
             feedObject.add("name", new JsonPrimitive(src.name));
-            feedObject.add("userFeeds", ctx.serialize(src.userFeeds));
+            feedObject.add("userFeedsInfos", ctx.serialize(src.userFeedsInfos));
             return feedObject;
         }
     }

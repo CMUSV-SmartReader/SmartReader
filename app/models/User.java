@@ -104,7 +104,7 @@ public class User extends MongoModel {
     public User() {
     }
 
-    public List<FeedCategory> allFeedCategories() {
+    public List<FeedCategory> allFeedCategoriesWithFeed() {
         DBCollection feedCategoryCollection = SmartReaderUtils.db.getCollection("FeedCategory");
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", new ObjectId(this.id.toString()));
@@ -121,6 +121,10 @@ public class User extends MongoModel {
             this.articles.addAll(feedCategory.crawl());
         }
         this.update();
+    }
+
+    public void addUserCategory(FeedCategory feedCategory) {
+        feedCategory.create();
     }
 
 }
