@@ -16,19 +16,17 @@
  */
 package service;
 
-import play.Application;
-import scala.Option;
-import securesocial.core.Identity;
-import securesocial.core.UserId;
-import securesocial.core.java.BaseUserService;
-
-import securesocial.core.java.Token;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import models.User;
+import play.Application;
+import scala.Option;
+import securesocial.core.Identity;
+import securesocial.core.UserId;
+import securesocial.core.java.BaseUserService;
+import securesocial.core.java.Token;
 
 
 /**
@@ -38,8 +36,8 @@ import models.User;
  * A real implementation would persist things in a database
  */
 public class UserService extends BaseUserService {
-    private HashMap<String, Identity> users  = new HashMap<String, Identity>();
-    private HashMap<String, Token> tokens = new HashMap<String, Token>();
+    private final HashMap<String, Identity> users  = new HashMap<String, Identity>();
+    private final HashMap<String, Token> tokens = new HashMap<String, Token>();
 
     public UserService(Application application) {
         super(application);
@@ -47,13 +45,11 @@ public class UserService extends BaseUserService {
 
     @Override
     public Identity doSave(Identity user) {
-        System.out.println(user.getClass().toString());
         Option<String> emailId = user.email();
         String email = emailId.get();
         User existingUser = User.findByEmail(email);
         if (existingUser == null) {
-            User newUser = new User(user);
-            newUser.create();
+            User.initUser(user);
         }
         users.put(user.id().id() + user.id().providerId(), user);
         return user;

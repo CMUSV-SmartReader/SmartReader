@@ -49,22 +49,23 @@ public class Feed extends MongoModel {
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
 
-    public static Feed find(String feedId) {
-        return MorphiaObject.datastore.get(Feed.class, new ObjectId(feedId));
+    public void createUnique() {
+        Feed feedEntity = Feed.findByXmlUrl(this.xmlUrl);
+        if (feedEntity == null) {
+            this.create();
+        }
     }
 
-    public static Feed findWithArticle(String id) {
-        Feed feed = Feed.find(id);
-        if (feed != null) {
-            DBCollection articleCollection = SmartReaderUtils.db.getCollection("Article");
-            BasicDBObject query = new BasicDBObject();
-            query.put("feed.$id", new ObjectId(feed.id.toString()));
-            DBCursor cursor = articleCollection.find(query);
-            while (cursor.hasNext()) {
-                 feed.articles.add(Article.createArticle(cursor.next()));
-            }
+    public static List<Article> articlesInFeed(String id) {
+        List<Article> articles = new ArrayList<Article>();
+        DBCollection articleCollection = SmartReaderUtils.db.getCollection("Article");
+        BasicDBObject query = new BasicDBObject();
+        query.put("feed.$id", new ObjectId(id));
+        DBCursor cursor = articleCollection.find(query);
+        while (cursor.hasNext()) {
+             articles.add(new Article(cursor.next()));
         }
-        return feed;
+        return articles;
     }
 
     public static Feed createFeed(DBObject feedDb) {

@@ -25,7 +25,6 @@ GET     /reset/:token               securesocial.controllers.Registration.resetP
 POST    /reset/:token               securesocial.controllers.Registration.handleResetPassword(token)
 GET     /password                   securesocial.controllers.PasswordChange.page
 POST    /password                   securesocial.controllers.PasswordChange.handlePasswordChange
-POST    /import                     controllers.Application.importFromGooglereader
 POST    /crawl                      controllers.Application.crawl
 
 # Providers entry points
@@ -36,3 +35,7 @@ GET     /not-authorized             securesocial.controllers.ProviderController.
 # Feeds Retrieving
 GET     /feed/:id                   controllers.Application.getFeed(id)
 GET     /categories                 controllers.Application.getCategories()
+
+# Create
+POST    /category/create            controllers.Application.addFeedCategory()
+POST    /category/:id/add_feed      controllers.Application.addFeedToCategory(id)

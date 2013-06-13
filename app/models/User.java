@@ -6,14 +6,8 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import play.libs.Scala;
-import scala.Option;
-import securesocial.core.AuthenticationMethod;
 import securesocial.core.Identity;
-import securesocial.core.OAuth1Info;
-import securesocial.core.OAuth2Info;
-import securesocial.core.PasswordInfo;
-import securesocial.core.UserId;
+import util.GoogleReaderImporter;
 import util.SmartReaderUtils;
 
 import com.google.code.morphia.annotations.Entity;
@@ -26,7 +20,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 @Entity
-public class User extends MongoModel implements Identity {
+public class User extends MongoModel {
 
     @Id
     public ObjectId id;
@@ -38,6 +32,10 @@ public class User extends MongoModel implements Identity {
     public String displayName;
 
     public String avatarUrl;
+
+    public String firstName;
+
+    public String fullName;
 
     @Indexed
     public String email;
@@ -65,8 +63,28 @@ public class User extends MongoModel implements Identity {
         return null;
     }
 
-    public User(Identity identity) {
-        this.email = identity.email().get();
+    public static void initUser(Identity identity) {
+        User newUser = new User();
+        newUser.email = identity.email().get();
+        if (identity.avatarUrl() != null) {
+            newUser.avatarUrl = identity.avatarUrl().get();
+        }
+        if (identity.firstName() != null) {
+            newUser.firstName = identity.firstName();
+        }
+        if (identity.lastName() != null) {
+            newUser.lastName = identity.lastName();
+        }
+        if (identity.fullName() != null) {
+            newUser.fullName = identity.fullName();
+        }
+        newUser.create();
+        try {
+            GoogleReaderImporter.oAuthImportFromGoogle(newUser, identity.oAuth2Info().get().accessToken());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static User getUserFromIdentity(Identity userId) {
@@ -86,64 +104,7 @@ public class User extends MongoModel implements Identity {
     public User() {
     }
 
-    @Override
-    public UserId id() {
-        return null;
-    }
-
-    @Override
-    public String lastName() {
-        return lastName;
-    }
-
-    @Override
-    public String firstName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String fullName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Option<String> avatarUrl() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Option<String> email() {
-        return Scala.Option(email);
-    }
-
-    @Override
-    public AuthenticationMethod authMethod() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Option<OAuth1Info> oAuth1Info() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Option<OAuth2Info> oAuth2Info() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Option<PasswordInfo> passwordInfo() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public List<FeedCategory> allFeedCategories() {
+    public List<FeedCategory> allFeedCategoriesWithFeed() {
         DBCollection feedCategoryCollection = SmartReaderUtils.db.getCollection("FeedCategory");
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", new ObjectId(this.id.toString()));
@@ -160,6 +121,10 @@ public class User extends MongoModel implements Identity {
             this.articles.addAll(feedCategory.crawl());
         }
         this.update();
+    }
+
+    public void addUserCategory(FeedCategory feedCategory) {
+        feedCategory.create();
     }
 
 }
