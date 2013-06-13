@@ -53,7 +53,7 @@
 
     <div id="main-container" class="container-fluid"><div class="row-fluid">
 
-      <div id ="side-container" class="span3 sub-container">
+      <div id ="side-container" class="span2 sub-container">
         <div id="side-menu" ng-controller="menuCtrl" class="sidebar-nav">
 
           <!-- FB-like Slide Menu-->
@@ -66,11 +66,12 @@
                   <li> <a href="#"> Saved </a> </li>
                 </ul>
               </div>
-
+              
               <div id="user-feeds">
                 <div ng-repeat="category in categories">
                   <ul class="nav nav-list">
-                    <li class="nav-header">{{category.name}}</li>
+                    <li class="divider"></li>
+                    <li class="nav-header"><a href="#"><strong>{{category.name}}</strong></a></li>
                     <li ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}">
                       <a href="#"> {{feed.name}} </a>
                     </li>
