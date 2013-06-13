@@ -7,8 +7,8 @@ body {
 
 /* layout related */
 #main-container {
-  padding-left: 0;
-  height: 100%;
+  height: 100%; padding-left: 0;
+  background-color: #e6e6e6;
   overflow: hidden;
 }
 
@@ -25,46 +25,6 @@ body {
   overflow-y: hidden;
 }
 
-#side-container {
-  background-color: #CDD6DC;
-}
-#side-container.hidden {
-  opacity: 0;
-}
-
-/* sidemenu */
-#side-menu {
-  min-height: 100%;
-  background-color: #CDD6DC;
-  margin-top: 2em;
-}
-
-#side-menu ul li { text-align: right; }
-#side-menu ul li a { color: #413839; }
-#side-menu ul li a:hover, #side-menu ul li:active { 
-	/* IE10 Consumer Preview */ 
-    background-image: -ms-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
-    /* Mozilla Firefox */ 
-    background-image: -moz-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
-    /* Opera */ 
-    background-image: -o-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
-    /* Webkit (Safari/Chrome 10) */ 
-    background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #A8C7E6), color-stop(1, #C1C6D2));
-    /* Webkit (Chrome 11+) */ 
-    background-image: -webkit-linear-gradient(right, #B2D1F0 0%, #A8C7E6 100%);
-    /* W3C Markup, IE10 Release Preview */ 
-    background-image: linear-gradient(to left, #A8C7E6 0%, #C1C6D2 100%);
-}
-
-#side-menu #main-feeds{
-	margin-bottom: 30px;
-}
-#side-menu .nav-header{
-	font-size: 12pt;
-}
-#content-container .article-summary.hidden { display: none; }
-#content-container .article-description.hidden { display: none; }
-
 /* others */
 #user_info{
    color: silver;
@@ -77,47 +37,7 @@ body {
 #user_info img{
    height: 36px;
 }
-div.card{
-  background-color: #f9f9f9;
-  margin: 10px;
-  padding: 5px 20px;
-  border-left: 10px solid;
-}
-div.card.read{
-  background-color: #f9f9f9;
-}
-div.card.popular1{ border-left-color: #F36F74; /*red*/ }
-div.card.popular2{ border-left-color: #FEAE96; /*orange*/ }
-div.card.popular3{ border-left-color: #FEE595; /*yellow*/ }
-div.card.popular4{ border-left-color: #88C6BA; /*green*/ }
-div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
-.card .info{
-  color: gray;
-  font-size: 85%;
-}
-.views{
-  text-align:right;
-  padding-right: 30px;
-}
-.views img{
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  border: 1px solid lightgray;
-}
-.card .media-body-text-only{
-  width: 100%;
-}
-.card .media-body{
-  width: 80%;
-}
-.card .image{
-  width: 20%;
-  text-align: right;
-  padding-top: 10px;
-  float: left;
-}
 
 /* ====== title bar  ======= */
 #titleBar{
@@ -127,21 +47,7 @@ div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
 /* Sky's attemp to make soft UI */
 
-#main-container {
-  background-color: #e6e6e6;
-}
 
-div.view {
-  background-color: #f5f5f5;
-}
-
-#content-container h2 a span {
-    width: 15px;
-    height: 30px;
-    float: left;
-    display: inline;
-    text-indent: -9999px;
-}
 
 span.logo_1 {
   background: #F36F74;

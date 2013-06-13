@@ -1,18 +1,20 @@
-<html ng-app=>
+<html ng-app="thermoReader">
   <head>
     <meta content="width=device-width,minimum-scale=1,maximum-scale=1" name="viewport">
 
-    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/bootstrap.css")">
-    <!-- <link rel="stylesheet" href="@routes.Assets.at("stylesheets/fb_slidemenu.css")"> -->
-    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/perfect-scrollbar.min.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/libs/bootstrap.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/libs/perfect-scrollbar.min.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/thermoreader-sidemenu.css")">
+    <link rel="stylesheet" href="@routes.Assets.at("stylesheets/thermoreader-content.css")">
     <link rel="stylesheet" href="@routes.Assets.at("stylesheets/main.css")">
-    <script src="@routes.Assets.at("javascripts/angular.min-1.0.7.js")"></script>
-    <script src="@routes.Assets.at("javascripts/jquery-2.0.2.min.js")"></script>
-    <script src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>
-    <script src="@routes.Assets.at("javascripts/smartreader-models.js")"></script>
-    <script src="@routes.Assets.at("javascripts/smartreader-controllers.js")"></script>
-    <script src="@routes.Assets.at("javascripts/smartreader-ui.js")"></script>
-    <script src="@routes.Assets.at("javascripts/perfect-scrollbar.with-mousewheel.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/libs/angular.min-1.1.5.js")"></script>
+    <script src="@routes.Assets.at("javascripts/libs/jquery-2.0.2.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/libs/bootstrap.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/libs/perfect-scrollbar.with-mousewheel.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/thermoreader-models.js")"></script>
+    <script src="@routes.Assets.at("javascripts/thermoreader-db.js")"></script>
+    <script src="@routes.Assets.at("javascripts/thermoreader-controllers.js")"></script>
+    <script src="@routes.Assets.at("javascripts/thermoreader-ui.js")"></script>
     <script src="@routes.Assets.at("javascripts/main.js")"></script>
   </head>
 
@@ -37,7 +39,7 @@
           <div id="user_info" class="dropdown pull-right">
             <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
               <span>Username</span>
-                <img src="http://png.findicons.com/files/icons/560/fast_icon_users/128/offline_user.png" />
+                <!-- <img src="http://png.findicons.com/files/icons/560/fast_icon_users/128/offline_user.png" /> -->
                 <b class="caret"></b>
             </a>
             <ul class='dropdown-menu'>
@@ -57,29 +59,25 @@
         <div id="side-menu" ng-controller="menuCtrl" class="sidebar-nav">
 
           <!-- FB-like Slide Menu-->
-          <!-- <div  data-toggle="collapse" class="menu width fixed"> -->
+          <div id="main-feeds">
+            <ul class="nav nav-list">
+              <li> <a href="#"> Home </a> </li>
+              <li> <a href="#"> Popular </a> </li>
+              <li> <a href="#"> Saved </a> </li>
+            </ul>
+          </div>
 
-              <div id="main-feeds">
-                <ul class="nav nav-list">
-                  <li> <a href="#"> Home </a> </li>
-                  <li> <a href="#"> Popular </a> </li>
-                  <li> <a href="#"> Saved </a> </li>
-                </ul>
-              </div>
-              
-              <div id="user-feeds">
-                <div ng-repeat="category in categories">
-                  <ul class="nav nav-list">
-                    <li class="divider"></li>
-                    <li class="nav-header"><a href="#"><strong>{{category.name}}</strong></a></li>
-                    <li ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}">
-                      <a href="#"> {{feed.name}} </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-          <!-- </div> -->
+          <div id="user-feeds">
+            <div ng-repeat="category in allFeeds">
+              <ul class="nav nav-list">
+                <li class="divider"></li>
+                <li class="nav-header"><a href="#"><strong>{{category.name}}</strong></a></li>
+                <li ng-repeat="feed in category.feeds" data-feedid="{{feed.id}}">
+                  <a href="#"> {{feed.name}} </a>
+                </li>
+              </ul>
+            </div>
+          </div>
 
         </div>
       </div>
