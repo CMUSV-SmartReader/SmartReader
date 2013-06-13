@@ -34,7 +34,7 @@ public class FeedCategory extends MongoModel {
     @Reference(concreteClass = ArrayList.class, lazy=true)
     public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
 
-    public List<String> userFeedsTitle = new ArrayList<String>();
+    public List<String> userFeedsTitles = new ArrayList<String>();
 
     @Reference(concreteClass = ArrayList.class, lazy=true)
     public List<Article> articles = new ArrayList<Article>();
@@ -68,7 +68,7 @@ public class FeedCategory extends MongoModel {
         userFeed.user = user;
         userFeed.create();
         this.userFeeds.add(userFeed);
-        this.userFeedsTitle.add(feed.title);
+        this.userFeedsTitles.add(feed.title);
         this.update();
     }
 

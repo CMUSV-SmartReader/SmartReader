@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.MorphiaObject;
+import util.SmartReaderUtils;
+
+import com.mongodb.DBCollection;
 
 public class MongoModel {
+
+    protected DBCollection getCollection() {
+        String collectionName = this.getClass().getName();
+        return SmartReaderUtils.db.getCollection(collectionName);
+    }
 
     public void create() {
         MorphiaObject.datastore.save(this);
