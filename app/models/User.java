@@ -1,10 +1,13 @@
 package models;
 
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.bson.types.ObjectId;
+
+import play.api.libs.concurrent.Promise;
+import play.libs.Akka;
 
 import securesocial.core.Identity;
 import util.GoogleReaderImporter;
@@ -18,6 +21,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+
+import scala.concurrent.duration.Duration;
 
 @Entity
 public class User extends MongoModel {
@@ -64,7 +69,7 @@ public class User extends MongoModel {
     }
 
     public static void initUser(Identity identity) {
-        User newUser = new User();
+        final User newUser = new User();
         newUser.email = identity.email().get();
         if (identity.avatarUrl() != null) {
             newUser.avatarUrl = identity.avatarUrl().get();
@@ -80,9 +85,15 @@ public class User extends MongoModel {
         }
         newUser.create();
         try {
-            GoogleReaderImporter.oAuthImportFromGoogle(newUser, identity.oAuth2Info().get().accessToken());
-        }
-        catch (Exception e) {
+            GoogleReaderImporter.oAuthImportFromGoogle(newUser, identity
+                    .oAuth2Info().get().accessToken());
+            Akka.system().scheduler().scheduleOnce(Duration.create(0, TimeUnit.SECONDS),
+                    new Runnable() {
+                        public void run() {
+                            newUser.crawl();
+                        }
+                    }, Akka.system().dispatcher());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -105,7 +116,8 @@ public class User extends MongoModel {
     }
 
     public List<FeedCategory> allFeedCategoriesWithFeed() {
-        DBCollection feedCategoryCollection = SmartReaderUtils.db.getCollection("FeedCategory");
+        DBCollection feedCategoryCollection = SmartReaderUtils.db
+                .getCollection("FeedCategory");
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", new ObjectId(this.id.toString()));
         DBCursor cursor = feedCategoryCollection.find(query);
@@ -117,7 +129,7 @@ public class User extends MongoModel {
     }
 
     public void crawl() {
-        for(FeedCategory feedCategory: this.feedCategories){
+        for (FeedCategory feedCategory : this.feedCategories) {
             this.articles.addAll(feedCategory.crawl());
         }
         this.update();
