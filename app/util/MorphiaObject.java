@@ -22,7 +22,6 @@ public class MorphiaObject {
             }
             MorphiaObject.morphia = new Morphia();
             MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, "thermoreader");
-            //MorphiaObject.datastore = MorphiaObject.morphia.createDatastore(MorphiaObject.mongo, "app15993858", "smartReader", "MonGoGo2013".toCharArray());
             MorphiaObject.datastore.ensureIndexes();
             MorphiaObject.datastore.ensureCaps();
         }

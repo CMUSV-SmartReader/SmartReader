@@ -1,6 +1,7 @@
 package models;
 
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -73,6 +74,30 @@ public class ModelTest {
             gson.toJson(articles);
             for (Article article : articles) {
               System.out.println(article.title);
+            }
+        }
+    }
+
+    @Test
+    public void importDups() {
+        List<Article> allArticles = (List<Article>) MongoModel.all(Article.class);
+        Random random = new Random();
+        for (Article article : allArticles) {
+            for (int i = 0; i < 5; i++) {
+                int index = random.nextInt(allArticles.size());
+                article.addDups(allArticles.get(index));
+            }
+        }
+    }
+
+    @Test
+    public void importRecommend() {
+        List<Article> allArticles = (List<Article>) MongoModel.all(Article.class);
+        Random random = new Random();
+        for (Article article : allArticles) {
+            for (int i = 0; i < 5; i++) {
+                int index = random.nextInt(allArticles.size());
+                article.addRecommendation(allArticles.get(index));
             }
         }
     }
