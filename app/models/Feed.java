@@ -103,7 +103,6 @@ public class Feed extends MongoModel {
                 feed.crawl();
                 Logger.debug("parse[" + feed.xmlUrl + "] success");
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 Logger.warn("parse [" + feed.xmlUrl + "] fail : "
                         + e.getMessage());
             }

@@ -1,13 +1,13 @@
 package models;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
 import scala.util.Random;
-import util.MorphiaObject;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -47,10 +47,11 @@ public class Article extends MongoModel {
 
     public int popularity;
 
-    @SuppressWarnings("unchecked")
+    @Reference
+    public List<Article> dups = new ArrayList<Article>();
+
     public Article(SyndEntry entry) {
         Random rand = new Random();
-
         this.title = entry.getTitle();
         this.link = entry.getLink();
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
@@ -76,17 +77,14 @@ public class Article extends MongoModel {
         this.updateDate = (Date) articleDB.get("updateDate");
     }
 
-    public static List<Article> findByFeed(Feed feed) {
-        return (List<Article>) MorphiaObject.datastore.find(Article.class)
-                .filter("refereceId", feed.id).get();
-    }
-
     public static class Serializer implements JsonSerializer<Article> {
-
         @Override
         public JsonElement serialize(Article src, Type type,
                 JsonSerializationContext ctx) {
             JsonObject article = new JsonObject();
+            if (src.id != null) {
+                article.add("id", new JsonPrimitive(src.id.toString()));
+            }
             article.add("title", new JsonPrimitive(src.title));
             article.add("desc", new JsonPrimitive(src.desc));
             article.add("link", new JsonPrimitive(src.link));

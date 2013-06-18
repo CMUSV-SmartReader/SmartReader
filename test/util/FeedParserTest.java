@@ -19,13 +19,12 @@ public class FeedParserTest {
 
     @Test
     public void testCrawlUserArticles() throws Exception{
-//        User user = User.findByEmail("seanlionheart@gmail.com");
-//        user.crawl();
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
             feed.crawl();
         }
     }
+
     @Test
     public void testParsingFeed() throws Exception {
         @SuppressWarnings("unchecked")

@@ -8,7 +8,7 @@ thermoreader.model.feed = function(id, name, updated, articles) {
   this.articles = articles || [];
 };
 
-thermoreader.model.article = function(title, author, date, feedName, summary, des, link, popular) {
+thermoreader.model.article = function(title, author, date, feedName, summary, des, link, popular, read) {
   this.title = title || "";
   this.author = author || "";
   this.date = date || {};
@@ -17,4 +17,5 @@ thermoreader.model.article = function(title, author, date, feedName, summary, de
   this.description = des || "";
   this.link = link || "";
   this.popular = popular || 1;
+  this.read = read || false;
 }

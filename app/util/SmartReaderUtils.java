@@ -33,8 +33,8 @@ public class SmartReaderUtils {
 
     static {
         try {
-            MongoClient client = new MongoClient("localhost", 27017);
-            db = client.getDB("SmartReader");
+            MongoClient client = new MongoClient("ec2.lydian.tw", 27017);
+            db = client.getDB("thermoreader");
 
             SmartReaderUtils.builder.registerTypeAdapter(FeedCategory.class, new FeedCategory.Serializer());
             SmartReaderUtils.builder.registerTypeAdapter(UserFeed.class, new UserFeed.Serializer());
