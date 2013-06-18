@@ -52,7 +52,6 @@ public class Article extends MongoModel {
 
     public Article(SyndEntry entry) {
         Random rand = new Random();
-
         this.title = entry.getTitle();
         this.link = entry.getLink();
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
@@ -83,6 +82,9 @@ public class Article extends MongoModel {
         public JsonElement serialize(Article src, Type type,
                 JsonSerializationContext ctx) {
             JsonObject article = new JsonObject();
+            if (src.id != null) {
+                article.add("id", new JsonPrimitive(src.id.toString()));
+            }
             article.add("title", new JsonPrimitive(src.title));
             article.add("desc", new JsonPrimitive(src.desc));
             article.add("link", new JsonPrimitive(src.link));
