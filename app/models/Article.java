@@ -1,6 +1,7 @@
 package models;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +47,9 @@ public class Article extends MongoModel {
     public boolean isRead;
 
     public int popularity;
+
+    @Reference
+    public List<Article> dups = new ArrayList<Article>();
 
     @SuppressWarnings("unchecked")
     public Article(SyndEntry entry) {

@@ -5,6 +5,7 @@ import java.util.List;
 import models.Article;
 import models.Feed;
 import models.FeedCategory;
+import models.MongoModel;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -34,7 +35,6 @@ public class Application extends Controller {
         return ok("Hello " + userName + ", you are seeing a public page");
     }
 
-    // example for twitter
     @SecureSocial.SecuredAction( authorization = WithProvider.class, params = {"twitter"})
     public static Result onlyTwitter() {
         return ok("You are seeing this because you logged in using Twitter");
@@ -83,6 +83,18 @@ public class Application extends Controller {
         FeedCategory feedCategory = FeedCategory.find(feedCategoryId);
         feedCategory.createFeed(user,  feed);
         return ok();
+    }
+
+    public static Result getDuplicatedArticles(String id) {
+        Article article = MongoModel.find(id, Article.class);
+        Gson gson = SmartReaderUtils.builder.create();
+        return ok(gson.toJson(article.dups));
+    }
+
+    public static Result getRecommendedArticles(String id) {
+        Article article = MongoModel.find(id, Article.class);
+        Gson gson = SmartReaderUtils.builder.create();
+        return ok(gson.toJson(article.dups));
     }
 
     public static User getCurrentUser() {
