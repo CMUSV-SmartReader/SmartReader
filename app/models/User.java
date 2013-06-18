@@ -6,9 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.bson.types.ObjectId;
 
-import play.api.libs.concurrent.Promise;
 import play.libs.Akka;
-
+import scala.concurrent.duration.Duration;
 import securesocial.core.Identity;
 import util.GoogleReaderImporter;
 import util.SmartReaderUtils;
@@ -21,8 +20,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-
-import scala.concurrent.duration.Duration;
 
 @Entity
 public class User extends MongoModel {
@@ -89,6 +86,7 @@ public class User extends MongoModel {
                     .oAuth2Info().get().accessToken());
             Akka.system().scheduler().scheduleOnce(Duration.create(0, TimeUnit.SECONDS),
                     new Runnable() {
+                        @Override
                         public void run() {
                             newUser.crawl();
                         }

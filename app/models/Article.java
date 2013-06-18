@@ -8,7 +8,6 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import scala.util.Random;
-import util.MorphiaObject;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -51,7 +50,6 @@ public class Article extends MongoModel {
     @Reference
     public List<Article> dups = new ArrayList<Article>();
 
-    @SuppressWarnings("unchecked")
     public Article(SyndEntry entry) {
         Random rand = new Random();
 
@@ -80,13 +78,7 @@ public class Article extends MongoModel {
         this.updateDate = (Date) articleDB.get("updateDate");
     }
 
-    public static List<Article> findByFeed(Feed feed) {
-        return (List<Article>) MorphiaObject.datastore.find(Article.class)
-                .filter("refereceId", feed.id).get();
-    }
-
     public static class Serializer implements JsonSerializer<Article> {
-
         @Override
         public JsonElement serialize(Article src, Type type,
                 JsonSerializationContext ctx) {
