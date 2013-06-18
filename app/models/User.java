@@ -6,9 +6,17 @@ import java.util.concurrent.TimeUnit;
 
 import org.bson.types.ObjectId;
 
+import play.libs.Scala;
+
+import scala.Option;
+import securesocial.core.AuthenticationMethod;
 import play.libs.Akka;
 import scala.concurrent.duration.Duration;
 import securesocial.core.Identity;
+import securesocial.core.OAuth1Info;
+import securesocial.core.OAuth2Info;
+import securesocial.core.PasswordInfo;
+import securesocial.core.UserId;
 import util.GoogleReaderImporter;
 import util.SmartReaderUtils;
 
@@ -22,7 +30,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 @Entity
-public class User extends MongoModel {
+public class User extends MongoModel implements Identity {
 
     @Id
     public ObjectId id;
@@ -38,6 +46,16 @@ public class User extends MongoModel {
     public String firstName;
 
     public String fullName;
+    
+    public AuthenticationMethod authMethod;
+    
+    public String providerId;
+    
+    public OAuth1Info oAuth1Info;
+    
+    public OAuth2Info oAuth2Info;
+    
+    public PasswordInfo passwordInfo;
 
     @Indexed
     public String email;
@@ -80,6 +98,16 @@ public class User extends MongoModel {
         if (identity.fullName() != null) {
             newUser.fullName = identity.fullName();
         }
+        if (identity.id().providerId() != null) {
+            newUser.providerId = identity.id().providerId();
+        }
+        if (identity.authMethod() != null) {
+            newUser.authMethod = identity.authMethod();
+        }
+        newUser.oAuth1Info = identity.oAuth1Info().getOrElse(null);
+        newUser.oAuth2Info = identity.oAuth2Info().getOrElse(null);
+        newUser.passwordInfo = identity.passwordInfo().getOrElse(null);
+        
         newUser.create();
         try {
             GoogleReaderImporter.oAuthImportFromGoogle(newUser, identity
@@ -135,6 +163,67 @@ public class User extends MongoModel {
 
     public void addUserCategory(FeedCategory feedCategory) {
         feedCategory.create();
+    }
+
+    @Override
+    public AuthenticationMethod authMethod() {
+        return authMethod;
+    }
+
+    @Override
+    public Option<String> avatarUrl() {
+        return Scala.Option(avatarUrl);
+    }
+
+    @Override
+    public Option<String> email() {
+        return Scala.Option(email);
+    }
+
+    @Override
+    public String firstName() {
+        return firstName;
+    }
+
+    @Override
+    public String fullName() {
+        return fullName;
+    }
+
+    @Override
+    public UserId id() {
+        // SecureSocial source code for UserId constructor: 
+        // case class UserId(id: String, providerId: String)
+        return new UserId(id.toString(), providerId);
+    }
+
+    @Override
+    public String lastName() {
+        return lastName;
+    }
+
+    @Override
+    public Option<OAuth1Info> oAuth1Info() {
+        if(oAuth1Info == null) {
+            return scala.Option.apply(null);
+        }
+        return Scala.Option(oAuth1Info);
+    }
+
+    @Override
+    public Option<OAuth2Info> oAuth2Info() {
+        if(oAuth2Info == null) {
+            return scala.Option.apply(null);
+        }
+        return Scala.Option(oAuth2Info);
+    }
+
+    @Override
+    public Option<PasswordInfo> passwordInfo() {
+        if(passwordInfo == null) {
+            return scala.Option.apply(null);
+        }
+        return Scala.Option(passwordInfo);
     }
 
 }
