@@ -15,7 +15,7 @@ public class MorphiaObject {
     public static void setUp() {
         if (MorphiaObject.mongo == null) {
             try {
-                MongoClient client = new MongoClient("ec2-54-215-138-196.us-west-1.compute.amazonaws.com", 27017);
+                MongoClient client = new MongoClient("ec2.lydian.tw", 27017);
                 MorphiaObject.mongo = client;
             } catch (UnknownHostException e) {
                 e.printStackTrace();
