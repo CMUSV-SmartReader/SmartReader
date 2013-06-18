@@ -47,8 +47,11 @@ public class Article extends MongoModel {
 
     public int popularity;
 
-    @Reference
+    @Reference(lazy=true)
     public List<Article> dups = new ArrayList<Article>();
+
+    @Reference(lazy=true)
+    public List<Article> recommends = new ArrayList<Article>();
 
     public Article(SyndEntry entry) {
         Random rand = new Random();
@@ -75,6 +78,20 @@ public class Article extends MongoModel {
         this.author = articleDB.get("author").toString();
         this.publishDate = (Date) articleDB.get("publishDate");
         this.updateDate = (Date) articleDB.get("updateDate");
+    }
+
+    public void addRecommendation(Article article) {
+        if (!article.id.equals(this.id)) {
+            this.recommends.add(article);
+            this.update();
+        }
+    }
+
+    public void addDups(Article article) {
+        if (!article.id.equals(this.id)) {
+            this.dups.add(article);
+            this.update();
+        }
     }
 
     public static class Serializer implements JsonSerializer<Article> {
