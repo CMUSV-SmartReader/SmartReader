@@ -32,6 +32,17 @@ div.card.popular3{ border-left-color: #FEE595; /*yellow*/ }
 div.card.popular4{ border-left-color: #88C6BA; /*green*/ }
 div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
+div.card.expanded .article-summary{
+  display: none;
+}
+
+div.card .article-description{
+  display: none;
+}
+div.card.expanded .article-description{
+  display: block;
+}
+
 .card .info{
   color: gray;
   font-size: 85%;
