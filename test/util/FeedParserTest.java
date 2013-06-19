@@ -11,7 +11,6 @@ import org.junit.Test;
 
 public class FeedParserTest {
 
-
     @Before
     public void setUp() {
         MorphiaObject.setUp();

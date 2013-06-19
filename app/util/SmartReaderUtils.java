@@ -8,12 +8,17 @@ import java.util.Map;
 import models.Article;
 import models.Feed;
 import models.FeedCategory;
+import models.User;
 import models.UserFeed;
 
 import org.apache.commons.beanutils.BeanMap;
 
+import securesocial.core.Identity;
+import securesocial.core.java.SecureSocial;
+
 import com.google.gson.GsonBuilder;
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 
 public class SmartReaderUtils {
@@ -25,6 +30,11 @@ public class SmartReaderUtils {
             results.add(new BeanMap(obj));
         }
         return results;
+    }
+
+    public static User getCurrentUser() {
+        Identity identity = SecureSocial.currentUser();
+        return User.findByEmail(identity.email().get());
     }
 
     public static GsonBuilder builder = new GsonBuilder();
@@ -43,5 +53,13 @@ public class SmartReaderUtils {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+    }
+
+    public static DBCollection getFeedCategoryCollection() {
+        return db.getCollection("FeedCategory");
+    }
+
+    public static DBCollection getArticleCollection() {
+        return db.getCollection("Article");
     }
 }

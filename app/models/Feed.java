@@ -97,7 +97,6 @@ public class Feed extends MongoModel {
     }
 
     public static void crawAll() {
-        
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
             try {
