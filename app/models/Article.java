@@ -73,6 +73,7 @@ public class Article extends MongoModel {
     }
 
     public Article(DBObject articleDB) {
+        this.id = (ObjectId) articleDB.get("_id");
         this.title = articleDB.get("title").toString();
         this.link = articleDB.get("link").toString();
         this.desc = articleDB.get("desc").toString();
@@ -83,7 +84,10 @@ public class Article extends MongoModel {
 
     public void loadFeed(DBObject articleDB) {
         DBRef feedRef = (DBRef) articleDB.get("feed");
-        this.feed = new Feed(feedRef.fetch());
+        DBObject feedObj = feedRef.fetch();
+        if (feedObj != null) {
+            this.feed = new Feed(feedRef.fetch());
+        }
     }
 
     public void loadRecommendation(DBObject articleDB) {
@@ -137,9 +141,7 @@ public class Article extends MongoModel {
         public JsonElement serialize(Article src, Type type,
                 JsonSerializationContext ctx) {
             JsonObject article = new JsonObject();
-            if (src.id != null) {
-                article.add("id", new JsonPrimitive(src.id.toString()));
-            }
+            article.add("id", new JsonPrimitive(src.id.toString()));
             article.add("title", new JsonPrimitive(src.title));
             article.add("desc", new JsonPrimitive(src.desc));
             article.add("link", new JsonPrimitive(src.link));

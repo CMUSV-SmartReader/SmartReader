@@ -1,6 +1,6 @@
 package models;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -11,6 +11,9 @@ import util.MorphiaObject;
 import util.SmartReaderUtils;
 
 import com.google.gson.Gson;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 public class ModelTest {
 
@@ -100,6 +103,20 @@ public class ModelTest {
                 int index = random.nextInt(allArticles.size());
                 article.addRecommendation(allArticles.get(index));
             }
+        }
+    }
+
+    @Test
+    public void testAllRecommends() {
+        List<Article> articles = new ArrayList<Article>();
+        DBCollection collection = SmartReaderUtils.getArticleCollection();
+        DBCursor cursor = collection.find();
+        int i = 0;
+        while (cursor.hasNext() && i++ < 12) {
+            DBObject object = cursor.next();
+            Article article = new Article();
+            article.loadFeed(object);
+            articles.add(article);
         }
     }
 }
