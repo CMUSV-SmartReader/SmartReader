@@ -3,6 +3,7 @@ package models;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -69,7 +70,6 @@ public class Article extends MongoModel {
     }
 
     public Article() {
-
     }
 
     public Article(DBObject articleDB) {
@@ -90,7 +90,10 @@ public class Article extends MongoModel {
         BasicDBList recommeds = (BasicDBList) articleDB.get("recommends");
         for (int i = 0; i < recommeds.size(); i++) {
             DBRef ref = (DBRef) recommeds.get(i);
-            this.recommends.add(new Article(ref.fetch()));
+            DBObject recommendDB = ref.fetch();
+            Article recommend = new Article(recommendDB);
+            recommend.loadFeed(recommendDB);
+            this.recommends.add(recommend);
         }
     }
 
@@ -98,7 +101,10 @@ public class Article extends MongoModel {
         BasicDBList dups = (BasicDBList) articleDB.get("dups");
         for (int i = 0; i < dups.size(); i++) {
             DBRef ref = (DBRef) dups.get(i);
-            this.dups.add(new Article(ref.fetch()));
+            DBObject dupDB = ref.fetch();
+            Article dup = new Article(dupDB);
+            dup.loadFeed(dupDB);
+            this.dups.add(dup);
         }
     }
 
@@ -114,6 +120,16 @@ public class Article extends MongoModel {
             this.dups.add(article);
             this.update();
         }
+    }
+
+    @Override
+    public void create(){
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("link", this.link);
+        if(Article.exists(condition, Article.class)){
+            return;
+        }
+        super.create();
     }
 
     public static class Serializer implements JsonSerializer<Article> {

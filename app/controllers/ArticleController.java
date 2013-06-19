@@ -9,20 +9,24 @@ import play.mvc.Result;
 import util.SmartReaderUtils;
 
 import com.google.gson.Gson;
+import com.mongodb.DBObject;
 
 public class ArticleController extends Controller {
 
     public static Result getDuplicatedArticles(String id) {
-        Article article = MongoModel.find(id, Article.class);
+        DBObject articleDB = MongoModel.findDbObject(id, Article.class);
+        Article article = new Article(articleDB);
+        article.loadDups(articleDB);
         Gson gson = SmartReaderUtils.builder.create();
         return ok(gson.toJson(article.dups));
     }
 
     public static Result getRecommendedArticles(String id) {
-        Article article = MongoModel.find(id, Article.class);
+        DBObject articleDB = MongoModel.findDbObject(id, Article.class);
+        Article article = new Article(articleDB);
+        article.loadRecommendation(articleDB);
         Gson gson = SmartReaderUtils.builder.create();
-//        article.loadDups(articleDB)
-        return ok(gson.toJson(article.dups));
+        return ok(gson.toJson(article.recommends));
     }
 
     public static Result allArticles() {
