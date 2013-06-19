@@ -36,8 +36,12 @@ public abstract class MongoModel {
 
     }
 
+    public static <T extends MongoModel> T get(String id, Class<T> clazz) {
+        return MorphiaObject.datastore.get(clazz, new ObjectId(id));
+    }
+
     public static <T extends MongoModel> T find(String id, Class<T> clazz) {
-        DBCollection collection = SmartReaderUtils.db.getCollection(clazz.getName());
+        DBCollection collection = SmartReaderUtils.db.getCollection(clazz.getSimpleName());
         BasicDBObject query = new BasicDBObject();
         query.put("_id", new ObjectId(id));
         DBObject entityDB = collection.findOne(query);
@@ -51,6 +55,7 @@ public abstract class MongoModel {
         }
         return null;
     }
+
 
     public static List<? extends MongoModel> all(Class<? extends MongoModel> klass, int limit) {
         if (MorphiaObject.datastore != null) {

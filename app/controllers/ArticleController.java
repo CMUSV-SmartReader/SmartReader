@@ -21,6 +21,7 @@ public class ArticleController extends Controller {
     public static Result getRecommendedArticles(String id) {
         Article article = MongoModel.find(id, Article.class);
         Gson gson = SmartReaderUtils.builder.create();
+//        article.loadDups(articleDB)
         return ok(gson.toJson(article.dups));
     }
 

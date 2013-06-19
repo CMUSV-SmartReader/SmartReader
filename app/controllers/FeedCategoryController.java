@@ -13,8 +13,7 @@ public class FeedCategoryController extends Controller {
 
     @SecureSocial.UserAwareAction
     public static Result addFeedCategory() {
-//        System.out.println(request().body().asText());
-//        System.out.println(request().body().asFormUrlEncoded().get("name")[0]);
+        System.out.println(request().body().toString());
         User user = SmartReaderUtils.getCurrentUser();
         FeedCategory feedCategory = new FeedCategory();
         feedCategory.user = user;

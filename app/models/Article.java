@@ -17,7 +17,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
+import com.mongodb.DBRef;
 import com.sun.syndication.feed.synd.SyndEntry;
 
 @Entity
@@ -77,6 +79,23 @@ public class Article extends MongoModel {
         this.author = articleDB.get("author").toString();
         this.publishDate = (Date) articleDB.get("publishDate");
         this.updateDate = (Date) articleDB.get("updateDate");
+        this.feed = new Feed((DBObject)articleDB.get("feed"));
+    }
+
+    public void loadRecommendation(DBObject articleDB) {
+        BasicDBList recommeds = (BasicDBList) articleDB.get("recommends");
+        for (int i = 0; i < recommeds.size(); i++) {
+            DBRef ref = (DBRef) recommeds.get(i);
+            this.recommends.add(new Article(ref.fetch()));
+        }
+    }
+
+    public void loadDups(DBObject articleDB) {
+        BasicDBList dups = (BasicDBList) articleDB.get("dups");
+        for (int i = 0; i < dups.size(); i++) {
+            DBRef ref = (DBRef) dups.get(i);
+            this.dups.add(new Article(ref.fetch()));
+        }
     }
 
     public void addRecommendation(Article article) {
@@ -107,6 +126,9 @@ public class Article extends MongoModel {
             article.add("publishDate", ctx.serialize(src.publishDate));
             article.add("updateDate", ctx.serialize(src.updateDate));
             article.add("author", new JsonPrimitive(src.author));
+            if (src.feed != null) {
+                article.add("feed", ctx.serialize(src.feed));
+            }
             return article;
         }
     }

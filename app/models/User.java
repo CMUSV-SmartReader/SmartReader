@@ -103,11 +103,9 @@ public class User extends MongoModel implements Identity {
         if (identity.authMethod() != null) {
             newUser.authMethod = identity.authMethod();
         }
-        newUser.oAuth1Info = identity.oAuth1Info().getOrElse(null);
-        newUser.oAuth2Info = identity.oAuth2Info().getOrElse(null);
-        newUser.passwordInfo = identity.passwordInfo().getOrElse(null);
 
         newUser.create();
+        newUser.addDefaultCategory();
         try {
             GoogleReaderImporter.oAuthImportFromGoogle(newUser, identity
                     .oAuth2Info().get().accessToken());
