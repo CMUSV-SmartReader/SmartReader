@@ -59,7 +59,6 @@ public class Article extends MongoModel {
         this.link = entry.getLink();
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
         this.summary = this.desc;
-        this.desc += " " + this.desc + " " + this.desc;
         this.isRead = rand.nextBoolean();
         this.popularity = rand.nextInt(5) + 1;
         this.publishDate = entry.getPublishedDate();
