@@ -61,9 +61,9 @@
           <!-- FB-like Slide Menu-->
           <div id="main-feeds">
             <ul class="nav nav-list">
-              <li> <a href="#"> Home </a> </li>
-              <li> <a href="#"> Popular </a> </li>
-              <li> <a href="#"> Saved </a> </li>
+              <li ng-click="getRecommendations()"> <a href="#"> Home </a> </li>
+              <li ng-click="getRecommendations()"> <a href="#"> Recommendation </a> </li>
+              <!-- <li> <a href="#"> Saved </a> </li> -->
             </ul>
           </div>
 
@@ -111,7 +111,7 @@
                     </span>
                     <p>
                       <div class="article-summary">{{article.summary}}</div>
-                      <div class="article-description hidden">{{article.description}}</div>
+                      <div class="article-description hidden" ng-bind-html-unsafe="article.description"></div>
                       <a class ="continue-article" href="#">Continue Reading...</a>
                     </p>
                 </div>
