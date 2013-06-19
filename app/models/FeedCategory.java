@@ -29,6 +29,8 @@ public class FeedCategory extends MongoModel {
 
     public String name;
 
+    public int order;
+
     @Reference(lazy=true)
     public User user;
 

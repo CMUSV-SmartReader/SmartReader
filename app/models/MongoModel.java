@@ -52,6 +52,13 @@ public abstract class MongoModel {
         return null;
     }
 
+    public static List<? extends MongoModel> all(Class<? extends MongoModel> klass, int limit) {
+        if (MorphiaObject.datastore != null) {
+            return MorphiaObject.datastore.find(klass).limit(limit).asList();
+        } else {
+            return new ArrayList<MongoModel>();
+        }
+    }
 
     public static List<? extends MongoModel> all(Class<? extends MongoModel> klass) {
         if (MorphiaObject.datastore != null) {

@@ -8,9 +8,13 @@ import java.util.Map;
 import models.Article;
 import models.Feed;
 import models.FeedCategory;
+import models.User;
 import models.UserFeed;
 
 import org.apache.commons.beanutils.BeanMap;
+
+import securesocial.core.Identity;
+import securesocial.core.java.SecureSocial;
 
 import com.google.gson.GsonBuilder;
 import com.mongodb.DB;
@@ -25,6 +29,11 @@ public class SmartReaderUtils {
             results.add(new BeanMap(obj));
         }
         return results;
+    }
+
+    public static User getCurrentUser() {
+        Identity identity = SecureSocial.currentUser();
+        return User.findByEmail(identity.email().get());
     }
 
     public static GsonBuilder builder = new GsonBuilder();

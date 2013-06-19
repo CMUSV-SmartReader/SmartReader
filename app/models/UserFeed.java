@@ -22,6 +22,8 @@ public class UserFeed extends MongoModel {
     @Id
     public ObjectId id;
 
+    public int order;
+
     @Reference(lazy = false)
     public User user;
 
