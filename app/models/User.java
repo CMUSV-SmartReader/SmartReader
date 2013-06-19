@@ -103,6 +103,12 @@ public class User extends MongoModel implements Identity {
         if (identity.authMethod() != null) {
             newUser.authMethod = identity.authMethod();
         }
+        if (identity.oAuth1Info().nonEmpty()) {
+            newUser.oAuth1Info = identity.oAuth1Info().getOrElse(null);
+        }
+        if (identity.oAuth2Info() != null) {
+            newUser.oAuth2Info = identity.oAuth2Info().getOrElse(null);
+        }
 
         newUser.create();
         newUser.addDefaultCategory();
@@ -166,6 +172,7 @@ public class User extends MongoModel implements Identity {
     public void addDefaultCategory() {
         FeedCategory feedCategory = new FeedCategory();
         feedCategory.name = "Uncategorized";
+        feedCategory.user = this;
         this.addUserCategory(feedCategory);
     }
 
