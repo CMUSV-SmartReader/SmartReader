@@ -18,4 +18,5 @@ thermoreader.model.article = function(title, author, date, feedName, summary, de
   this.link = link || "";
   this.popular = popular || 1;
   this.read = read || false;
+  this.expanded = false;
 }
