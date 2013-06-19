@@ -18,6 +18,7 @@ import securesocial.core.java.SecureSocial;
 
 import com.google.gson.GsonBuilder;
 import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 
 public class SmartReaderUtils {
@@ -52,5 +53,13 @@ public class SmartReaderUtils {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+    }
+
+    public static DBCollection getFeedCategoryCollection() {
+        return db.getCollection("FeedCategory");
+    }
+
+    public static DBCollection getArticleCollection() {
+        return db.getCollection("Article");
     }
 }

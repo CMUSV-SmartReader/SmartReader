@@ -6,12 +6,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.bson.types.ObjectId;
 
-import play.libs.Scala;
-
-import scala.Option;
-import securesocial.core.AuthenticationMethod;
 import play.libs.Akka;
+import play.libs.Scala;
+import scala.Option;
 import scala.concurrent.duration.Duration;
+import securesocial.core.AuthenticationMethod;
 import securesocial.core.Identity;
 import securesocial.core.OAuth1Info;
 import securesocial.core.OAuth2Info;
@@ -46,15 +45,15 @@ public class User extends MongoModel implements Identity {
     public String firstName;
 
     public String fullName;
-    
+
     public AuthenticationMethod authMethod;
-    
+
     public String providerId;
-    
+
     public OAuth1Info oAuth1Info;
-    
+
     public OAuth2Info oAuth2Info;
-    
+
     public PasswordInfo passwordInfo;
 
     @Indexed
@@ -107,7 +106,7 @@ public class User extends MongoModel implements Identity {
         newUser.oAuth1Info = identity.oAuth1Info().getOrElse(null);
         newUser.oAuth2Info = identity.oAuth2Info().getOrElse(null);
         newUser.passwordInfo = identity.passwordInfo().getOrElse(null);
-        
+
         newUser.create();
         try {
             GoogleReaderImporter.oAuthImportFromGoogle(newUser, identity
@@ -162,7 +161,24 @@ public class User extends MongoModel implements Identity {
     }
 
     public void addUserCategory(FeedCategory feedCategory) {
+        feedCategory.user = this;
         feedCategory.create();
+    }
+
+    public void addDefaultCategory() {
+        FeedCategory feedCategory = new FeedCategory();
+        feedCategory.name = "Uncategorized";
+        feedCategory.user = this;
+        this.addUserCategory(feedCategory);
+    }
+
+    public FeedCategory findDefaultCategory() {
+        DBCollection collection = SmartReaderUtils.getFeedCategoryCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", this.id);
+        query.put("name", "Uncategorized");
+        DBObject feedCategoryDB = collection.findOne(query);
+        return FeedCategory.createFeedCategory(feedCategoryDB);
     }
 
     @Override
@@ -192,8 +208,6 @@ public class User extends MongoModel implements Identity {
 
     @Override
     public UserId id() {
-        // SecureSocial source code for UserId constructor: 
-        // case class UserId(id: String, providerId: String)
         return new UserId(id.toString(), providerId);
     }
 
