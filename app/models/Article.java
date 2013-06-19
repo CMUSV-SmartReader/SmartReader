@@ -79,7 +79,11 @@ public class Article extends MongoModel {
         this.author = articleDB.get("author").toString();
         this.publishDate = (Date) articleDB.get("publishDate");
         this.updateDate = (Date) articleDB.get("updateDate");
-        this.feed = new Feed((DBObject)articleDB.get("feed"));
+    }
+
+    public void loadFeed(DBObject articleDB) {
+        DBRef feedRef = (DBRef) articleDB.get("feed");
+        this.feed = new Feed(feedRef.fetch());
     }
 
     public void loadRecommendation(DBObject articleDB) {

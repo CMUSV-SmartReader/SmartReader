@@ -166,7 +166,6 @@ public class User extends MongoModel implements Identity {
     public void addDefaultCategory() {
         FeedCategory feedCategory = new FeedCategory();
         feedCategory.name = "Uncategorized";
-        feedCategory.user = this;
         this.addUserCategory(feedCategory);
     }
 

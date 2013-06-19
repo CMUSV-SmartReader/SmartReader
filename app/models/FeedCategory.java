@@ -73,11 +73,13 @@ public class FeedCategory extends MongoModel {
         feedCategory.name = feedCategoryDB.get("name").toString();
         BasicDBList userFeedIdList = (BasicDBList) feedCategoryDB.get("userFeedsIds");
         BasicDBList userFeedTitleList = (BasicDBList) feedCategoryDB.get("userFeedsTitles");
-        for (int i = 0; i < userFeedIdList.size(); i++) {
-            HashMap<String, String> info = new HashMap<String, String>();
-            String feedId = userFeedIdList.get(i).toString();
-            info.put(feedId, userFeedTitleList.get(i).toString());
-            feedCategory.userFeedsInfos.add(info);
+        if (userFeedTitleList != null && userFeedIdList != null) {
+            for (int i = 0; i < userFeedIdList.size(); i++) {
+                HashMap<String, String> info = new HashMap<String, String>();
+                String feedId = userFeedIdList.get(i).toString();
+                info.put(feedId, userFeedTitleList.get(i).toString());
+                feedCategory.userFeedsInfos.add(info);
+            }
         }
         return feedCategory;
     }
