@@ -3,6 +3,7 @@ package models;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -67,7 +68,6 @@ public class Article extends MongoModel {
     }
 
     public Article() {
-
     }
 
     public Article(DBObject articleDB) {
@@ -91,6 +91,16 @@ public class Article extends MongoModel {
             this.dups.add(article);
             this.update();
         }
+    }
+    
+    @Override
+    public void create(){
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("link", this.link);
+        if(Article.exists(condition, Article.class)){
+            return;
+        }
+        super.create();
     }
 
     public static class Serializer implements JsonSerializer<Article> {

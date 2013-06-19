@@ -2,6 +2,7 @@ package models;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -35,7 +36,21 @@ public abstract class MongoModel {
     public MongoModel(DBObject entityDB) {
 
     }
-
+    public static boolean exists(HashMap<String, Object>condition, Class clazz){
+        DBCollection collection = SmartReaderUtils.db.getCollection(clazz.getSimpleName());
+        BasicDBObject query = new BasicDBObject();
+        query.putAll(condition);
+        DBObject entityDB = collection.findOne(query);
+        if (entityDB != null) {
+            try {
+               return true;
+            }
+            catch (Exception e) {
+            }
+        }
+        return false;
+    }
+    
     public static <T extends MongoModel> T find(String id, Class<T> clazz) {
         DBCollection collection = SmartReaderUtils.db.getCollection(clazz.getName());
         BasicDBObject query = new BasicDBObject();
@@ -61,3 +76,4 @@ public abstract class MongoModel {
         }
     }
 }
+
