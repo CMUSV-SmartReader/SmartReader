@@ -39,7 +39,7 @@ public class ArticleController extends Controller {
         int i = 0;
         while (cursor.hasNext() && i++ < 12) {
             DBObject object = cursor.next();
-            Article article = new Article();
+            Article article = new Article(object);
             article.loadFeed(object);
             articles.add(article);
         }
