@@ -16,7 +16,6 @@ thermoreader.ui = (function(){
           $(this).html('Continue Reading...');
         }
       });
-
     };
 
   return {

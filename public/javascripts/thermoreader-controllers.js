@@ -31,4 +31,8 @@ thermoreader.mainCtrl = function($scope, dbFactory) {
 
 thermoreader.manageCtrl = function($scope, dbFactory) {
 
+  $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds) {
+    $scope.allFeeds = allFeeds;
+  });
+
 };
