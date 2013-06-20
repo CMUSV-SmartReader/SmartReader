@@ -64,3 +64,7 @@ div.card.expanded .article-description{ display: block; }
   padding-top: 10px;
   float: left;
 }
+
+.continue-article {
+  text-decoration: none;
+}
