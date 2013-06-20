@@ -98,7 +98,7 @@
 
 
             <!-- Feed Cards -->
-            <div ng-class="{'expanded': article.expanded, 'read': article.read}" class="card popular{{article.popular}}" ng-repeat="article in selectedFeed.articles">
+            <div ng-class="{'expanded': article.expanded, 'read': article.read}" class="card popular{{article.popular}}" ng-repeat="article in selectedFeed.articles | orderBy:'popular'">
               <a class="pull-left" href="#"></a>
                 <div class="media-body-text-only pull-left">
                   <h4 class="media-heading">☆
@@ -113,7 +113,7 @@
                       <div class="article-summary">{{article.summary}}</div>
                       <div class="article-description" ng-bind-html-unsafe="article.description"></div>
                       <div class="dups" ng-repeat="article in selectedFeed.articles.duplicates"></div>
-                      <a class ="continue-article" ng-click="expandArticle(article)" href="#">Continue Reading...</a>
+                      <a class ="continue-article" ng-click="expandArticle(article)" href="#">More...</a>
                     </p>
                 </div>
               <div class="clearfix"></div>

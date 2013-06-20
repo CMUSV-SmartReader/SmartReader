@@ -13,7 +13,7 @@ thermoreader.ui = (function(){
           $(this).html('Less...');
         }
         else {
-          $(this).html('Continue Reading...');
+          $(this).html('More...');
         }
       });
 

@@ -25,23 +25,18 @@ div.card:hover{
 }
 div.card.read{
   background-color: #f9f9f9;
+  opacity: 0.7;
 }
+div.card.read.expanded{ opacity: 1; }
 div.card.popular1{ border-left-color: #F36F74; /*red*/ }
 div.card.popular2{ border-left-color: #FEAE96; /*orange*/ }
 div.card.popular3{ border-left-color: #FEE595; /*yellow*/ }
 div.card.popular4{ border-left-color: #88C6BA; /*green*/ }
 div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
-div.card.expanded .article-summary{
-  display: none;
-}
-
-div.card .article-description{
-  display: none;
-}
-div.card.expanded .article-description{
-  display: block;
-}
+div.card.expanded .article-summary{ display: none; }
+div.card .article-description{ display: none; }
+div.card.expanded .article-description{ display: block; }
 
 .card .info{
   color: gray;
