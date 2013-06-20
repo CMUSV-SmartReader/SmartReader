@@ -31,8 +31,13 @@
       <!-- Main Content Container -->
     <div id="content">
       <!-- Title and Misc -->
-      <h2><a><span class="logo_1"></span><span class="logo_2"></span><span class="logo_3"></span><span class="logo_4"></span><span class="logo_5"></span></a>
-        {{selectedFeed.name}}
+      <h2><a>
+        <span class="logo_1 logo"></span>
+        <span class="logo_2 logo"></span>
+        <span class="logo_3 logo"></span>
+        <span class="logo_4 logo"></span>
+        <span class="logo_5 logo"></span>
+        </a>{{selectedFeed.name}}
       </h2>
 
       <div class="views">switch view:
@@ -56,7 +61,7 @@
                 <div class="article-summary">{{article.summary}}</div>
                 <div class="article-description" ng-bind-html-unsafe="article.description"></div>
                 <div class="dups" ng-repeat="article in selectedFeed.articles.duplicates"></div>
-                <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)">More...</a>
+                <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
               </p>
           </div>
         <div class="clearfix"></div>

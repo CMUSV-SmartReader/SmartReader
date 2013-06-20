@@ -36,6 +36,11 @@ thermoreader.mainCtrl = function($scope, dbFactory) {
     article.read = true;
   };
 
+  $scope.$on('$viewContentLoaded', function(){
+    $('#side-container').perfectScrollbar({wheelSpeed: 60});
+    $('#content-container').perfectScrollbar({wheelSpeed: 60});
+  });
+
 };
 
 thermoreader.manageCtrl = function($scope, dbFactory) {

@@ -68,3 +68,11 @@ div.card.expanded .article-description{ display: block; }
 .continue-article {
   text-decoration: none;
 }
+
+.continue-article:before {
+   content: "More...";
+}
+
+div.card.expanded .continue-article:before {
+   content: "Less...";
+}
