@@ -40,13 +40,15 @@
         </a>{{selectedFeed.name}}
       </h2>
 
-      <div class="views">switch view:
-        <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
-        <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a>
+      <div class="views">Order by:
+        <a href="javascript: void(0)" ng-click="setOrderRule('popular')">Popularity</a>,
+        <a href="javascript: void(0)" ng-click="setOrderRule('-date')">Date</a>
+        <!-- <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
+        <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a> -->
       </div>
 
       <!-- Feed Cards -->
-      <div ng-class="{'expanded': article.expanded, 'read': article.read}" class="card popular{{article.popular}}" ng-repeat="article in selectedFeed.articles | orderBy:'popular'">
+      <div ng-class="{'expanded': article.expanded, 'read': article.read}" class="card popular{{article.popular}}" ng-repeat="article in selectedFeed.articles | orderBy:orderRule">
 
           <div class="media-body-text-only pull-left">
             <h4 class="media-heading">☆
