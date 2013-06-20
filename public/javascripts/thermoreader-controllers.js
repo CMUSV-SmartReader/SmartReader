@@ -8,7 +8,7 @@ thermoreader.mainCtrl = function($scope, dbFactory) {
 
   $scope.selectedFeed = dbFactory.getRecommendations(function(recommendations) {
     $scope.selectedFeed = { name: "Recommendations", articles: recommendations };
-  });;
+  });
 
   $scope.selectFeed = function(feed) {
     $scope.selectedFeed = dbFactory.getFeed(feed.id, function(feed){
@@ -20,11 +20,15 @@ thermoreader.mainCtrl = function($scope, dbFactory) {
     $scope.selectedFeed = dbFactory.getRecommendations(function(recommendations){
       $scope.selectedFeed = { name: "Recommendations", articles: recommendations };
     });
-  }
+  };
+
+  $scope.expandArticle = function(article){
+    article.expanded = !article.expanded;
+    article.read = true;
+  };
 
 };
 
 thermoreader.manageCtrl = function($scope, dbFactory) {
 
 };
-

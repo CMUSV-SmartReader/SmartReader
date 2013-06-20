@@ -85,18 +85,12 @@ public class User extends MongoModel implements Identity {
     public static void initUser(Identity identity) {
         final User newUser = new User();
         newUser.email = identity.email().get();
-        if (identity.avatarUrl() != null) {
+        if (identity.avatarUrl().nonEmpty()) {
             newUser.avatarUrl = identity.avatarUrl().get();
         }
-        if (identity.firstName() != null) {
-            newUser.firstName = identity.firstName();
-        }
-        if (identity.lastName() != null) {
-            newUser.lastName = identity.lastName();
-        }
-        if (identity.fullName() != null) {
-            newUser.fullName = identity.fullName();
-        }
+        newUser.firstName = identity.firstName();
+        newUser.lastName = identity.lastName();
+        newUser.fullName = identity.fullName();
         if (identity.id().providerId() != null) {
             newUser.providerId = identity.id().providerId();
         }
@@ -106,8 +100,11 @@ public class User extends MongoModel implements Identity {
         if (identity.oAuth1Info().nonEmpty()) {
             newUser.oAuth1Info = identity.oAuth1Info().getOrElse(null);
         }
-        if (identity.oAuth2Info() != null) {
+        if (identity.oAuth2Info().nonEmpty()) {
             newUser.oAuth2Info = identity.oAuth2Info().getOrElse(null);
+        }
+        if (identity.passwordInfo().nonEmpty()) {
+            newUser.passwordInfo = identity.passwordInfo().getOrElse(null);
         }
 
         newUser.create();
