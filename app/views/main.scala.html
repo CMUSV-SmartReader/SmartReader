@@ -53,76 +53,8 @@
     </div>
 
 
-    <div id="main-container" ng-controller="mainCtrl" class="container-fluid"><div class="row-fluid">
-
-      <div id ="side-container" class="span2 sub-container">
-        <div id="side-menu" class="sidebar-nav">
-
-          <!-- FB-like Slide Menu-->
-          <div id="main-feeds">
-            <ul class="nav nav-list">
-              <li ng-click="getRecommendations()"> <a href="#"> Home </a> </li>
-              <li ng-click="getRecommendations()"> <a href="#"> Recommendation </a> </li>
-              <!-- <li> <a href="#"> Saved </a> </li> -->
-            </ul>
-          </div>
-
-          <div id="user-feeds">
-            <div ng-repeat="category in allFeeds">
-              <ul class="nav nav-list">
-                <li class="divider"></li>
-                <li class="nav-header"><a href="#"><strong>{{category.name}}</strong></a></li>
-                <li ng-repeat="feed in category.feeds" ng-click="selectFeed(feed)">
-                  <a href="#"> {{feed.name}} </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div id="content-container" class="span10 sub-container">
-          <!-- Main Content Container -->
-          <div id="content">
-
-            <!-- Title and Misc -->
-              <h2><a><span class="logo_1"></span><span class="logo_2"></span><span class="logo_3"></span><span class="logo_4"></span><span class="logo_5"></span></a>
-                {{selectedFeed.name}}
-              </h2>
-
-              <div class="views">switch view:
-                <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
-                <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a>
-              </div>
-
-
-            <!-- Feed Cards -->
-            <div class="card popular{{article.popular}}" ng-repeat="article in selectedFeed.articles">
-              <a class="pull-left" href="#"></a>
-                <div class="media-body-text-only pull-left">
-                  <h4 class="media-heading">☆
-                    <a href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
-                  </h4>
-                    <span class="info">
-                      <span class="date">{{article.date}}</span>
-                      <span class="author">by <a>{{article.author}}</a></span>
-                      <span class="from">from <a>{{article.feedName}}</a></span>
-                    </span>
-                    <p>
-                      <div class="article-summary">{{article.summary}}</div>
-                      <div class="article-description hidden" ng-bind-html-unsafe="article.description"></div>
-                      <a class ="continue-article" href="#">Continue Reading...</a>
-                    </p>
-                </div>
-              <div class="clearfix"></div>
-            </div>
-
-          </div>
-      </div>
-
-
-    </div></div>
+    <div id="main-container" ng-controller="mainCtrl" class="container-fluid" ng-view>
+    </div>
 
   </body>
 </html>
