@@ -2,6 +2,9 @@ var thermoreader = thermoreader || {};
 
 thermoreader.mainCtrl = function($scope, dbFactory) {
 
+  $scope.orderRule =
+    localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
+
   $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds){
     $scope.allFeeds = allFeeds;
   });
@@ -26,6 +29,17 @@ thermoreader.mainCtrl = function($scope, dbFactory) {
     article.expanded = !article.expanded;
     article.read = true;
   };
+
+
+  $scope.setOrderRule = function(rule){
+    $scope.orderRule = rule;
+    localStorage['orderRule'] = rule;
+  };
+
+  $scope.$on('$viewContentLoaded', function(){
+    $('#side-container').perfectScrollbar({wheelSpeed: 60});
+    $('#content-container').perfectScrollbar({wheelSpeed: 60});
+  });
 
 };
 

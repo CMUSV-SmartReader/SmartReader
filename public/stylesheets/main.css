@@ -35,25 +35,38 @@ body {
 
 
 /* Sky's attemp to make soft UI */
+.logo {
+
+}
 span.logo_1 {
+  /*-webkit-transform: rotate(8deg);*/
   background: #F36F74;
-  margin-top: 15px;
 }
 
 span.logo_2 {
+  /*-webkit-transform: rotate(8deg);*/
   background: #FEAE96;
+  margin: 0 -5px;
+  margin-top: 8px;
+  opacity: 0.8;
 }
 
 span.logo_3 {
+  /*-webkit-transform: rotate(8deg);*/
   background: #FEE595;
-  margin-top: 15px;
+  margin-top: 4px;
 }
 
 span.logo_4 {
+  /*-webkit-transform: rotate(8deg);*/
   background: #88C6BA;
+  margin: 0 -5px;
+  margin-top: 10px;
+  opacity: 0.8;
 }
 
 span.logo_5 {
+  /*-webkit-transform: rotate(8deg);*/
   background: #B2D1F0;
-  margin-top: 15px;
+  margin-top: 6px;
 }

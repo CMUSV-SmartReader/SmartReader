@@ -20,8 +20,6 @@ thermoreader.ui = (function(){
 
   return {
     init : function(){
-      $('#side-container').perfectScrollbar({wheelSpeed: 60});
-      $('#content-container').perfectScrollbar({wheelSpeed: 60});
       binding();
     }
   };
