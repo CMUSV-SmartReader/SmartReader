@@ -7,15 +7,6 @@ thermoreader.ui = (function(){
       $('#menu-toggle-btn').on('click', function(){
         $('#side-container').toggleClass('span2 span1 hidden');
       });
-
-      $('#content-container').on('click', '.continue-article', function(){
-        if($(this).html() != 'Less...'){
-          $(this).html('Less...');
-        }
-        else {
-          $(this).html('Continue Reading...');
-        }
-      });
     };
 
   return {
