@@ -49,6 +49,15 @@ public class Feed extends MongoModel {
     @Reference(lazy = true)
     public List<User> users = new ArrayList<User>();
 
+    public Feed(DBObject feedDB) {
+        id = new ObjectId(feedDB.get("_id").toString());
+        title = feedDB.get("title").toString();
+    }
+
+    public Feed() {
+
+    }
+
     public void createUnique() {
         Feed feedEntity = Feed.findByXmlUrl(this.xmlUrl);
         if (feedEntity == null) {

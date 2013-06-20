@@ -11,13 +11,10 @@ thermoreader.ui = (function(){
       $('#content-container').on('click', '.continue-article', function(){
         if($(this).html() != 'Less...'){
           $(this).html('Less...');
-          $(this).parentsUntil("#content").addClass('read');
         }
         else {
           $(this).html('Continue Reading...');
         }
-        $(this).prev().prev('.article-summary').toggleClass('hidden');
-        $(this).prev('.article-description').toggleClass('hidden');
       });
 
     };

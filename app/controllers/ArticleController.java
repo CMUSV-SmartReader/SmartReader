@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Article;
@@ -9,23 +10,39 @@ import play.mvc.Result;
 import util.SmartReaderUtils;
 
 import com.google.gson.Gson;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 public class ArticleController extends Controller {
 
     public static Result getDuplicatedArticles(String id) {
-        Article article = MongoModel.find(id, Article.class);
+        DBObject articleDB = MongoModel.findDbObject(id, Article.class);
+        Article article = new Article(articleDB);
+        article.loadDups(articleDB);
         Gson gson = SmartReaderUtils.builder.create();
         return ok(gson.toJson(article.dups));
     }
 
     public static Result getRecommendedArticles(String id) {
-        Article article = MongoModel.find(id, Article.class);
+        DBObject articleDB = MongoModel.findDbObject(id, Article.class);
+        Article article = new Article(articleDB);
+        article.loadRecommendation(articleDB);
         Gson gson = SmartReaderUtils.builder.create();
-        return ok(gson.toJson(article.dups));
+        return ok(gson.toJson(article.recommends));
     }
 
     public static Result allArticles() {
-        List<Article> articles = (List<Article>) MongoModel.all(Article.class, 12);
+        List<Article> articles = new ArrayList<Article>();
+        DBCollection collection = SmartReaderUtils.getArticleCollection();
+        DBCursor cursor = collection.find();
+        int i = 0;
+        while (cursor.hasNext() && i++ < 12) {
+            DBObject object = cursor.next();
+            Article article = new Article(object);
+            article.loadFeed(object);
+            articles.add(article);
+        }
         Gson gson = SmartReaderUtils.builder.create();
         return ok(gson.toJson(articles));
     }
