@@ -6,7 +6,7 @@ import play.GlobalSettings;
 import play.Logger;
 import play.libs.Akka;
 import scala.concurrent.duration.Duration;
-import util.MorphiaObject;
+import util.ReaderDB;
 
 import com.google.code.morphia.logging.MorphiaLoggerFactory;
 import com.google.code.morphia.logging.slf4j.SLF4JLogrImplFactory;
@@ -19,7 +19,7 @@ public class Global extends GlobalSettings {
         initJsonSerializer();
         MorphiaLoggerFactory.reset();
         MorphiaLoggerFactory.registerLogger(SLF4JLogrImplFactory.class);
-        MorphiaObject.setUp();
+        ReaderDB.setUp();
         
         Akka.system().scheduler().schedule(
                 Duration.create(0, TimeUnit.SECONDS),

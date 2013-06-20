@@ -7,6 +7,7 @@ import models.Article;
 import models.MongoModel;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.ReaderDB;
 import util.SmartReaderUtils;
 
 import com.google.gson.Gson;
@@ -34,7 +35,7 @@ public class ArticleController extends Controller {
 
     public static Result allArticles() {
         List<Article> articles = new ArrayList<Article>();
-        DBCollection collection = SmartReaderUtils.getArticleCollection();
+        DBCollection collection = ReaderDB.getArticleCollection();
         DBCursor cursor = collection.find();
         int i = 0;
         while (cursor.hasNext() && i++ < 12) {

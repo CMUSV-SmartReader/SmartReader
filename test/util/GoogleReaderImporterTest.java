@@ -9,7 +9,7 @@ public class GoogleReaderImporterTest {
 
     @Before
     public void setUp() {
-        MorphiaObject.setUp();
+        ReaderDB.setUp();
     }
     
     @Test

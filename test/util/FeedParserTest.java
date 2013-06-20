@@ -13,7 +13,7 @@ public class FeedParserTest {
 
     @Before
     public void setUp() {
-        MorphiaObject.setUp();
+        ReaderDB.setUp();
     }
 
     @Test

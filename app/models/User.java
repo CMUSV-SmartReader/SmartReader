@@ -17,7 +17,7 @@ import securesocial.core.OAuth2Info;
 import securesocial.core.PasswordInfo;
 import securesocial.core.UserId;
 import util.GoogleReaderImporter;
-import util.SmartReaderUtils;
+import util.ReaderDB;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -72,7 +72,7 @@ public class User extends MongoModel implements Identity {
     public List<Article> articles = new ArrayList<Article>();
 
     public static User findByEmail(String email) {
-        DBCollection userCollection = SmartReaderUtils.db.getCollection("User");
+        DBCollection userCollection = ReaderDB.db.getCollection("User");
         BasicDBObject query = new BasicDBObject();
         query.put("email", email);
         DBObject userDB = userCollection.findOne(query);
@@ -142,7 +142,7 @@ public class User extends MongoModel implements Identity {
     }
 
     public List<FeedCategory> allFeedCategoriesWithFeed() {
-        DBCollection feedCategoryCollection = SmartReaderUtils.db
+        DBCollection feedCategoryCollection = ReaderDB.db
                 .getCollection("FeedCategory");
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", new ObjectId(this.id.toString()));
@@ -174,7 +174,7 @@ public class User extends MongoModel implements Identity {
     }
 
     public FeedCategory findDefaultCategory() {
-        DBCollection collection = SmartReaderUtils.getFeedCategoryCollection();
+        DBCollection collection = ReaderDB.getFeedCategoryCollection();
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", this.id);
         query.put("name", "Uncategorized");

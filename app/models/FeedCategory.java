@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 
-import util.MorphiaObject;
+import util.ReaderDB;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -65,7 +65,7 @@ public class FeedCategory extends MongoModel {
     public List<Article> articles = new ArrayList<Article>();
 
     public static FeedCategory find(String categoryId) {
-        return MorphiaObject.datastore.get(FeedCategory.class, categoryId);
+        return ReaderDB.datastore.get(FeedCategory.class, categoryId);
     }
 
     public static FeedCategory createFeedCategory(DBObject feedCategoryDB) {

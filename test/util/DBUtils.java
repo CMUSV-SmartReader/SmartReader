@@ -15,12 +15,12 @@ public class DBUtils {
 
     @Before
     public void setUp() {
-        MorphiaObject.setUp();
+        ReaderDB.setUp();
     }
     
     @Test
     public void clearDatabase() {
-        Datastore ds = MorphiaObject.datastore;
+        Datastore ds = ReaderDB.datastore;
         ds.delete(ds.createQuery(User.class));
         ds.delete(ds.createQuery(UserFeed.class));
         ds.delete(ds.createQuery(Feed.class));
@@ -30,7 +30,7 @@ public class DBUtils {
     
     @Test
     public void deleteArticle() {
-        Datastore ds = MorphiaObject.datastore;
+        Datastore ds = ReaderDB.datastore;
         ds.delete(ds.createQuery(Article.class));
     }
 }

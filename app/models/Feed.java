@@ -9,8 +9,7 @@ import org.bson.types.ObjectId;
 
 import play.Logger;
 import util.FeedParser;
-import util.MorphiaObject;
-import util.SmartReaderUtils;
+import util.ReaderDB;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -67,7 +66,7 @@ public class Feed extends MongoModel {
 
     public static List<Article> articlesInFeed(String id) {
         List<Article> articles = new ArrayList<Article>();
-        DBCollection articleCollection = SmartReaderUtils.db.getCollection("Article");
+        DBCollection articleCollection = ReaderDB.db.getCollection("Article");
         BasicDBObject query = new BasicDBObject();
         query.put("feed.$id", new ObjectId(id));
         DBCursor cursor = articleCollection.find(query);
@@ -85,7 +84,7 @@ public class Feed extends MongoModel {
     }
 
     public static Feed findByXmlUrl(String xmlUrl) {
-        return MorphiaObject.datastore.find(Feed.class).filter("xmlUrl", xmlUrl).get();
+        return ReaderDB.datastore.find(Feed.class).filter("xmlUrl", xmlUrl).get();
     }
 
     public List<Article> crawl() {

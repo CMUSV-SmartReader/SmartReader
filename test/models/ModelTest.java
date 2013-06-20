@@ -7,7 +7,7 @@ import java.util.Random;
 import org.junit.Before;
 import org.junit.Test;
 
-import util.MorphiaObject;
+import util.ReaderDB;
 import util.SmartReaderUtils;
 
 import com.google.gson.Gson;
@@ -19,7 +19,7 @@ public class ModelTest {
 
     @Before
     public void setUp() {
-        MorphiaObject.setUp();
+        ReaderDB.setUp();
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ModelTest {
     @Test
     public void testAllRecommends() {
         List<Article> articles = new ArrayList<Article>();
-        DBCollection collection = SmartReaderUtils.getArticleCollection();
+        DBCollection collection = ReaderDB.getArticleCollection();
         DBCursor cursor = collection.find();
         int i = 0;
         while (cursor.hasNext() && i++ < 12) {
