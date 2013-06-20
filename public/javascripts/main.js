@@ -7,9 +7,9 @@ thermoreader.instance = angular.module('thermoReader', [])
   .config(function($routeProvider) {
   	$routeProvider
   	.when("/", {controller: "mainCtrl", templateUrl: "/assets/templates/main.html"})
+    .when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
     .when("/:feedId", {controller: "mainCtrl", templateUrl: "/assets/templates/main.html"})
     .when("/:feedId/:articleId", {controller: "mainCtrl", templateUrl: "/assets/templates/main.html"})
-  	.when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
   }
 );
 

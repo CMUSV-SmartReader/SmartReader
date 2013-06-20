@@ -52,10 +52,7 @@ public abstract class MongoModel {
     }
 
     public static <T extends MongoModel> T find(String id, Class<T> clazz) {
-        DBCollection collection = ReaderDB.db.getCollection(clazz.getSimpleName());
-        BasicDBObject query = new BasicDBObject();
-        query.put("_id", new ObjectId(id));
-        DBObject entityDB = collection.findOne(query);
+        DBObject entityDB = findDbObject(id, clazz);
         if (entityDB != null) {
             try {
                 Constructor<T> constructor = clazz.getConstructor(DBObject.class);
