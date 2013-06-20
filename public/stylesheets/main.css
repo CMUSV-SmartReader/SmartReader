@@ -36,24 +36,29 @@ body {
 
 /* Sky's attemp to make soft UI */
 span.logo_1 {
+  transform: rotate(6deg);
   background: #F36F74;
   margin-top: 15px;
 }
 
 span.logo_2 {
+  transform: rotate(6deg);
   background: #FEAE96;
 }
 
 span.logo_3 {
+  transform: rotate(6deg);
   background: #FEE595;
   margin-top: 15px;
 }
 
 span.logo_4 {
+  transform: rotate(6deg);
   background: #88C6BA;
 }
 
 span.logo_5 {
+  transform: rotate(6deg);
   background: #B2D1F0;
   margin-top: 15px;
 }

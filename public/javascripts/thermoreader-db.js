@@ -49,6 +49,7 @@ thermoreader.db = function($http){
     getFeed = function(feedId, callback){
       $http.get("/feed/"+feedId).success(function(d){
         console.log(d);
+        feedArticles[feedId].articles = []; // clear cache
         for(var i=0; i<d.length; ++i){
           feedArticles[feedId].articles.push( new thermoreader.model.article(
             d[i].title, d[i].author || feedArticles[feedId].name, d[i].publishDate,
