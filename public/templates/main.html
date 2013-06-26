@@ -62,7 +62,11 @@
               <p>
                 <div class="article-summary">{{article.summary}}</div>
                 <div class="article-description" ng-bind-html-unsafe="article.description"></div>
-                <div class="dups" ng-repeat="article in selectedFeed.articles.duplicates"></div>
+                <ul class="dupArticles">
+                  <li ng-repeat="dupArticle in selectedFeed.articles.duplicates" ngclick="">
+                    {{dupArticle.title}} from {{dupArticle.feedName}}
+                  </li>
+                </ul>
                 <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
               </p>
           </div>

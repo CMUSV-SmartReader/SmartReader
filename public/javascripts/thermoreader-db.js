@@ -29,6 +29,7 @@ thermoreader.db = function($http){
     getAllFeeds = function(callback){
       $http.get("/categories").success(function(data) {
         console.log(data);
+        categoryFeeds = [];
         for(var i=0; i<data.length; ++i){
           categoryFeeds.push({ name : data[i].name, feeds : [] });
           for(var j=0; j<data[i].userFeedsInfos.length; ++j){
