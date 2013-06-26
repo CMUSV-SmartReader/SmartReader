@@ -81,3 +81,35 @@ span.logo_5 {
   background: #B2D1F0;
   margin-top: 6px;
 }
+
+.manage-category {
+  width: 30%;
+  margin: 5px;
+  float: left;
+  border: 1px solid #FFF;
+  padding: 5px 7px 5px 7px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  height: 160px;
+  overflow: scroll;
+  position: relative;
+}
+
+
+.manage-category-actions {
+  position: absolute;
+  top: 10px;
+  right: 7px;
+  margin: 10px 0 10px;
+  height: 20px;
+  float: right;
+}
+
+.manage-feed-action {
+  float: right;
+}
+
+.manage-category-action {
+  float: right;
+}
