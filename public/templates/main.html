@@ -61,12 +61,15 @@
               </span>
               <p>
                 <div class="article-summary">{{article.summary}}</div>
-                <div class="article-description" ng-bind-html-unsafe="article.description"></div>
-                <ul class="dupArticles">
-                  <li ng-repeat="dupArticle in selectedFeed.articles.duplicates" ngclick="">
-                    {{dupArticle.title}} from {{dupArticle.feedName}}
-                  </li>
-                </ul>
+                <div class="article-description" ng-bind-html-unsafe="article.description">
+
+                  <ul class="dupArticles">
+                    <li ng-repeat="dupArticle in article.duplicates" ngclick="">
+                      {{dupArticle.title}} from {{dupArticle.feedName}}
+                    </li>
+                  </ul>
+                </div>
+
                 <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
               </p>
           </div>

@@ -19,12 +19,22 @@ body {
 
 .sub-container {
   max-height: 100%;
-  transition: all 300ms ease;
+  transition: width 300ms ease, opacity 300ms ease;
   position: relative;
   overflow-y: hidden;
 }
 
 /* others */
+
+#theme_change {
+  width: 20px; height: 20px; margin-top: 8px;
+  background-color: #000;
+  border: 1px solid #999;
+}
+#theme_change.theme-inverse {
+  background-color: #ddd;
+}
+
 #user_info > a {
    text-decoration:none;
    color: #333;

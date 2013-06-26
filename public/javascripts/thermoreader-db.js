@@ -16,7 +16,7 @@ thermoreader.db = function($http){
         recommendations = [];
         for(var i=0; i<d.length; ++i){
           recommendations.push( new thermoreader.model.article(
-            d[i].title, d[i].author, d[i].publishDate,
+            d[i].id, d[i].title, d[i].author, d[i].publishDate,
             "Recommendations", d[i].desc.slice(0, 48), d[i].desc,
             d[i].link, Math.floor(Math.random()*5+1), false
           ));
@@ -53,7 +53,7 @@ thermoreader.db = function($http){
         feedArticles[feedId].articles = []; // clear cache
         for(var i=0; i<d.length; ++i){
           feedArticles[feedId].articles.push( new thermoreader.model.article(
-            d[i].title, d[i].author || feedArticles[feedId].name, d[i].publishDate,
+            d[i].id, d[i].title, d[i].author || feedArticles[feedId].name, d[i].publishDate,
             feedArticles[feedId].name, d[i].desc.slice(0, 48), d[i].desc,
             d[i].link, Math.floor(Math.random()*5+1), false
           ));
@@ -63,14 +63,16 @@ thermoreader.db = function($http){
       return feedArticles[feedId];
     },
 
-    getDuplicates = function(articleId){
+    getDuplicates = function(articleId, callback){
       $http.get("/article/"+articleId+"/dup").success(function(d){
         console.log(d);
+        callback(d);
       });
     };
 
 	return {
     getRecommendations : getRecommendations,
+    getDuplicates : getDuplicates,
     getAllFeeds : getAllFeeds,
     getFeed : getFeed
   };
