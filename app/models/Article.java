@@ -158,12 +158,24 @@ public class Article extends MongoModel {
                 JsonSerializationContext ctx) {
             JsonObject article = new JsonObject();
             article.add("id", new JsonPrimitive(src.id.toString()));
-            article.add("title", new JsonPrimitive(src.title));
-            article.add("desc", new JsonPrimitive(src.desc));
-            article.add("link", new JsonPrimitive(src.link));
-            article.add("publishDate", ctx.serialize(src.publishDate));
-            article.add("updateDate", ctx.serialize(src.updateDate));
-            article.add("author", new JsonPrimitive(src.author));
+            if (src.title != null) {
+                article.add("title", new JsonPrimitive(src.title));
+            }
+            if (src.desc != null) {
+                article.add("desc", new JsonPrimitive(src.desc));
+            }
+            if (src.link != null) {
+                article.add("link", new JsonPrimitive(src.link));
+            }
+            if (src.publishDate != null) {
+                article.add("publishDate", ctx.serialize(src.publishDate));
+            }
+            if (src.updateDate != null) {
+                article.add("updateDate", ctx.serialize(src.updateDate));
+            }
+            if (src.author != null) {
+                article.add("author", new JsonPrimitive(src.author));
+            }
             if (src.feed != null) {
                 article.add("feed", ctx.serialize(src.feed));
             }
