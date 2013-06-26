@@ -2,9 +2,14 @@ package models;
 
 import org.bson.types.ObjectId;
 
+import util.ReaderDB;
+
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Reference;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 @Entity
 public class UserArticle extends MongoModel {
@@ -23,12 +28,12 @@ public class UserArticle extends MongoModel {
     public Integer rate;
 
     public static UserArticle getUserArticle(User user, Article article) {
-        return null;
-//        DBCollection collection = ReaderDB.getFeedCategoryCollection();
-//        BasicDBObject query = new BasicDBObject();
-//        query.put("user.$id", this.id);
-//        query.put("name", "Uncategorized");
-//        DBObject feedCategoryDB = collection.findOne(query);
+        DBCollection collection = ReaderDB.getuserArticleCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", user.id);
+        query.put("ariticle.$id", article.id);
+        DBObject userArticleDB = collection.findOne(query);
+        return MongoModel.find(userArticleDB.get("_id").toString(), UserArticle.class);
     }
 
 }
