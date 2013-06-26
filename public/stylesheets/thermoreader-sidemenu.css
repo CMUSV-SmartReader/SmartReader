@@ -38,7 +38,6 @@
 }
 #side-container.side-inverse #side-menu ul li a:hover,
 #side-container.side-inverse #side-menu ul li a:active {
-  /* Webkit (Chrome 11+) */
   background-image: -webkit-linear-gradient(right, #666 0%, #444 100%);
 }
 

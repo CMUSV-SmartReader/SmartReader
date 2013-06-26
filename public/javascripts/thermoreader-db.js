@@ -65,7 +65,6 @@ thermoreader.db = function($http){
 
     getDuplicates = function(articleId, callback){
       $http.get("/article/"+articleId+"/dup").success(function(d){
-        console.log(d);
         callback(d);
       });
     };

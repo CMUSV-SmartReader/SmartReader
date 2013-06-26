@@ -1,6 +1,6 @@
 var thermoreader = thermoreader || {};
 
-thermoreader.mainCtrl = function($scope, dbFactory) {
+thermoreader.mainCtrl = function($scope, $http, dbFactory) {
 
   $scope.orderRule =
     localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
@@ -27,11 +27,12 @@ thermoreader.mainCtrl = function($scope, dbFactory) {
 
   $scope.expandArticle = function(article){
     article.expanded = !article.expanded;
-    article.read = true;
-    dbFactory.getDuplicates(article.id, function(d){
-      article.duplicates = [article].concat(d);
+    $http.put("/article/"+article.id+"/read", function(){
+      article.read = true;
     });
-    //article.duplicates
+    dbFactory.getDuplicates(article.id, function(d){
+      if(d.length > 0){ article.duplicates = [article].concat(d); }
+    });
   };
 
 
