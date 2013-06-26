@@ -53,10 +53,12 @@ public class ArticleController extends Controller {
         DBCollection collection = ReaderDB.getArticleCollection();
         DBCursor cursor = collection.find();
         int i = 0;
+        User user = SmartReaderUtils.getCurrentUser();
         while (cursor.hasNext() && i++ < 12) {
             DBObject object = cursor.next();
             Article article = new Article(object);
             article.loadFeed(object);
+            article.loadIsRead(user);
             articles.add(article);
         }
         Gson gson = SmartReaderUtils.builder.create();

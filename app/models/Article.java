@@ -188,6 +188,7 @@ public class Article extends MongoModel {
             if (src.feed != null) {
                 article.add("feed", ctx.serialize(src.feed));
             }
+            article.add("isRead", new JsonPrimitive(src.isRead));
             return article;
         }
     }

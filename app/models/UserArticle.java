@@ -33,7 +33,12 @@ public class UserArticle extends MongoModel {
         query.put("user.$id", user.id);
         query.put("ariticle.$id", article.id);
         DBObject userArticleDB = collection.findOne(query);
-        return MongoModel.find(userArticleDB.get("_id").toString(), UserArticle.class);
+        if (userArticleDB != null) {
+            return MongoModel.find(userArticleDB.get("_id").toString(), UserArticle.class);
+        }
+        else {
+            return null;
+        }
     }
 
 }
