@@ -28,6 +28,10 @@ thermoreader.mainCtrl = function($scope, dbFactory) {
   $scope.expandArticle = function(article){
     article.expanded = !article.expanded;
     article.read = true;
+    dbFactory.getDuplicates(article.id, function(d){
+      article.duplicates = [article].concat(d);
+    });
+    //article.duplicates
   };
 
 

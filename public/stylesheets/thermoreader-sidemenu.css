@@ -2,6 +2,9 @@
 #side-container {
   background-color: #CDD6DC;
 }
+#side-container.side-inverse {
+  background-color: #333;
+}
 #side-container.hidden {
   opacity: 0;
 }
@@ -12,8 +15,13 @@
   margin-top: 2em;
 }
 
+#side-container.side-inverse #side-menu {
+  background-color: #333;
+}
+
 #side-menu ul li { text-align: right; cursor: pointer;}
 #side-menu ul li a { color: #413839; }
+#side-container.side-inverse #side-menu ul li a { color: #ddd; }
 #side-menu ul li a:hover, #side-menu ul li:active {
   /* IE10 Consumer Preview */
   background-image: -ms-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);
@@ -27,6 +35,11 @@
   background-image: -webkit-linear-gradient(right, #B2D1F0 0%, #A8C7E6 100%);
   /* W3C Markup, IE10 Release Preview */
   background-image: linear-gradient(to left, #A8C7E6 0%, #C1C6D2 100%);
+}
+#side-container.side-inverse #side-menu ul li a:hover,
+#side-container.side-inverse #side-menu ul li a:active {
+  /* Webkit (Chrome 11+) */
+  background-image: -webkit-linear-gradient(right, #666 0%, #444 100%);
 }
 
 #side-menu #main-feeds{
