@@ -57,6 +57,10 @@ public class ReaderDB {
         return db.getCollection("Article");
     }
 
+    public static DBCollection getuserArticleCollection() {
+        return db.getCollection("UserArticle");
+    }
+
 
     private static class DBInfo {
 

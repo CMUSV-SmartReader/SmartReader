@@ -75,11 +75,19 @@ public class Article extends MongoModel {
     public Article(DBObject articleDB) {
         this.id = (ObjectId) articleDB.get("_id");
         this.title = articleDB.get("title").toString();
-        this.link = articleDB.get("link").toString();
-        this.desc = articleDB.get("desc").toString();
+        if (articleDB.get("link") != null) {
+            this.link = articleDB.get("link").toString();
+        }
+        if (articleDB.get("desc") != null) {
+            this.desc = articleDB.get("desc").toString();
+        }
         this.author = articleDB.get("author").toString();
-        this.publishDate = (Date) articleDB.get("publishDate");
-        this.updateDate = (Date) articleDB.get("updateDate");
+        if (articleDB.get("publishDate") != null) {
+            this.publishDate = (Date) articleDB.get("publishDate");
+        }
+        if (articleDB.get("updateDate") != null) {
+            this.updateDate = (Date) articleDB.get("updateDate");
+        }
     }
 
     public void loadFeed(DBObject articleDB) {
