@@ -34,9 +34,14 @@ div.card.popular3{ border-left-color: #FEE595; /*yellow*/ }
 div.card.popular4{ border-left-color: #88C6BA; /*green*/ }
 div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
-div.card.expanded .article-summary{ display: none; }
-div.card .article-description{ display: none; }
-div.card.expanded .article-description{ display: block; }
+div.card .article-summary{ display: none; }
+div.card .article-description{
+  max-height: 1.5em; overflow: hidden;
+  transition: all 300ms ease;
+}
+div.card.expanded .article-description{
+  max-height: 999px;
+}
 
 .card .info{
   color: gray;
