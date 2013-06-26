@@ -92,23 +92,27 @@ public class Article extends MongoModel {
 
     public void loadRecommendation(DBObject articleDB) {
         BasicDBList recommeds = (BasicDBList) articleDB.get("recommends");
-        for (int i = 0; i < recommeds.size(); i++) {
-            DBRef ref = (DBRef) recommeds.get(i);
-            DBObject recommendDB = ref.fetch();
-            Article recommend = new Article(recommendDB);
-            recommend.loadFeed(recommendDB);
-            this.recommends.add(recommend);
+        if (recommeds != null) {
+            for (int i = 0; i < recommeds.size(); i++) {
+                DBRef ref = (DBRef) recommeds.get(i);
+                DBObject recommendDB = ref.fetch();
+                Article recommend = new Article(recommendDB);
+                recommend.loadFeed(recommendDB);
+                this.recommends.add(recommend);
+            }
         }
     }
 
     public void loadDups(DBObject articleDB) {
         BasicDBList dups = (BasicDBList) articleDB.get("dups");
-        for (int i = 0; i < dups.size(); i++) {
-            DBRef ref = (DBRef) dups.get(i);
-            DBObject dupDB = ref.fetch();
-            Article dup = new Article(dupDB);
-            dup.loadFeed(dupDB);
-            this.dups.add(dup);
+        if (dups != null) {
+            for (int i = 0; i < dups.size(); i++) {
+                DBRef ref = (DBRef) dups.get(i);
+                DBObject dupDB = ref.fetch();
+                Article dup = new Article(dupDB);
+                dup.loadFeed(dupDB);
+                this.dups.add(dup);
+            }
         }
     }
 
@@ -124,6 +128,10 @@ public class Article extends MongoModel {
             this.dups.add(article);
             this.update();
         }
+    }
+
+    public boolean isReadBy(User user) {
+        return false;
     }
 
     @Override

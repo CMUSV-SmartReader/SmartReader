@@ -57,6 +57,7 @@ public class ReaderDB {
         return db.getCollection("Article");
     }
 
+
     private static class DBInfo {
 
         static String getDBHost() {

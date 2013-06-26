@@ -18,6 +18,7 @@ import securesocial.core.PasswordInfo;
 import securesocial.core.UserId;
 import util.GoogleReaderImporter;
 import util.ReaderDB;
+import util.SmartReaderUtils;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -181,6 +182,15 @@ public class User extends MongoModel implements Identity {
         DBObject feedCategoryDB = collection.findOne(query);
         return FeedCategory.createFeedCategory(feedCategoryDB);
     }
+
+    public void read(Article article) {
+        UserArticle userArticle = new UserArticle();
+        userArticle.article = article;
+        userArticle.user = SmartReaderUtils.getCurrentUser();
+        userArticle.isRead = true;
+        userArticle.create();
+    }
+
 
     @Override
     public AuthenticationMethod authMethod() {
