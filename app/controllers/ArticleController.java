@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.Article;
 import models.MongoModel;
+import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
 import util.ReaderDB;
@@ -31,6 +32,20 @@ public class ArticleController extends Controller {
         article.loadRecommendation(articleDB);
         Gson gson = SmartReaderUtils.builder.create();
         return ok(gson.toJson(article.recommends));
+    }
+
+    public static Result read(String id) {
+        Article article = MongoModel.find(id, Article.class);
+        User user = SmartReaderUtils.getCurrentUser();
+        user.read(article);
+        return ok();
+    }
+
+    public static Result unread(String id) {
+        Article article = MongoModel.find(id, Article.class);
+        User user = SmartReaderUtils.getCurrentUser();
+        user.unread(article);
+        return ok();
     }
 
     public static Result allArticles() {

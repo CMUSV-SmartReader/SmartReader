@@ -62,7 +62,6 @@ public class Article extends MongoModel {
         this.link = entry.getLink();
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
         this.summary = this.desc;
-        this.isRead = rand.nextBoolean();
         this.popularity = rand.nextInt(5) + 1;
         this.publishDate = entry.getPublishedDate();
         this.updateDate = entry.getUpdatedDate();
@@ -108,6 +107,16 @@ public class Article extends MongoModel {
                 recommend.loadFeed(recommendDB);
                 this.recommends.add(recommend);
             }
+        }
+    }
+
+    public void loadIsRead(User user) {
+        UserArticle userArticle = UserArticle.getUserArticle(user, this);
+        if (userArticle == null) {
+            this.isRead = false;
+        }
+        else {
+            this.isRead = userArticle.isRead;
         }
     }
 
