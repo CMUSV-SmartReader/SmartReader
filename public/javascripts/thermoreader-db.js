@@ -65,7 +65,15 @@ thermoreader.db = function($http){
 
     getDuplicates = function(articleId, callback){
       $http.get("/article/"+articleId+"/dup").success(function(d){
-        callback(d);
+        var duplicates = [];
+        for(var i=0; i<d.length; ++i){
+          duplicates.push( new thermoreader.model.article(
+            d[i].id, d[i].title, d[i].author || d[i].feed.title, d[i].publishDate,
+            d[i].feed.title, d[i].desc.slice(0, 48), d[i].desc,
+            d[i].link, Math.floor(Math.random()*5+1), false
+          ));
+        }
+        callback(duplicates);
       });
     };
 

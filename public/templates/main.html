@@ -64,7 +64,7 @@
                 <div class="article-description">
                   <div class="article-text" ng-bind-html-unsafe="article.description"></div>
                   <ul class="dupArticles">
-                    <li ng-repeat="dupArticle in article.duplicates" ngclick="">
+                    <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" class="popular{{dupArticle.popular}}">
                       {{dupArticle.title}} from {{dupArticle.feedName}}
                     </li>
                   </ul>
