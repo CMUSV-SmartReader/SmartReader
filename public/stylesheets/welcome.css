@@ -20,7 +20,7 @@ input:focus:-moz-placeholder,textarea:focus:-moz-placeholder{color:transparent !
 strong{font-family:"Apercu Pro Bold",'Trebuchet MS',Arial,sans-serif;font-weight:bold;font-style:normal;}
 html,body{height:100%;}
 .curtain-removed .readymag,.curtain-removed .login,.curtain-removed .menu{display:block;}
-.readymag{display:none;position:fixed;width:159px;height:38px;left:50%;top:26px;margin-left:-80px;background-image:url('../img/homepage/logo.png');background-size:159px 38px;background-repeat:no-repeat;}
+/*.readymag{position:fixed;width:159px;height:38px;left:50%;top:56px;margin-left:-80px;background-image:url('../images/welcome/logo.png');background-size:159px 38px;background-repeat:no-repeat;}*/
 .login{position:fixed;width:188px;height:40px;top:54px;right:32px;border-radius:20px;box-shadow:0 0 0 1px rgba(255, 255, 255, 0.42);text-align:center;font-family:"Apercu Pro Regular",'Trebuchet MS',Arial,sans-serif;font-weight:normal;font-style:normal;color:#fff;font-size:14px;line-height:40px;text-decoration:none;} .login:hover{text-decoration:none; color: white; box-shadow:0 0 0 1px rgba(255, 255, 255, 0.82);}
 .menu{position:fixed;width:314px;height:56px;left:50%;bottom:26px;margin-left:-200px;background:#fff;border-radius:28px;text-align:justify;line-height:56px;padding:0 43px;}.menu ul,.menu li{display:inline;}
 .menu li{font-family:"Apercu Pro Regular",'Trebuchet MS',Arial,sans-serif;font-weight:normal;font-style:normal;font-size:16px;color:#8c8a8b;cursor:pointer;}.no-touch .menu li:hover{color:#363234 !important;}
