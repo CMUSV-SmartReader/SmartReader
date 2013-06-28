@@ -5,14 +5,18 @@
 @import securesocial.core.AuthenticationMethod._
 @import securesocial.core.providers.UsernamePasswordProvider.UsernamePassword
 
+
 <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/welcome.css")'> 
+<script type="text/javascript" src='@routes.Assets.at("javascripts/libs/jquery-2.0.2.min.js")'></script>
+<script type="text/javascript" src='@routes.Assets.at("javascripts/welcome.js")'></script>
+
 
 @main(Messages("securesocial.login.title")) {
 
-    <div class="content-wrapper">
+    <div class="welcome">
 	    <!-- <div class="page-header"></div> -->
 	
-	    @errorMsg.map { msg =>
+	   <!--  @errorMsg.map { msg =>
 	        <div class="alert alert-error">
 	            @Messages(msg)
 	        </div>
@@ -28,7 +32,7 @@
 	        <div class="alert alert-error">
 	            @msg
 	        </div>
-	    }
+	    } -->
 	
     <div class="content-wrapper">
 
@@ -43,12 +47,12 @@
             <div class="content">
                 <div class="mac">
                     <div class="mac-body">
-                        <div class="mac-video"><iframe id="mac_video" src="./Readymag_files/61953558.html" width="100%" height="100%" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe></div>
+                        <div class="mac-video"></div>
                     </div>
                 </div>
                 <div class="message">
-                    <div class="caption">Create.</div>
-                    <div class="text">Anyone can publish a beautiful mag. Our constructor is really that simple, intuitive and easy-to-use. Therefore, the only thing you should care about is the content.</div>
+                    <div class="caption">Read.</div>
+                    <div class="text">Whenever you are at a break of meetings, or in the line waiting for coffee, the hottest news is always ready on the top for a quick peek.</div>
                 </div>
             </div>
         </div>
@@ -56,16 +60,11 @@
         <div class="page page-discover">
             <div class="content">
                 <div class="ipad">
-                    <div class="ipad-video"><iframe id="ipad_video" src="./Readymag_files/61793738.html" width="100%" height="100%" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe></div>
+                    <div class="ipad-video"><iframe id="ipad_video" src="" width="100%" height="100%" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe></div>
                 </div>
                 <div class="message">
-                    <div class="caption">Discover.</div>
-                    <div class="text">Readymag is not only about designing mags. It's also an ecosystem that aims to help publishers to build an audience around their content and allows readers to discover, subscribe and collect digital publications.</div>
-                    <a class="demo-link" href="http://readymag.com/32/" target="_blank">
-                        <div class="cover"></div>
-                        <span class="link">Check out<br>an example mag</span>
-                    </a>
-                    <div class="demo-author">Published by Shuffle Magazine</div>
+                    <div class="caption">And only read.</div>
+                    <div class="text">You are not supposed to worry about anything more that your readings. <br/><br/>Having hundreds of unread feeds? <br/>Troubled with articles on duplicated topics? <br/>Don't know what to read first? <br/>Thermo Reader is the answer for all.</div>
                 </div>
             </div>
         </div>
@@ -107,42 +106,15 @@
         </div>
 
 	    <div class="readymag">Thermo Reader</div>
-	    <a class="login" href="#">Log In</a>
-	    <div class="menu">
+	    <a class="login" href="/authenticate/google">Import from Google Reader</a>
+	    <!-- <div class="menu">
 	        <ul>
-	            <li data-page="create" style="color: rgb(140, 138, 139);">Create</li>
-	            <li data-page="discover" style="color: rgb(140, 138, 139);">Discover</li>
-	            <li data-page="more" style="color: rgb(140, 138, 139);">More</li>
-	            <li data-page="beta" style="color: rgb(140, 138, 139);">Get Beta</li>
+	            <li data-page="create">Create</li>
+	            <li data-page="discover">Discover</li>
+	            <li data-page="more">More</li>
+	            <li data-page="beta">Get Beta</li>
 	        </ul>
-	    </div>
+	    </div> -->
     </div>
-	<!-- 
-	    @defining( Registry.providers.all.values.filter( _.id != UsernamePassword) ) { externalProviders =>
-	
-	        @if( externalProviders.size > 0 ) {
-	            <div class="clearfix">
-	                <h3>@Messages("securesocial.login.instructions")</h3>
-	                <p>
-	                    @for(p <- externalProviders) {
-	                        @provider(p.id)(request)
-	                    }
-	                </p>
-	            </div>
-	        }
-	
-	        @Registry.providers.get(UsernamePassword).map { up =>
-	            <div class="clearfix">
-	                @if( externalProviders.size > 0 ) {
-	                    <h3>@Messages("securesocial.login.useEmailAndPassword")</h3>
-	                } else {
-	                    <h3>@Messages("securesocial.login.useEmailAndPasswordOnly")</h3>
-	                }
-	
-	               @provider("userpass", Some(loginForm))(request)
-	            </div>
-	        }
-	    } -->
-	    
-    </div> <!-- end of welcome-wrapper -->
+</div> <!-- end of welcome-wrapper -->
 }
