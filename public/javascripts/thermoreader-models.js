@@ -1,9 +1,10 @@
 var thermoreader = thermoreader || {};
 thermoreader.model = {};
 
-thermoreader.model.feed = function(id, name, updated, articles) {
+thermoreader.model.feed = function(id, name, userFeedId, updated, articles) {
   this.id = id || "";
   this.name = name || "";
+  this.userFeedId = userFeedId || "";
   this.updated = updated || new Date();
   this.articles = articles || [];
 };

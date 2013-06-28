@@ -3,10 +3,8 @@ var thermoreader = thermoreader || {};
 thermoreader.db = function($http){
 
 	var
-    userId =
-      localStorage.hasOwnProperty('userId')? JSON.parse(localStorage['userId']):"",
-    categoryFeeds =
-      localStorage.hasOwnProperty('categoryFeeds')? JSON.parse(localStorage['categoryFeeds']):[],
+    userId = localStorage.hasOwnProperty('userId')? JSON.parse(localStorage['userId']):"",
+    categoryFeeds = localStorage.hasOwnProperty('categoryFeeds')? JSON.parse(localStorage['categoryFeeds']):[],
     recommendations = [],
     feedArticles = {},
 
@@ -31,19 +29,18 @@ thermoreader.db = function($http){
         console.log(data);
         categoryFeeds = [];
         for(var i=0; i<data.length; ++i){
-          categoryFeeds.push({ name : data[i].name, feeds : [], id: data[i].id });
+          categoryFeeds.push({ id: data[i].id, name : data[i].name, feeds : [] });
           for(var j=0; j<data[i].userFeedsInfos.length; ++j){
-              var key = data[i].userFeedsInfos[j]["feedId"];
-              var title = data[i].userFeedsInfos[j]["feedTitle"];
-              var userFeedId = data[i].userFeedsInfos[j]["userFeedId"];
-              var feed = new thermoreader.model.feed(key, title);
-              feed.userFeedId = userFeedId;
+              var feed = new thermoreader.model.feed(
+                data[i].userFeedsInfos[j]["feedId"],
+                data[i].userFeedsInfos[j]["feedTitle"],
+                data[i].userFeedsInfos[j]["userFeedId"],
+                (new Date()), []
+              );
               categoryFeeds[i].feeds.push(feed);
-              feedArticles[key] = {
-                name: userFeedId, articles: []
-              };
-          } 
-        } 
+              feedArticles[data[i].userFeedsInfos[j]["feedId"]] = feed;
+          }
+        }
         callback(categoryFeeds);
         //localStorage['categoryFeeds'] = JSON.stringify(categoryFeeds);
       });
