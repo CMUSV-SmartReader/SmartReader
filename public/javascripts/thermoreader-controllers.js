@@ -83,6 +83,11 @@ thermoreader.manageCtrl = function($scope, dbFactory, $http) {
     }).success(function() {
       //category.feeds.psuh
     });
+    category.visibleInput = false;
+  };
+
+  $scope.showNewInput = function(category) {
+    category.visibleInput = true;
   };
 
 };

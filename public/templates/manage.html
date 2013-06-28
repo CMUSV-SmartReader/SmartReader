@@ -38,15 +38,15 @@
       <!-- Feed Cards -->
       <div class="manage-category" ng-repeat="category in allFeeds">
         <div class="manage-action">
-            <h4>{{category.name}}</h4>
+            <h3>{{category.name}}</h3>
             <div class='manage-category-actions'>
               <i class="manage-category-action icon-trash" ng-click="deleteCategory(category);"></i>
               <i class="manage-category-action icon-pencil" ng-click="editCategory(category);"></i>
-              <!-- <i class="manage-category-action icon-plus" ng-click="addFeedCategory(category);"></i> -->
+              <i class="manage-category-action icon-plus" ng-click="showNewInput(category)"></i>
             </div>
         </div>
         <ul class="manage-feeds">
-          <li>
+          <li class="manage-feed-input" ng-class="{'visible': category.visibleInput }">
             <input placeholder='Feed URL' ng-model="category.feedURL" ng-blur="addNewFeed(category);" ng-trim="true" type="text"></input>
           </li>
           <li class="manage-feed" ng-repeat="feed in category.feeds">
