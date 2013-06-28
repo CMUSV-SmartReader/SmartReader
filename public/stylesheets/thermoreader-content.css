@@ -1,6 +1,10 @@
 #content-container .article-summary.hidden { display: none; }
 #content-container .article-description.hidden { display: none; }
 
+#content {
+  margin: 1em 2em 0;
+}
+
 #content-container h2 a span {
     width: 15px;
     height: 30px;
@@ -49,7 +53,6 @@ div.card.expanded .article-description{
 }
 .views{
   text-align:right;
-  padding-right: 30px;
 }
 .views img{
   width: 20px;
