@@ -269,4 +269,25 @@ public class User extends MongoModel implements Identity {
         return Scala.Option(passwordInfo);
     }
 
+    public List<Article> userArticles() {
+        List<Article> articles = new ArrayList<Article>();
+        List<FeedCategory> feedCategories = this.allFeedCategoriesWithFeed();
+        for (FeedCategory feedCategory : feedCategories) {
+            feedCategory = FeedCategory.findEntity(feedCategory.id.toString(), FeedCategory.class);
+            for (String feedId : feedCategory.userFeedsIds) {
+                DBCollection collection = ReaderDB.getArticleCollection();
+                BasicDBObject query = new BasicDBObject();
+                query.put("feed.$id", new ObjectId(feedId));
+                DBCursor articleCursor = collection.find(query);
+                while (articleCursor.hasNext() && articles.size() <= 12) {
+                    articles.add(new Article(articleCursor.next()));
+                }
+                if (articles.size() >= 12) {
+                    return articles;
+                }
+            }
+        }
+        return articles;
+    }
+
 }

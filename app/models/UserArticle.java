@@ -28,7 +28,7 @@ public class UserArticle extends MongoModel {
     public Integer rate;
 
     public static UserArticle getUserArticle(User user, Article article) {
-        DBCollection collection = ReaderDB.getuserArticleCollection();
+        DBCollection collection = ReaderDB.getUserArticleCollection();
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", user.id);
         query.put("ariticle.$id", article.id);

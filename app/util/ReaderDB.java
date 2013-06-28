@@ -57,7 +57,7 @@ public class ReaderDB {
         return db.getCollection("Article");
     }
 
-    public static DBCollection getuserArticleCollection() {
+    public static DBCollection getUserArticleCollection() {
         return db.getCollection("UserArticle");
     }
 
