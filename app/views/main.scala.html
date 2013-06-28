@@ -36,17 +36,22 @@
           <form class="navbar-form pull-left">
             <input type="text" style="height:30px" placeholder="Search">
           </form>
-          <div id="user_info" class="dropdown pull-right">
-            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+
+          <!-- <div id="user_info" class="dropdown pull-right">
+            <a href="javascript: void(0)" class='dropdown-toggle' data-toggle='dropdown'>
               <span>Username</span>
-                <!-- <img src="http://png.findicons.com/files/icons/560/fast_icon_users/128/offline_user.png" /> -->
+                <img src="http://png.findicons.com/files/icons/560/fast_icon_users/128/offline_user.png" />
                 <b class="caret"></b>
             </a>
             <ul class='dropdown-menu'>
-              <li><a tabindex="-1" href="#">My Account</a></li>
+              <li><a tabindex="-1" href="javascript: void(0)">My Account</a></li>
               <li><a tabindex="-1" href="/logout">Log out</a></li>
             </ul>
-          </div>
+          </div> -->
+          <p class="navbar-text pull-right">
+            <a href="https://docs.google.com/forms/d/1sw25-6ufoza1ZMksjoaoPrGw1AZ1mF9w4UTW7aviEoQ/viewform" rel="external" target="_blank"><b>Feedback</b></a>
+          </p>
+          <!-- <div id="theme_change" class="pull-right"> </div> -->
         </div>
 
       </div></div></div>
@@ -54,6 +59,16 @@
 
     <div id="main-container" ng-controller="mainCtrl" class="container-fluid" ng-view>
     </div>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-42092575-1', 'thermoreader.com');
+      ga('send', 'pageview');
+    </script>
 
   </body>
 </html>

@@ -8,4 +8,5 @@ public class UserFeedController extends Controller {
     public static Result changeUserFeedOrder(String id) {
         return ok();
     }
+
 }

@@ -23,6 +23,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
+import com.google.code.morphia.annotations.Transient;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -46,12 +47,15 @@ public class User extends MongoModel implements Identity {
 
     public String fullName;
 
+    @Transient
     public AuthenticationMethod authMethod;
 
     public String providerId;
 
+    @Transient
     public OAuth1Info oAuth1Info;
 
+    @Transient
     public OAuth2Info oAuth2Info;
 
     public PasswordInfo passwordInfo;
@@ -182,6 +186,30 @@ public class User extends MongoModel implements Identity {
         return FeedCategory.createFeedCategory(feedCategoryDB);
     }
 
+    public void read(Article article) {
+        UserArticle userArticle = UserArticle.getUserArticle(this, article);
+        if (userArticle == null) {
+            userArticle = new UserArticle();
+            userArticle.article = article;
+            userArticle.user = this;
+            userArticle.create();
+        }
+        userArticle.isRead = true;
+        userArticle.update();
+    }
+
+    public void unread(Article article) {
+        UserArticle userArticle = UserArticle.getUserArticle(this, article);
+        if (userArticle == null) {
+            userArticle = new UserArticle();
+            userArticle.article = article;
+            userArticle.user = this;
+            userArticle.create();
+        }
+        userArticle.isRead = false;
+        userArticle.update();
+    }
+
     @Override
     public AuthenticationMethod authMethod() {
         return authMethod;
@@ -239,6 +267,27 @@ public class User extends MongoModel implements Identity {
             return scala.Option.apply(null);
         }
         return Scala.Option(passwordInfo);
+    }
+
+    public List<Article> userArticles() {
+        List<Article> articles = new ArrayList<Article>();
+        List<FeedCategory> feedCategories = this.allFeedCategoriesWithFeed();
+        for (FeedCategory feedCategory : feedCategories) {
+            feedCategory = FeedCategory.findEntity(feedCategory.id.toString(), FeedCategory.class);
+            for (String feedId : feedCategory.userFeedsIds) {
+                DBCollection collection = ReaderDB.getArticleCollection();
+                BasicDBObject query = new BasicDBObject();
+                query.put("feed.$id", new ObjectId(feedId));
+                DBCursor articleCursor = collection.find(query);
+                while (articleCursor.hasNext() && articles.size() <= 12) {
+                    articles.add(new Article(articleCursor.next()));
+                }
+                if (articles.size() >= 12) {
+                    return articles;
+                }
+            }
+        }
+        return articles;
     }
 
 }

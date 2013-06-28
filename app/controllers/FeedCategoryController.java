@@ -1,12 +1,24 @@
 package controllers;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import models.Feed;
 import models.FeedCategory;
+import models.MongoModel;
 import models.User;
+import models.UserFeed;
+
+import org.codehaus.jackson.JsonNode;
+
 import play.mvc.Controller;
 import play.mvc.Result;
 import securesocial.core.java.SecureSocial;
 import util.SmartReaderUtils;
+
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.SyndFeedInput;
+import com.sun.syndication.io.XmlReader;
 
 public class FeedCategoryController extends Controller {
 
@@ -23,14 +35,26 @@ public class FeedCategoryController extends Controller {
     }
 
     @SecureSocial.UserAwareAction
-    public static Result addFeedToCategory(String feedCategoryId) {
-        User user = SmartReaderUtils.getCurrentUser();
-        Feed feed = new Feed();
-        feed.title = request().queryString().get("title")[0];
-        feed.xmlUrl = request().queryString().get("xmlUrl")[0];
-        feed.htmlUrl = request().queryString().get("htmlUrl")[0];
-        FeedCategory feedCategory = FeedCategory.find(feedCategoryId);
-        feedCategory.createFeed(user, feed);
+    public static Result addFeedToCategory(String id) {
+        try {
+            FeedCategory feedCategory = MongoModel.findEntity(id, FeedCategory.class);
+            User user = SmartReaderUtils.getCurrentUser();
+            JsonNode dataNode = request().body().asJson().get("data");
+            String xmlUrl = dataNode.asText();
+            System.out.println(xmlUrl);
+            URL url = new URL(xmlUrl);
+            HttpURLConnection httpcon = (HttpURLConnection)url.openConnection();
+            httpcon.connect();
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed syndFeed = input.build(new XmlReader(httpcon));
+            Feed feed = new Feed(syndFeed);
+            feed = feed.createUnique();
+            feed.addUser(user);
+            feedCategory.createFeed(user, feed);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
         return ok();
     }
 
@@ -43,6 +67,13 @@ public class FeedCategoryController extends Controller {
     }
 
     public static Result deleteFeedCategory(String id) {
-        return  ok();
+        return ok();
+    }
+
+    public static Result deleteUserFeed(String id, String userFeedId) {
+        FeedCategory feedCategory = MongoModel.findEntity(id, FeedCategory.class);
+        UserFeed userFeed = MongoModel.findEntity(userFeedId, UserFeed.class);
+        feedCategory.deleteUserFeed(userFeed);
+        return ok();
     }
 }

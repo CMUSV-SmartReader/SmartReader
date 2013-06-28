@@ -5,8 +5,8 @@
       <!-- FB-like Slide Menu-->
       <div id="main-feeds">
         <ul class="nav nav-list">
-          <li ng-click="getRecommendations()"> <a href="#"> Home </a> </li>
-          <li ng-click="getRecommendations()"> <a href="#"> Recommendation </a> </li>
+          <li ng-click="getRecommendations()"> <a href="javascript: void(0)"> Home </a> </li>
+          <li ng-click="getRecommendations()"> <a href="javascript: void(0)"> Recommendation </a> </li>
           <li ng-click=""><a href='#manage'> Manage </a> </li>
           <!-- <li> <a href="#"> Saved </a> </li> -->
         </ul>
@@ -61,12 +61,15 @@
               </span>
               <p>
                 <div class="article-summary">{{article.summary}}</div>
-                <div class="article-description" ng-bind-html-unsafe="article.description"></div>
-                <ul class="dupArticles">
-                  <li ng-repeat="dupArticle in selectedFeed.articles.duplicates" ngclick="">
-                    {{dupArticle.title}} from {{dupArticle.feedName}}
-                  </li>
-                </ul>
+                <div class="article-description">
+                  <div class="article-text" ng-bind-html-unsafe="article.description"></div>
+                  <ul class="dupArticles">
+                    <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" class="popular{{dupArticle.popular}}">
+                      {{dupArticle.title}} from {{dupArticle.feedName}}
+                    </li>
+                  </ul>
+                </div>
+
                 <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
               </p>
           </div>

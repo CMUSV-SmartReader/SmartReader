@@ -24,10 +24,10 @@ public class UserFeed extends MongoModel {
 
     public int order;
 
-    @Reference(lazy = false)
+    @Reference(lazy = true)
     public User user;
 
-    @Reference(lazy = false)
+    @Reference(lazy = true)
     public Feed feed;
 
     public static UserFeed createUserFeed(DBObject userFeedDB) {
@@ -47,4 +47,5 @@ public class UserFeed extends MongoModel {
             return userFeedObj;
         }
     }
+
 }

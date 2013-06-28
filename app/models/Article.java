@@ -9,6 +9,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import scala.util.Random;
+import util.SmartReaderUtils;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -62,7 +63,6 @@ public class Article extends MongoModel {
         this.link = entry.getLink();
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
         this.summary = this.desc;
-        this.isRead = rand.nextBoolean();
         this.popularity = rand.nextInt(5) + 1;
         this.publishDate = entry.getPublishedDate();
         this.updateDate = entry.getUpdatedDate();
@@ -75,11 +75,20 @@ public class Article extends MongoModel {
     public Article(DBObject articleDB) {
         this.id = (ObjectId) articleDB.get("_id");
         this.title = articleDB.get("title").toString();
-        this.link = articleDB.get("link").toString();
-        this.desc = articleDB.get("desc").toString();
+        if (articleDB.get("link") != null) {
+            this.link = articleDB.get("link").toString();
+        }
+        if (articleDB.get("desc") != null) {
+            this.desc = articleDB.get("desc").toString();
+        }
         this.author = articleDB.get("author").toString();
-        this.publishDate = (Date) articleDB.get("publishDate");
-        this.updateDate = (Date) articleDB.get("updateDate");
+        if (articleDB.get("publishDate") != null) {
+            this.publishDate = (Date) articleDB.get("publishDate");
+        }
+        if (articleDB.get("updateDate") != null) {
+            this.updateDate = (Date) articleDB.get("updateDate");
+        }
+        this.loadIsRead(SmartReaderUtils.getCurrentUser());
     }
 
     public void loadFeed(DBObject articleDB) {
@@ -92,23 +101,37 @@ public class Article extends MongoModel {
 
     public void loadRecommendation(DBObject articleDB) {
         BasicDBList recommeds = (BasicDBList) articleDB.get("recommends");
-        for (int i = 0; i < recommeds.size(); i++) {
-            DBRef ref = (DBRef) recommeds.get(i);
-            DBObject recommendDB = ref.fetch();
-            Article recommend = new Article(recommendDB);
-            recommend.loadFeed(recommendDB);
-            this.recommends.add(recommend);
+        if (recommeds != null) {
+            for (int i = 0; i < recommeds.size(); i++) {
+                DBRef ref = (DBRef) recommeds.get(i);
+                DBObject recommendDB = ref.fetch();
+                Article recommend = new Article(recommendDB);
+                recommend.loadFeed(recommendDB);
+                this.recommends.add(recommend);
+            }
+        }
+    }
+
+    public void loadIsRead(User user) {
+        UserArticle userArticle = UserArticle.getUserArticle(user, this);
+        if (userArticle == null) {
+            this.isRead = false;
+        }
+        else {
+            this.isRead = userArticle.isRead;
         }
     }
 
     public void loadDups(DBObject articleDB) {
         BasicDBList dups = (BasicDBList) articleDB.get("dups");
-        for (int i = 0; i < dups.size(); i++) {
-            DBRef ref = (DBRef) dups.get(i);
-            DBObject dupDB = ref.fetch();
-            Article dup = new Article(dupDB);
-            dup.loadFeed(dupDB);
-            this.dups.add(dup);
+        if (dups != null) {
+            for (int i = 0; i < dups.size(); i++) {
+                DBRef ref = (DBRef) dups.get(i);
+                DBObject dupDB = ref.fetch();
+                Article dup = new Article(dupDB);
+                dup.loadFeed(dupDB);
+                this.dups.add(dup);
+            }
         }
     }
 
@@ -124,6 +147,10 @@ public class Article extends MongoModel {
             this.dups.add(article);
             this.update();
         }
+    }
+
+    public boolean isReadBy(User user) {
+        return false;
     }
 
     @Override
@@ -142,15 +169,40 @@ public class Article extends MongoModel {
                 JsonSerializationContext ctx) {
             JsonObject article = new JsonObject();
             article.add("id", new JsonPrimitive(src.id.toString()));
-            article.add("title", new JsonPrimitive(src.title));
-            article.add("desc", new JsonPrimitive(src.desc));
-            article.add("link", new JsonPrimitive(src.link));
-            article.add("publishDate", ctx.serialize(src.publishDate));
-            article.add("updateDate", ctx.serialize(src.updateDate));
-            article.add("author", new JsonPrimitive(src.author));
+            if (src.title != null) {
+                article.add("title", new JsonPrimitive(src.title));
+            }
+            if (src.desc != null) {
+                article.add("desc", new JsonPrimitive(src.desc));
+            }
+            else {
+                article.add("desc", new JsonPrimitive(""));
+            }
+            if (src.link != null) {
+                article.add("link", new JsonPrimitive(src.link));
+            }
+            else {
+                article.add("link", new JsonPrimitive(""));
+            }
+            if (src.publishDate != null) {
+                article.add("publishDate", ctx.serialize(src.publishDate));
+            }
+            if (src.updateDate != null) {
+                article.add("updateDate", ctx.serialize(src.updateDate));
+            }
+            if (src.author != null) {
+                article.add("author", new JsonPrimitive(src.author));
+            }
+            else {
+                article.add("author", new JsonPrimitive(""));
+            }
             if (src.feed != null) {
                 article.add("feed", ctx.serialize(src.feed));
             }
+            else {
+                article.add("feed", new JsonPrimitive(""));
+            }
+            article.add("isRead", new JsonPrimitive(src.isRead));
             return article;
         }
     }

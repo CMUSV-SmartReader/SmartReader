@@ -1,6 +1,10 @@
 #content-container .article-summary.hidden { display: none; }
 #content-container .article-description.hidden { display: none; }
 
+#content {
+  margin: 1em 2em 0;
+}
+
 #content-container h2 a span {
     width: 15px;
     height: 30px;
@@ -40,7 +44,7 @@ div.card .article-description{
   transition: all 300ms ease;
 }
 div.card.expanded .article-description{
-  max-height: 999px;
+  max-height: 1536px;
 }
 
 .card .info{
@@ -49,7 +53,6 @@ div.card.expanded .article-description{
 }
 .views{
   text-align:right;
-  padding-right: 30px;
 }
 .views img{
   width: 20px;
@@ -70,14 +73,22 @@ div.card.expanded .article-description{
   float: left;
 }
 
-.continue-article {
-  text-decoration: none;
+.card .article-description .dupArticles { list-style: none; margin: 0;}
+.card .article-description .dupArticles li {
+  width: 47%; display: inline-block; overflow: hidden; white-space: nowrap;
+  border-left: 5px solid;
+  margin: 3px; padding: 2px;
+  border-radius: 1px;
+  cursor: pointer;
+  background-color: #e6e6e6;
 }
 
-.continue-article:before {
-   content: "More...";
-}
+.card .article-description .dupArticles li.popular1{ border-left-color: #F36F74; /*red*/ }
+.card .article-description .dupArticles li.popular2{ border-left-color: #FEAE96; /*orange*/ }
+.card .article-description .dupArticles li.popular3{ border-left-color: #FEE595; /*yellow*/ }
+.card .article-description .dupArticles li.popular4{ border-left-color: #88C6BA; /*green*/ }
+.card .article-description .dupArticles li.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
-div.card.expanded .continue-article:before {
-   content: "Less...";
-}
+.continue-article { text-decoration: none; }
+.continue-article:before { content: "More..."; }
+div.card.expanded .continue-article:before { content: "Less..."; }

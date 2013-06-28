@@ -119,4 +119,14 @@ public class ModelTest {
             articles.add(article);
         }
     }
+
+    @Test
+    public void migrateAddFeedCategoryToUserFeed() {
+        FeedCategory feedCategory = MongoModel.findEntity("51ccb7d83004fef02542eb6e", FeedCategory.class);
+        System.out.println(feedCategory.userFeeds);
+        for (UserFeed userFeed : feedCategory.userFeeds) {
+            System.out.println(userFeed.id);
+
+        }
+    }
 }

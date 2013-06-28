@@ -57,6 +57,10 @@ public class ReaderDB {
         return db.getCollection("Article");
     }
 
+    public static DBCollection getUserArticleCollection() {
+        return db.getCollection("UserArticle");
+    }
+
     private static class DBInfo {
 
         static String getDBHost() {
@@ -71,7 +75,7 @@ public class ReaderDB {
 
         static String getDBName() {
             String dbName = System.getenv("READER_DB_NAME");
-            return dbName != null ? dbName : "thermoreader";
+            return dbName != null ? dbName : "thermoreader-test";
         }
     }
 }

@@ -36,20 +36,27 @@
       </h2>
 
       <!-- Feed Cards -->
-      <div class="row-fluid" ng-repeat="category in allFeeds">
-        <ul class="thumbnails">
-          <div class="caption">
+      <div class="manage-category" ng-repeat="category in allFeeds">
+        <div class="manage-action">
             <h3>{{category.name}}</h3>
-            <li class="span4">
-              <div class="thumbnail">
-              </div>
-            </li>
-            <span ng-repeat="feed in category.feeds">
-              <a href="#"> {{feed.name}} </a>
-            </span>
+            <div class='manage-category-actions'>
+              <i class="manage-category-action icon-trash" ng-click="deleteCategory(category);"></i>
+              <i class="manage-category-action icon-pencil" ng-click="editCategory(category);"></i>
+              <i class="manage-category-action icon-plus" ng-click="showNewInput(category)"></i>
+            </div>
+        </div>
+        <ul class="manage-feeds">
+          <li class="manage-feed-input" ng-class="{'visible': category.visibleInput }">
+            <input placeholder='Feed URL' ng-model="category.feedURL" ng-blur="addNewFeed(category);" ng-trim="true" type="text"></input>
+          </li>
+          <li class="manage-feed" ng-repeat="feed in category.feeds">
+            <a href="#"> {{feed.name}} </a>
+            <i class="manage-feed-action icon-trash" ng-click="deleteUserFeed(category, feed);"></i>
+          </li>
         </ul>
-      </div>
 
+      </div>
     </div>
   </div>
+
 </div>
