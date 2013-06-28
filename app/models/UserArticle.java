@@ -31,10 +31,10 @@ public class UserArticle extends MongoModel {
         DBCollection collection = ReaderDB.getUserArticleCollection();
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", user.id);
-        query.put("ariticle.$id", article.id);
+        query.put("article.$id", article.id);
         DBObject userArticleDB = collection.findOne(query);
         if (userArticleDB != null) {
-            return MongoModel.find(userArticleDB.get("_id").toString(), UserArticle.class);
+            return MongoModel.findEntity(userArticleDB.get("_id").toString(), UserArticle.class);
         }
         else {
             return null;

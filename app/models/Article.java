@@ -9,6 +9,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import scala.util.Random;
+import util.SmartReaderUtils;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -87,6 +88,7 @@ public class Article extends MongoModel {
         if (articleDB.get("updateDate") != null) {
             this.updateDate = (Date) articleDB.get("updateDate");
         }
+        this.loadIsRead(SmartReaderUtils.getCurrentUser());
     }
 
     public void loadFeed(DBObject articleDB) {

@@ -111,7 +111,9 @@ span.logo_5 {
 }
 
 .manage-feed-action {
-  float: right; width: 14px; height: 14px;
+  float: right;
+  width: 14px;
+  height: 14px;
   cursor: pointer;
 }
 
