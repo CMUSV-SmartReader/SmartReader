@@ -55,7 +55,7 @@ thermoreader.db = function($http){
           feedArticles[feedId].articles.push( new thermoreader.model.article(
             d[i].id, d[i].title, d[i].author || feedArticles[feedId].name, d[i].publishDate,
             feedArticles[feedId].name, d[i].desc.slice(0, 48), d[i].desc,
-            d[i].link, Math.floor(Math.random()*5+1), false
+            d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
           ));
         };
         callback(feedArticles[feedId]);
@@ -70,7 +70,7 @@ thermoreader.db = function($http){
           duplicates.push( new thermoreader.model.article(
             d[i].id, d[i].title, d[i].author || d[i].feed.title, d[i].publishDate,
             d[i].feed.title, d[i].desc.slice(0, 48), d[i].desc,
-            d[i].link, Math.floor(Math.random()*5+1), false
+            d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
           ));
         }
         callback(duplicates);

@@ -71,14 +71,17 @@ thermoreader.manageCtrl = function($scope, dbFactory, $http) {
   $scope.deleteUserFeed = function(category, feed) {
     console.log(category);
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
+      console.log("successful delete");
+      delete feed;
     });
   };
-  
+
   $scope.addNewFeed = function(category) {
-    console.log($scope.feedURL);
+    console.log(category.feedURL);
     $http.post('/category/' + category.id + "/add_feed", {
-        data: "http://rss.sina.com.cn/news/allnews/tech.xml"
-      }).success(function() {
+      data: category.feedURL // http://rss.sina.com.cn/news/allnews/tech.xml
+    }).success(function() {
+      //category.feeds.psuh
     });
   };
 
