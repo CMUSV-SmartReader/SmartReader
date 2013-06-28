@@ -24,6 +24,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.sun.syndication.feed.synd.SyndFeed;
 
 @Entity
 public class Feed extends MongoModel {
@@ -57,11 +58,25 @@ public class Feed extends MongoModel {
 
     }
 
-    public void createUnique() {
+    public Feed(SyndFeed syndFeed) {
+        this.title = syndFeed.getTitle();
+        this.xmlUrl = syndFeed.getLink();
+    }
+
+    public Feed createUnique() {
         Feed feedEntity = Feed.findByXmlUrl(this.xmlUrl);
         if (feedEntity == null) {
             this.create();
+            return this;
         }
+        else {
+            return feedEntity;
+        }
+    }
+
+    public void addUser(User user) {
+        this.users.add(user);
+        this.update();
     }
 
     public static List<Article> articlesInFeed(String id) {

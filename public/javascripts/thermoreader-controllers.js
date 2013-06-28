@@ -76,11 +76,10 @@ thermoreader.manageCtrl = function($scope, dbFactory, $http) {
   
   $scope.addNewFeed = function(category) {
     console.log($scope.feedURL);
-    if ($scope.feedURL) {
-      $http.post('/category/' + category.id, $scope.feedURL).success(function() {
-
-      });
-    }
+    $http.post('/category/' + category.id + "/add_feed", {
+        data: "http://rss.sina.com.cn/news/allnews/tech.xml"
+      }).success(function() {
+    });
   };
 
 };

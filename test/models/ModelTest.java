@@ -122,9 +122,11 @@ public class ModelTest {
 
     @Test
     public void migrateAddFeedCategoryToUserFeed() {
-        List<FeedCategory> categories = (List<FeedCategory>) MongoModel.all(FeedCategory.class);
-        for (FeedCategory feedCategory : categories) {
-            List<UserFeed> userFeeds = feedCategory.userFeeds;
+        FeedCategory feedCategory = MongoModel.findEntity("51ccb7d83004fef02542eb6e", FeedCategory.class);
+        System.out.println(feedCategory.userFeeds);
+        for (UserFeed userFeed : feedCategory.userFeeds) {
+            System.out.println(userFeed.id);
+
         }
     }
 }
