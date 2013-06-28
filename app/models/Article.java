@@ -173,8 +173,14 @@ public class Article extends MongoModel {
             if (src.desc != null) {
                 article.add("desc", new JsonPrimitive(src.desc));
             }
+            else {
+                article.add("desc", new JsonPrimitive(""));
+            }
             if (src.link != null) {
                 article.add("link", new JsonPrimitive(src.link));
+            }
+            else {
+                article.add("link", new JsonPrimitive(""));
             }
             if (src.publishDate != null) {
                 article.add("publishDate", ctx.serialize(src.publishDate));
@@ -185,8 +191,14 @@ public class Article extends MongoModel {
             if (src.author != null) {
                 article.add("author", new JsonPrimitive(src.author));
             }
+            else {
+                article.add("author", new JsonPrimitive(""));
+            }
             if (src.feed != null) {
                 article.add("feed", ctx.serialize(src.feed));
+            }
+            else {
+                article.add("feed", new JsonPrimitive(""));
             }
             article.add("isRead", new JsonPrimitive(src.isRead));
             return article;
