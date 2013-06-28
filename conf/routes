@@ -47,9 +47,9 @@ PUT     /article/:id/unread         controllers.ArticleController.unread(id)
 POST    /category/create            controllers.FeedCategoryController.addFeedCategory()
 POST    /category/:id/add_feed      controllers.FeedCategoryController.addFeedToCategory(id)
 POST    /cateogry/:id/change_order  controllers.FeedCategoryController.changeFeedCategoryOrder(id)
-PUT  /category/:id/change_name      controllers.FeedCategoryController.changeName(id)
+PUT     /category/:id/change_name   controllers.FeedCategoryController.changeName(id)
 DELETE  /category/:id               controllers.FeedCategoryController.deleteFeedCategory(id)
-
+DELETE  /category/:id/:userFeedId   controllers.FeedCategoryController.deleteUserFeed(id, userFeedId)
 
 # UserFeed Related
 POST    /userfeed/:id/change_order  controllers.UserFeedController.changeUserFeedOrder(id)

@@ -106,8 +106,19 @@ span.logo_5 {
   float: right;
 }
 
+.manage-category-action {
+  cursor: pointer;
+}
+
+.manage-feed {
+  
+}
+
 .manage-feed-action {
+  width: 14px;
+  height: 14px;
   float: right;
+  cursor: pointer;
 }
 
 .manage-category-action {

@@ -23,6 +23,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
+import com.google.code.morphia.annotations.Transient;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -46,12 +47,15 @@ public class User extends MongoModel implements Identity {
 
     public String fullName;
 
+    @Transient
     public AuthenticationMethod authMethod;
 
     public String providerId;
 
+    @Transient
     public OAuth1Info oAuth1Info;
 
+    @Transient
     public OAuth2Info oAuth2Info;
 
     public PasswordInfo passwordInfo;

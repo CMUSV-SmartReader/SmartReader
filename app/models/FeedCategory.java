@@ -20,6 +20,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.mongodb.BasicDBList;
 import com.mongodb.DBObject;
+import com.mongodb.DBRef;
 
 @Entity
 public class FeedCategory extends MongoModel {
@@ -57,8 +58,26 @@ public class FeedCategory extends MongoModel {
         userFeed.user = user;
         userFeed.create();
         this.userFeeds.add(userFeed);
+        this.userFeedsIds.add(feed.id.toString());
         this.userFeedsTitles.add(feed.title);
         this.update();
+    }
+
+    public void deleteUserFeed(UserFeed userFeed) {
+        int index = -1;
+        for (int i = 0; i < this.userFeeds.size(); i++) {
+            if (this.userFeeds.get(i).id.equals(userFeed.id)) {
+                index = i;
+                break;
+            }
+        }
+        if (index != -1) {
+            this.userFeeds.remove(index);
+            this.userFeedsIds.remove(index);
+            this.userFeedsTitles.remove(index);
+        }
+        this.update();
+        userFeed.delete();
     }
 
     @Reference(concreteClass = ArrayList.class, lazy=true)
@@ -70,14 +89,18 @@ public class FeedCategory extends MongoModel {
 
     public static FeedCategory createFeedCategory(DBObject feedCategoryDB) {
         FeedCategory feedCategory = new FeedCategory();
+        feedCategory.id = new ObjectId(feedCategoryDB.get("_id").toString());
         feedCategory.name = feedCategoryDB.get("name").toString();
+        BasicDBList userFeedList = (BasicDBList) feedCategoryDB.get("userFeeds");
         BasicDBList userFeedIdList = (BasicDBList) feedCategoryDB.get("userFeedsIds");
         BasicDBList userFeedTitleList = (BasicDBList) feedCategoryDB.get("userFeedsTitles");
         if (userFeedTitleList != null && userFeedIdList != null) {
             for (int i = 0; i < userFeedIdList.size(); i++) {
                 HashMap<String, String> info = new HashMap<String, String>();
-                String feedId = userFeedIdList.get(i).toString();
-                info.put(feedId, userFeedTitleList.get(i).toString());
+                DBRef userFeedRef = (DBRef) userFeedList.get(i);
+                info.put("feedId", userFeedIdList.get(i).toString());
+                info.put("feedTitle", userFeedTitleList.get(i).toString());
+                info.put("userFeedId", userFeedRef.getId().toString());
                 feedCategory.userFeedsInfos.add(info);
             }
         }
@@ -90,6 +113,7 @@ public class FeedCategory extends MongoModel {
         public JsonElement serialize(FeedCategory src, Type type,
                 JsonSerializationContext ctx) {
             JsonObject feedObject = new JsonObject();
+            feedObject.add("id", new JsonPrimitive(src.id.toString()));
             feedObject.add("name", new JsonPrimitive(src.name));
             feedObject.add("userFeedsInfos", ctx.serialize(src.userFeedsInfos));
             return feedObject;

@@ -2,7 +2,9 @@ package controllers;
 
 import models.Feed;
 import models.FeedCategory;
+import models.MongoModel;
 import models.User;
+import models.UserFeed;
 import play.mvc.Controller;
 import play.mvc.Result;
 import securesocial.core.java.SecureSocial;
@@ -43,6 +45,13 @@ public class FeedCategoryController extends Controller {
     }
 
     public static Result deleteFeedCategory(String id) {
-        return  ok();
+        return ok();
+    }
+
+    public static Result deleteUserFeed(String id, String userFeedId) {
+        FeedCategory feedCategory = MongoModel.findEntity(id, FeedCategory.class);
+        UserFeed userFeed = MongoModel.findEntity(userFeedId, UserFeed.class);
+        feedCategory.deleteUserFeed(userFeed);
+        return ok();
     }
 }

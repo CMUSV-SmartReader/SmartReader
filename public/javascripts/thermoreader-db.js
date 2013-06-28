@@ -31,16 +31,19 @@ thermoreader.db = function($http){
         console.log(data);
         categoryFeeds = [];
         for(var i=0; i<data.length; ++i){
-          categoryFeeds.push({ name : data[i].name, feeds : [] });
+          categoryFeeds.push({ name : data[i].name, feeds : [], id: data[i].id });
           for(var j=0; j<data[i].userFeedsInfos.length; ++j){
-            for(var key in data[i].userFeedsInfos[j]){
-              categoryFeeds[i].feeds.push(
-                new thermoreader.model.feed( key, data[i].userFeedsInfos[j][key] )
-              );
+              var key = data[i].userFeedsInfos[j]["feedId"];
+              var title = data[i].userFeedsInfos[j]["feedTitle"];
+              var userFeedId = data[i].userFeedsInfos[j]["userFeedId"];
+              var feed = new thermoreader.model.feed(key, title);
+              feed.userFeedId = userFeedId;
+              categoryFeeds[i].feeds.push(feed);
               feedArticles[key] = {
-                name: data[i].userFeedsInfos[j][key], articles: []
+                name: userFeedId, articles: []
               };
-        } } }
+          } 
+        } 
         callback(categoryFeeds);
         //localStorage['categoryFeeds'] = JSON.stringify(categoryFeeds);
       });

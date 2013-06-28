@@ -62,10 +62,25 @@ thermoreader.mainCtrl = function($scope, $http, dbFactory) {
 
 };
 
-thermoreader.manageCtrl = function($scope, dbFactory) {
+thermoreader.manageCtrl = function($scope, dbFactory, $http) {
 
   $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds) {
     $scope.allFeeds = allFeeds;
   });
+
+  $scope.deleteUserFeed = function(category, feed) {
+    console.log(category);
+    $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
+    });
+  };
+  
+  $scope.addNewFeed = function(category) {
+    console.log($scope.feedURL);
+    if ($scope.feedURL) {
+      $http.post('/category/' + category.id, $scope.feedURL).success(function() {
+
+      });
+    }
+  };
 
 };

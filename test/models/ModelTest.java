@@ -119,4 +119,12 @@ public class ModelTest {
             articles.add(article);
         }
     }
+
+    @Test
+    public void migrateAddFeedCategoryToUserFeed() {
+        List<FeedCategory> categories = (List<FeedCategory>) MongoModel.all(FeedCategory.class);
+        for (FeedCategory feedCategory : categories) {
+            List<UserFeed> userFeeds = feedCategory.userFeeds;
+        }
+    }
 }

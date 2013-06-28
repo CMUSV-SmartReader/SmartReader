@@ -28,6 +28,10 @@ public abstract class MongoModel {
         ReaderDB.datastore.save(this);
     }
 
+    public void delete() {
+        ReaderDB.datastore.delete(this);
+    }
+
     public MongoModel() {
 
     }
@@ -49,6 +53,11 @@ public abstract class MongoModel {
             }
         }
         return false;
+    }
+
+    public static <T extends MongoModel> T findEntity(String id, Class<T> clazz) {
+        ObjectId objectId = new ObjectId(id);
+        return ReaderDB.datastore.get(clazz, objectId);
     }
 
     public static <T extends MongoModel> T find(String id, Class<T> clazz) {
