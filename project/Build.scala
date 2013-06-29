@@ -33,6 +33,25 @@ object ApplicationBuild extends Build {
     resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
     resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
     resolvers += Resolver.url("sbt-plugin-snapshots", url("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots/"))(Resolver.ivyStylePatterns)
+,
+   playStage <<= (playStage, baseDirectory) map {(stageCommand, baseDir) =>
+      val content = """#!/usr/bin/env sh
+                      |
+                      |# for ThermoReader
+                      |# for reader
+                      |export GITHUB_CLIENT_ID=dca1eb286de0808b8c1f
+                      |export GITHUB_CLIENT_SECRET=17233b7b09b826773b12a5a3903a2693e1e7affa
+                      |export FACEBOOK_CLIENT_ID=478707512205435
+                      |export FACEBOOK_CLIENT_SECRET=bb4fc429713005e4c1d1378108a34d49
+                      |export GOOGLE_CLIENT_ID=94895237141-lu9kgt0298h5c8u63kkqv3ejoakkulp0.apps.googleusercontent.com
+                      |export GOOGLE_CLIENT_SECRET=peNdMDBz3VLcGJPb6B2Ae1Xa
+                      |export AWS_ACCESS_KEY_ID=AKIAJEYU3OVITOZQJB7Q
+                      |export AWS_SECRET_KEY=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
+                      |
+                      |exec java $@ -cp "`dirname $0`/staged/*" play.core.server.NettyServer `dirname $0`/..""".stripMargin
+      IO.write(baseDir / "target" / "start", content)
+      stageCommand
+    }
   )
 
 }
