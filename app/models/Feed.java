@@ -81,10 +81,23 @@ public class Feed extends MongoModel {
 
     public static List<Article> articlesInFeed(String id) {
         List<Article> articles = new ArrayList<Article>();
-        DBCollection articleCollection = ReaderDB.db.getCollection("Article");
+        DBCollection articleCollection = ReaderDB.getArticleCollection();
         BasicDBObject query = new BasicDBObject();
         query.put("feed.$id", new ObjectId(id));
-        DBCursor cursor = articleCollection.find(query);
+        DBCursor cursor = articleCollection.find(query).limit(20);
+        while (cursor.hasNext()) {
+             articles.add(new Article(cursor.next()));
+        }
+        return articles;
+    }
+
+    public static List<Article> articlesInFeed(String id, Date publishedBefore) {
+        List<Article> articles = new ArrayList<Article>();
+        DBCollection articleCollection = ReaderDB.getArticleCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("feed.$id", new ObjectId(id));
+        query.put("publishDate", new BasicDBObject("$lt", publishedBefore));
+        DBCursor cursor = articleCollection.find(query).limit(20);
         while (cursor.hasNext()) {
              articles.add(new Article(cursor.next()));
         }
