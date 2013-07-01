@@ -40,7 +40,7 @@ public abstract class MongoModel {
 
     }
 
-    public static boolean exists(HashMap<String, Object>condition, Class clazz){
+    public static boolean exists(HashMap<String, Object>condition, Class<?> clazz){
         DBCollection collection = ReaderDB.db.getCollection(clazz.getSimpleName());
         BasicDBObject query = new BasicDBObject();
         query.putAll(condition);
