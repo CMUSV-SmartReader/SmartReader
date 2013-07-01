@@ -5,53 +5,96 @@
 @import securesocial.core.AuthenticationMethod._
 @import securesocial.core.providers.UsernamePasswordProvider.UsernamePassword
 
+
+<link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/welcome.css")'>
+<script type="text/javascript" src='@routes.Assets.at("javascripts/libs/jquery-2.0.2.min.js")'></script>
+<script type="text/javascript" src='@routes.Assets.at("javascripts/welcome.js")'></script>
+
+
 @main(Messages("securesocial.login.title")) {
-    <div class="page-header">
-        <h1>@Messages("securesocial.login.title")</h1>
+
+    <div class="welcome">
+	    <!-- <div class="page-header"></div> -->
+
+	   <!--  @errorMsg.map { msg =>
+	        <div class="alert alert-error">
+	            @Messages(msg)
+	        </div>
+	    }
+
+	    @request.flash.get("success").map { msg =>
+	        <div class="alert alert-info">
+	            @msg
+	        </div>
+	    }
+
+	    @request.flash.get("error").map { msg =>
+	        <div class="alert alert-error">
+	            @msg
+	        </div>
+	    } -->
+
+    <div class="content-wrapper">
+
+        <div class="page page-intro" >
+            <div class="content">
+                <div class="logo"></div>
+                <div class="message">Introducing the most elegant, <br>simple &amp; colorful RSS reader.</div>
+            </div>
+        </div>
+
+        <div class="page page-create">
+            <div class="content">
+                <div class="mac">
+                    <div class="mac-body">
+                        <!-- <div class="mac-video"></div> -->
+                    </div>
+                </div>
+                <div class="message">
+                    <div class="caption">Read.</div>
+                    <div class="text">Whenever you are at a break of meetings, or in the line waiting for coffee, the hottest news is always ready on the top for a quick peek.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page page-discover">
+            <div class="content">
+                <div class="ipad">
+                    <div class="ipad-video"></div>
+                </div>
+                <div class="message">
+                    <div class="caption">And only read.</div>
+                    <div class="text">You are not supposed to worry about anything more that your readings. <br/><br/>Having hundreds of unread feeds? <br/>Troubled with articles on duplicated topics? <br/>Don't know what to read first? <br/>Thermo Reader is the answer for all.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page page-beta">
+            <div class="content">
+                <div class="caption">Get started.</div>
+                <div class="text1">We make it extremely easy for you to move from Google Reader with no worries. It's as simple as one click.</div>
+                <div id="google-signin" class="email">
+                    <a href="/authenticate/google"></a>
+                </div>
+                <div class="copyright">Copyright © 2013 Thremo Reader Inc.<br>All rights reserved.</div>
+                <a class="hello" href="http://thermoreader.com" target="_blank">ThermoReader.com</a>
+            </div>
+        </div>
+
+	    <a class="login" href="/authenticate/google">Import from Google Reader</a>
     </div>
+</div>
 
-    @errorMsg.map { msg =>
-        <div class="alert alert-error">
-            @Messages(msg)
-        </div>
-    }
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    @request.flash.get("success").map { msg =>
-        <div class="alert alert-info">
-            @msg
-        </div>
-    }
+  ga('create', 'UA-42092575-2', 'thermoreader.com');
+  ga('send', 'pageview');
 
-    @request.flash.get("error").map { msg =>
-        <div class="alert alert-error">
-            @msg
-        </div>
-    }
+</script>
 
-
-@defining( Registry.providers.all.values.filter( _.id != UsernamePassword) ) { externalProviders =>
-
-        @if( externalProviders.size > 0 ) {
-            <div class="clearfix">
-                <h3>@Messages("securesocial.login.instructions")</h3>
-                <p>
-                    @for(p <- externalProviders) {
-                        @provider(p.id)(request)
-                    }
-                </p>
-            </div>
-        }
-
-        @Registry.providers.get(UsernamePassword).map { up =>
-            <div class="clearfix">
-                @if( externalProviders.size > 0 ) {
-                    <h3>@Messages("securesocial.login.useEmailAndPassword")</h3>
-                } else {
-                    <h3>@Messages("securesocial.login.useEmailAndPasswordOnly")</h3>
-                }
-
-               @provider("userpass", Some(loginForm))(request)
-            </div>
-        }
-    }
+ <!-- end of welcome-wrapper -->
 }
