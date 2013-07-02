@@ -12,7 +12,6 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
   });
 
   $scope.selectedFeed = [];
-
   switch($scope.pageName){
     case "home":
     case "recommendation":
@@ -27,6 +26,7 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
       });
   }
 
+  // Feed Page Functions
   $scope.expandArticle = function(article){
     article.expanded = !article.expanded;
     $http.put("/article/"+article.id+"/read").success( function(){
@@ -57,19 +57,7 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
     localStorage['orderRule'] = rule;
   };
 
-  $scope.$on('$viewContentLoaded', function(){
-    $('#side-container').perfectScrollbar({wheelSpeed: 60});
-    $('#content-container').perfectScrollbar({wheelSpeed: 60});
-  });
-
-};
-
-thermoreader.manageCtrl = function($scope, dbFactory, $http) {
-
-  $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds) {
-    $scope.allFeeds = allFeeds;
-  });
-
+  // Manage Page Functions
   $scope.deleteUserFeed = function(category, feed) {
     console.log(category);
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
@@ -91,5 +79,10 @@ thermoreader.manageCtrl = function($scope, dbFactory, $http) {
   $scope.showNewInput = function(category) {
     category.visibleInput = true;
   };
+
+  $scope.$on('$viewContentLoaded', function(){
+    $('#side-container').perfectScrollbar({wheelSpeed: 60});
+    $('#content-container').perfectScrollbar({wheelSpeed: 60});
+  });
 
 };
