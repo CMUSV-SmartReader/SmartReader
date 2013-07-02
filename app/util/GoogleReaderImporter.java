@@ -93,7 +93,6 @@ public class GoogleReaderImporter {
             userFeed.feed = feedEntity;
             userFeed.user = user;
             userFeed.create();
-            user.userFeeds.add(userFeed);
 
             List<Map> categories = (List<Map>)feed.get("categories");
             for (Map category: categories) {
