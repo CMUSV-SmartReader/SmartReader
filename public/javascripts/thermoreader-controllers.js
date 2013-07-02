@@ -1,6 +1,8 @@
 var thermoreader = thermoreader || {};
 
-thermoreader.mainCtrl = function($scope, $http, dbFactory) {
+thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
+
+  $scope.pageName = $routeParams.pageName;
 
   $scope.orderRule =
     localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
@@ -9,21 +11,21 @@ thermoreader.mainCtrl = function($scope, $http, dbFactory) {
     $scope.allFeeds = allFeeds;
   });
 
-  $scope.selectedFeed = dbFactory.getRecommendations(function(recommendations) {
-    $scope.selectedFeed = { name: "Recommendations", articles: recommendations };
-  });
+  $scope.selectedFeed = [];
 
-  $scope.selectFeed = function(feed) {
-    $scope.selectedFeed = dbFactory.getFeed(feed.id, function(feed){
-      $scope.selectedFeed = feed;
-    });
-  };
-
-  $scope.getRecommendations = function() {
-    $scope.selectedFeed = dbFactory.getRecommendations(function(recommendations){
-      $scope.selectedFeed = { name: "Recommendations", articles: recommendations };
-    });
-  };
+  switch($scope.pageName){
+    case "home":
+    case "recommendation":
+      $scope.selectedFeed = dbFactory.getRecommendations(function(recommendations) {
+        $scope.selectedFeed = { name: "Recommendations", articles: recommendations };
+      });
+      break;
+    case "feed":
+      console.log($routeParams.feedId);
+      $scope.selectedFeed = dbFactory.getFeed($routeParams.feedId, function(feed){
+        $scope.selectedFeed = feed;
+      });
+  }
 
   $scope.expandArticle = function(article){
     article.expanded = !article.expanded;

@@ -4,7 +4,7 @@ thermoreader.db = function($http){
 
 	var
     userId = localStorage.hasOwnProperty('userId')? JSON.parse(localStorage['userId']):"",
-    categoryFeeds = localStorage.hasOwnProperty('categoryFeeds')? JSON.parse(localStorage['categoryFeeds']):[],
+    categoryFeeds = [],
     recommendations = [],
     feedArticles = {},
 
@@ -25,25 +25,26 @@ thermoreader.db = function($http){
     },
 
     getAllFeeds = function(callback){
-      $http.get("/categories").success(function(data) {
-        console.log(data);
-        categoryFeeds = [];
-        for(var i=0; i<data.length; ++i){
-          categoryFeeds.push({ id: data[i].id, name : data[i].name, feeds : [] });
-          for(var j=0; j<data[i].userFeedsInfos.length; ++j){
-              var feed = new thermoreader.model.feed(
-                data[i].userFeedsInfos[j]["feedId"],
-                data[i].userFeedsInfos[j]["feedTitle"],
-                data[i].userFeedsInfos[j]["userFeedId"],
-                (new Date()), []
-              );
-              categoryFeeds[i].feeds.push(feed);
-              feedArticles[data[i].userFeedsInfos[j]["feedId"]] = feed;
+      if(categoryFeeds.length == 0){
+        $http.get("/categories").success(function(data) {
+          console.log(data);
+          categoryFeeds = [];
+          for(var i=0; i<data.length; ++i){
+            categoryFeeds.push({ id: data[i].id, name : data[i].name, feeds : [] });
+            for(var j=0; j<data[i].userFeedsInfos.length; ++j){
+                var feed = new thermoreader.model.feed(
+                  data[i].userFeedsInfos[j]["feedId"],
+                  data[i].userFeedsInfos[j]["feedTitle"],
+                  data[i].userFeedsInfos[j]["userFeedId"],
+                  (new Date()), []
+                );
+                categoryFeeds[i].feeds.push(feed);
+                feedArticles[data[i].userFeedsInfos[j]["feedId"]] = feed;
+            }
           }
-        }
-        callback(categoryFeeds);
-        //localStorage['categoryFeeds'] = JSON.stringify(categoryFeeds);
-      });
+          callback(categoryFeeds);
+        });
+      }
       return categoryFeeds;
     },
 

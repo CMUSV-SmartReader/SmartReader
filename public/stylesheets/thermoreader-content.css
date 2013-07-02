@@ -45,6 +45,7 @@ div.card .article-description{
 }
 div.card.expanded .article-description{
   max-height: 1536px;
+  overflow: auto;
 }
 
 .card .info{
