@@ -1,8 +1,5 @@
 package controllers;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import models.Feed;
 import models.FeedCategory;
 import models.MongoModel;
@@ -14,11 +11,8 @@ import org.codehaus.jackson.JsonNode;
 import play.mvc.Controller;
 import play.mvc.Result;
 import securesocial.core.java.SecureSocial;
+import util.FeedParser;
 import util.SmartReaderUtils;
-
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.SyndFeedInput;
-import com.sun.syndication.io.XmlReader;
 
 public class FeedCategoryController extends Controller {
 
@@ -41,13 +35,7 @@ public class FeedCategoryController extends Controller {
             User user = SmartReaderUtils.getCurrentUser();
             JsonNode dataNode = request().body().asJson().get("data");
             String xmlUrl = dataNode.asText();
-            System.out.println(xmlUrl);
-            URL url = new URL(xmlUrl);
-            HttpURLConnection httpcon = (HttpURLConnection)url.openConnection();
-            httpcon.connect();
-            SyndFeedInput input = new SyndFeedInput();
-            SyndFeed syndFeed = input.build(new XmlReader(httpcon));
-            Feed feed = new Feed(syndFeed);
+            Feed feed = FeedParser.parseFeedInfo(xmlUrl);
             feed = feed.createUnique();
             feed.addUser(user);
             feedCategory.createFeed(user, feed);

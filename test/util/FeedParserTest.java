@@ -30,10 +30,10 @@ public class FeedParserTest {
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
             try {
-                System.out.println("Parsing: " + feed.xmlUrl + " " + feed.htmlUrl);
+//                System.out.println("Parsing: " + feed.xmlUrl + " " + feed.htmlUrl);
                 FeedParser.parseFeed(feed);
             } catch (Exception e) {
-                System.out.print("Error: " + feed.xmlUrl);
+                System.out.println("Error: " + feed.htmlUrl + " " + feed.xmlUrl);
             }
         }
     }
@@ -41,10 +41,10 @@ public class FeedParserTest {
     @Test
     public void testParsingOneFeed() throws Exception {
         Feed feed = new Feed();
-        feed.xmlUrl = "http://www.engadget.com/rss.xml";
+        feed.xmlUrl = "http://feedpress.me/finertech/pc";
         List<Article> articles = FeedParser.parseFeed(feed);
         for (Article article : articles) {
-            article.create();
+            System.out.println(article.link);
         }
     }
 }

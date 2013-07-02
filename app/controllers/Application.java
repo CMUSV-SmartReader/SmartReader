@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import models.Article;
@@ -47,9 +48,18 @@ public class Application extends Controller {
 
     @SecureSocial.UserAwareAction
     public static Result getFeed(String id) {
-        List<Article> articles = Feed.articlesInFeed(id);
+        String publishDateStr = request().getQueryString("publishDate");
         Gson gson = SmartReaderUtils.builder.create();
-        return ok(gson.toJson(articles));
+        if (publishDateStr == null) {
+            List<Article> articles = Feed.articlesInFeed(id);
+            return ok(gson.toJson(articles));
+        }
+        else {
+            long publishDateLong = Long.parseLong(publishDateStr);
+            Date publishDate = new Date(publishDateLong);
+            List<Article> articles = Feed.articlesInFeed(id, publishDate);
+            return ok(gson.toJson(articles));
+        }
     }
 
     @SecureSocial.UserAwareAction
