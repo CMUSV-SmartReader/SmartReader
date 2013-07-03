@@ -7,6 +7,9 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
   $scope.orderRule =
     localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
 
+  $scope.isLoading = false;
+  $scope.isEndOfFeed = false;
+
   $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds){
     $scope.allFeeds = allFeeds;
   });
@@ -61,9 +64,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
 
   $scope.fetchData = function(){
     if($scope.pageName == "feed"){
-      dbFactory.getFeed($routeParams.feedId, true, function(feed){
-        $scope.selectedFeed = feed;
-      });
+      if(!$scope.isEndOfFeed){
+        $scope.isLoading = true;
+        dbFactory.getFeed($routeParams.feedId, true, function(feed){
+          if($scope.selectedFeed.length == feed.length){ $scope.isEndOfFeed = true; }
+          else { $scope.selectedFeed = feed; }
+          $scope.isLoading = false;
+        });
+      }
     }
     //$scope.$apply();
   };

@@ -19,7 +19,7 @@
   <div ng-class="{'expanded': article.expanded, 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in selectedFeed.articles | orderBy:orderRule" ng-animate="{enter: 'slide-enter', leave: 'slide-leave'}">
 
       <div class="media-body-text-only pull-left">
-        <h4 class="media-heading">☆
+        <h4 class="media-heading"><!-- ☆ -->
           <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
         </h4>
           <span class="info">
@@ -43,3 +43,6 @@
       </div>
     <div class="clearfix"></div>
   </div>
+
+  <div ng-show="isLoading" class="loading-indicator feed-indicator"><img src="/assets/images/ajax-loader.gif"> Loading </div>
+  <div ng-show="isEndOfFeed" class="end-indicator feed-indicator"> End of Feed </div>

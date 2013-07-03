@@ -52,20 +52,24 @@ div.card.expanded .article-description{
 
 .slide-enter{
   transition: all 1s ease;
-  position: relative;
-  top: 1000px;
+  transform: translate3d(0, 1000px, 0);
+  -webkit-transform: translate3d(0, 1000px, 0);
+  /*position: relative;
+  top: 1000px;*/
 }
 .slide-enter.slide-enter-active{
-  top: 0;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }
 
 .slide-leave{
   transition: all 1s ease;
-  position: relative;
-  top: 0;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .slide-leave.slide-leave-active{
-  top: -1000px;
+  transform: translate3d(0, -1000px, 0);
+  -webkit-transform: translate3d(0, -1000px, 0);
 }
 
 
@@ -115,3 +119,9 @@ div.card.expanded .article-description{
 .continue-article { text-decoration: none; }
 .continue-article:before { content: "More..."; }
 div.card.expanded .continue-article:before { content: "Less..."; }
+
+.feed-indicator {
+  background-color: #f9f9f9;
+  margin: 10px;
+  padding: 5px 20px;
+}
