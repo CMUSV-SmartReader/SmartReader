@@ -47,8 +47,6 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
   };
 
   $scope.replaceArticle = function(article, dupArticle){
-    console.log(article);
-    console.log(dupArticle);
     article.title = dupArticle.title;
     article.link = dupArticle.link;
     article.date = dupArticle.date;
@@ -64,7 +62,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
 
   $scope.fetchData = function(){
     if($scope.pageName == "feed"){
-      if(!$scope.isEndOfFeed){
+      if(!$scope.isEndOfFeed && !$scope.isLoading){
         $scope.isLoading = true;
         dbFactory.getFeed($routeParams.feedId, true, function(feed){
           if($scope.selectedFeed.length == feed.length){ $scope.isEndOfFeed = true; }
