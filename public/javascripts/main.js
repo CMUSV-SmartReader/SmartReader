@@ -3,14 +3,19 @@ var thermoreader = thermoreader || {};
 thermoreader.instance = angular.module('thermoReader', [])
   .factory('dbFactory', thermoreader.db)
   .controller('mainCtrl', thermoreader.mainCtrl)
-  //.controller('manageCtrl', thermoreader.manageCtrl)
   .directive('ngBlur', function() {
     return function(scope, elem, attrs) {
-      elem.bind('blur', function() {
-        console.log(attrs);
-        scope.$apply(attrs.ngBlur);
+      elem.bind('blur', function() { scope.$apply(attrs.ngBlur); });
+    };
+  })
+  .directive('ngScrollend', function() {
+    return function(scope, elem, attrs) {
+      elem.bind('scroll', function(){
+        if(elem[0].scrollTop + elem[0].offsetHeight >= elem[0].scrollHeight){
+          scope.$apply(attrs.ngScrollend);
+        }
       });
-    }
+    };
   })
   .config(function($routeProvider) {
   	$routeProvider

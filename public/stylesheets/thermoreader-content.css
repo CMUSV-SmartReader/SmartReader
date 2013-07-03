@@ -48,6 +48,29 @@ div.card.expanded .article-description{
   overflow: auto;
 }
 
+.slide-enter{
+  /*-webkit-transition: 1s linear all;*/
+  transition: all 1s ease;
+  position: relative;
+  left: -2000px;
+}
+.slide-enter.slide-enter-active{
+
+  left: 0;
+}
+
+.slide-leave{
+  transition: all 1s ease;
+  position: relative;
+  left: 0;
+}
+.slide-leave.slide-leave-active{
+
+  left: 2000px;
+}
+
+
+
 .card .info{
   color: gray;
   font-size: 85%;

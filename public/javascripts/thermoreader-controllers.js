@@ -15,8 +15,9 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
   switch($scope.pageName){
     case "home":
     case "recommendation":
-      $scope.selectedFeed = dbFactory.getRecommendations(function(recommendations) {
-        $scope.selectedFeed = { name: "Recommendations", articles: recommendations };
+      $scope.selectedFeed = { name: "Recommendations", articles: [] };
+      $scope.selectedFeed.articles = dbFactory.getRecommendations(function(recommendations) {
+        $scope.selectedFeed.articles = recommendations;
       });
       break;
     case "feed":
@@ -55,6 +56,12 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
   $scope.setOrderRule = function(rule){
     $scope.orderRule = rule;
     localStorage['orderRule'] = rule;
+  };
+
+  $scope.fetchData = function(){
+    console.log("end reached...");
+
+    //$scope.$apply();
   };
 
   // Manage Page Functions

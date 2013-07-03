@@ -16,11 +16,11 @@
   </div>
 
   <!-- Feed Cards -->
-  <div ng-class="{'expanded': article.expanded, 'read': article.read}" class="card popular{{article.popular}}" ng-repeat="article in selectedFeed.articles | orderBy:orderRule">
+  <div ng-class="{'expanded': article.expanded, 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in selectedFeed.articles | orderBy:orderRule" >
 
       <div class="media-body-text-only pull-left">
         <h4 class="media-heading">☆
-          <a href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
+          <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
         </h4>
           <span class="info">
             <span class="date">{{article.date}}</span>
@@ -32,7 +32,7 @@
             <div class="article-description">
               <div class="article-text" ng-bind-html-unsafe="article.description"></div>
               <ul class="dupArticles">
-                <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" class="popular{{dupArticle.popular}}">
+                <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" ng-class="popular{{dupArticle.popular}}">
                   {{dupArticle.title}} from {{dupArticle.feedName}}
                 </li>
               </ul>
