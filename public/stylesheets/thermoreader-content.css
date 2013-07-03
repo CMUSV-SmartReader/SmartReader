@@ -13,6 +13,8 @@
     text-indent: -9999px;
 }
 
+div.views > a.active { border: 1px solid #000; }
+
 div.view {
   background-color: #f5f5f5;
 }
@@ -49,24 +51,21 @@ div.card.expanded .article-description{
 }
 
 .slide-enter{
-  /*-webkit-transition: 1s linear all;*/
   transition: all 1s ease;
   position: relative;
-  left: -2000px;
+  top: 1000px;
 }
 .slide-enter.slide-enter-active{
-
-  left: 0;
+  top: 0;
 }
 
 .slide-leave{
   transition: all 1s ease;
   position: relative;
-  left: 0;
+  top: 0;
 }
 .slide-leave.slide-leave-active{
-
-  left: 2000px;
+  top: -1000px;
 }
 
 

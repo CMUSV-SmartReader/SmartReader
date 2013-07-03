@@ -1,6 +1,6 @@
 var thermoreader = thermoreader || {};
 
-thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
+thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeout, dbFactory) {
 
   $scope.pageName = $routeParams.pageName;
 
@@ -11,6 +11,7 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
     $scope.allFeeds = allFeeds;
   });
 
+  // If the page is to display a feed
   $scope.selectedFeed = [];
   switch($scope.pageName){
     case "home":
@@ -32,6 +33,7 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
     $http.put("/article/"+article.id+"/read").success( function(){
       article.read = true;
     });
+    // Temporary disable duplicates before underlying service is reasonably working
     /*dbFactory.getDuplicates(article.id, function(d){
       if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
         article.id, article.title, article.author, article.date,
@@ -58,7 +60,6 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
   };
 
   $scope.fetchData = function(){
-    console.log("end reached...");
     if($scope.pageName == "feed"){
       dbFactory.getFeed($routeParams.feedId, true, function(feed){
         $scope.selectedFeed = feed;
@@ -93,6 +94,14 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
   $scope.$on('$viewContentLoaded', function(){
     $('#side-container').perfectScrollbar({wheelSpeed: 60});
     $('#content-container').perfectScrollbar({wheelSpeed: 60});
+  });
+
+  // Hack to keep the menu scrollTop...
+  $scope.$on('$routeChangeStart', function(next, current) {
+    $rootScope.menuScrollTop = $('#side-container').scrollTop();
+  });
+  $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
+    $timeout(function(){$('#side-container').scrollTop($rootScope.menuScrollTop);});
   });
 
 };

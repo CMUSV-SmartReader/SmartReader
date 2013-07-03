@@ -28,7 +28,7 @@
 
   <div ng-scrollend="fetchData()" id="content-container" class="span10 sub-container">
     <!-- Main Content Container -->
-    <div  id="content" ng-switch="pageName" ng-animate="{enter: 'slide-enter', leave: 'slide-leave'}">
+    <div id="content" ng-switch="pageName" ng-animate="{enter: 'slide-enter', leave: 'slide-leave'}">
       <div ng-switch-when="home" ng-include="'/assets/templates/feed.html'"></div>
       <div ng-switch-when="recommendation" ng-include="'/assets/templates/feed.html'"></div>
       <div ng-switch-when="feed" ng-include="'/assets/templates/feed.html'"></div>
