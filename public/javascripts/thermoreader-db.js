@@ -36,7 +36,7 @@ thermoreader.db = function($http){
                   data[i].userFeedsInfos[j]["feedId"],
                   data[i].userFeedsInfos[j]["feedTitle"],
                   data[i].userFeedsInfos[j]["userFeedId"],
-                  (new Date()), []
+                  (new Date()), (new Date()), []
                 );
                 categoryFeeds[i].feeds.push(feed);
                 feedArticles[data[i].userFeedsInfos[j]["feedId"]] = feed;
@@ -48,19 +48,28 @@ thermoreader.db = function($http){
       return categoryFeeds;
     },
 
-    getFeed = function(feedId, callback){
-      $http.get("/feed/"+feedId).success(function(d){
-        console.log(d);
-        feedArticles[feedId].articles = []; // clear cache
-        for(var i=0; i<d.length; ++i){
-          feedArticles[feedId].articles.push( new thermoreader.model.article(
-            d[i].id, d[i].title, d[i].author || feedArticles[feedId].name, d[i].publishDate,
-            feedArticles[feedId].name, d[i].desc.slice(0, 48), d[i].desc,
-            d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
-          ));
-        };
-        callback(feedArticles[feedId]);
-      });
+    getFeed = function(feedId, isScroll, callback){
+      if(feedArticles[feedId].articles.length == 0 || isScroll){
+        $http.get("/feed/"+feedId+"?publishDate="+feedArticles[feedId].earliest.getTime()).success(function(d){
+          console.log(d);
+          //feedArticles[feedId].articles = []; // clear cache
+          for(var i=0; i<d.length; ++i){
+            feedArticles[feedId].articles.push( new thermoreader.model.article(
+              d[i].id, d[i].title, d[i].author || feedArticles[feedId].name, d[i].publishDate,
+              feedArticles[feedId].name, d[i].desc.slice(0, 48), d[i].desc,
+              d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
+            ));
+            // Update latest and earliest data
+            if(feedArticles[feedId].latest < (new Date(d[i].publishDate))){
+              feedArticles[feedId].latest = (new Date(d[i].publishDate));
+            }
+            if(feedArticles[feedId].earliest > (new Date(d[i].publishDate))){
+              feedArticles[feedId].earliest = (new Date(d[i].publishDate));
+            }
+          };
+          callback(feedArticles[feedId]);
+        });
+      }
       return feedArticles[feedId];
     },
 

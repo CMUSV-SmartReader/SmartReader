@@ -23,7 +23,7 @@
           <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
         </h4>
           <span class="info">
-            <span class="date">{{article.date}}</span>
+            <span class="date">{{article.date | prettyDate}}</span>
             <span class="author">by <a>{{article.author}}</a></span>
             <span class="from">from <a>{{article.feedName}}</a></span>
           </span>

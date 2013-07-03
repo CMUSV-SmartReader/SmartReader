@@ -21,8 +21,7 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
       });
       break;
     case "feed":
-      console.log($routeParams.feedId);
-      $scope.selectedFeed = dbFactory.getFeed($routeParams.feedId, function(feed){
+      $scope.selectedFeed = dbFactory.getFeed($routeParams.feedId, false, function(feed){
         $scope.selectedFeed = feed;
       });
   }
@@ -33,13 +32,13 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
     $http.put("/article/"+article.id+"/read").success( function(){
       article.read = true;
     });
-    dbFactory.getDuplicates(article.id, function(d){
+    /*dbFactory.getDuplicates(article.id, function(d){
       if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
         article.id, article.title, article.author, article.date,
         article.feedName, article.summary, article.description,
         article.link, article.popular, article.read
       )].concat(d); }
-    });
+    });*/
   };
 
   $scope.replaceArticle = function(article, dupArticle){
@@ -60,7 +59,11 @@ thermoreader.mainCtrl = function($scope, $routeParams, $http, dbFactory) {
 
   $scope.fetchData = function(){
     console.log("end reached...");
-
+    if($scope.pageName == "feed"){
+      dbFactory.getFeed($routeParams.feedId, true, function(feed){
+        $scope.selectedFeed = feed;
+      });
+    }
     //$scope.$apply();
   };
 

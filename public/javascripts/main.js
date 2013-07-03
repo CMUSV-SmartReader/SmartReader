@@ -17,6 +17,11 @@ thermoreader.instance = angular.module('thermoReader', [])
       });
     };
   })
+  .filter('prettyDate', function() {
+    return function(time) {
+      return prettyDate(new Date(time));
+    };
+  })
   .config(function($routeProvider) {
   	$routeProvider
   	//.when("/home", {controller: "mainCtrl", templateUrl: "/assets/templates/main.html"})

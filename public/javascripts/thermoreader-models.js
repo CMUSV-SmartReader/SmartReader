@@ -1,11 +1,12 @@
 var thermoreader = thermoreader || {};
 thermoreader.model = {};
 
-thermoreader.model.feed = function(id, name, userFeedId, updated, articles) {
+thermoreader.model.feed = function(id, name, userFeedId, latest, earliest, articles) {
   this.id = id || "";
   this.name = name || "";
   this.userFeedId = userFeedId || "";
-  this.updated = updated || new Date();
+  this.latest = latest || new Date();
+  this.earliest = earliest || new Date();
   this.articles = articles || [];
 };
 
