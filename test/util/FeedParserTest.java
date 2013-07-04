@@ -20,7 +20,12 @@ public class FeedParserTest {
     public void testCrawlUserArticles() throws Exception{
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
-            feed.crawl();
+            try {
+                feed.crawl();
+            }
+            catch (Exception e) {
+
+            }
         }
     }
 
@@ -30,8 +35,6 @@ public class FeedParserTest {
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
             try {
-//                System.out.println("Parsing: " + feed.xmlUrl + " " + feed.htmlUrl);
-                FeedParser.parseFeed(feed);
             } catch (Exception e) {
                 System.out.println("Error: " + feed.htmlUrl + " " + feed.xmlUrl);
             }
