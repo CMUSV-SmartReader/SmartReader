@@ -47,8 +47,9 @@ object ApplicationBuild extends Build {
                       |export GOOGLE_CLIENT_SECRET=peNdMDBz3VLcGJPb6B2Ae1Xa
                       |export AWS_ACCESS_KEY_ID=AKIAJEYU3OVITOZQJB7Q
                       |export AWS_SECRET_KEY=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
+                      |export READER_DB_NAME=thermoreader
                       |
-                      |exec java $@ -cp "`dirname $0`/staged/*" play.core.server.NettyServer `dirname $0`/..""".stripMargin
+                      |exec sudo FACEBOOK_CLIENT_ID=478707512205435 FACEBOOK_CLIENT_SECRET=bb4fc429713005e4c1d1378108a34d49 GOOGLE_CLIENT_ID=94895237141-lu9kgt0298h5c8u63kkqv3ejoakkulp0.apps.googleusercontent.com GOOGLE_CLIENT_SECRET=peNdMDBz3VLcGJPb6B2Ae1Xa java $@ -cp "`dirname $0`/staged/*" play.core.server.NettyServer `dirname $0`/..""".stripMargin
       IO.write(baseDir / "target" / "start", content)
       stageCommand
     }
