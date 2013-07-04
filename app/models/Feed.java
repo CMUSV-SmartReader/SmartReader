@@ -133,6 +133,8 @@ public class Feed extends MongoModel {
                 article = article.createUnique();
                 this.articles.add(article);
             }
+            this.hasError = false;
+            this.errorReason = "";
             this.update();
 
         } catch (Exception e) {
@@ -145,6 +147,7 @@ public class Feed extends MongoModel {
     }
 
     public static void crawAll() {
+        @SuppressWarnings("unchecked")
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
             try {
