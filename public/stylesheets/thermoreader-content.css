@@ -2,7 +2,7 @@
 #content-container .article-description.hidden { display: none; }
 
 #content {
-  margin: 1em 2em 0;
+  margin-left: 2em; margin-right: 2em;
 }
 
 #content-container h2 a span {

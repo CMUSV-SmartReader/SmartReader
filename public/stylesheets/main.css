@@ -1,8 +1,11 @@
 /* global */
+
+html, body { height: 100%; }
+
 body {
-  padding-top: 40px;
   color: #777;
   font-family: sans-serif;
+  overflow: hidden;
 }
 
 /* layout related */
@@ -10,6 +13,10 @@ body {
   height: 100%; padding-left: 0;
   background-color: #e6e6e6;
   overflow: hidden;
+}
+
+#main-container > .row-fluid {
+  height: 100%;
 }
 
 #menu-toggle-btn {
@@ -22,6 +29,10 @@ body {
   transition: width 300ms ease, opacity 300ms ease;
   position: relative;
   overflow-y: hidden;
+}
+
+.sub-container>:first-child {
+  margin-top: 60px;
 }
 
 /* others */
