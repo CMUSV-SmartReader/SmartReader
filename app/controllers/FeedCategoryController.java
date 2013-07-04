@@ -14,12 +14,13 @@ import securesocial.core.java.SecureSocial;
 import util.FeedParser;
 import util.SmartReaderUtils;
 
+import com.google.gson.Gson;
+
 public class FeedCategoryController extends Controller {
 
 
     @SecureSocial.UserAwareAction
     public static Result addFeedCategory() {
-        System.out.println(request().body().toString());
         User user = SmartReaderUtils.getCurrentUser();
         FeedCategory feedCategory = new FeedCategory();
         feedCategory.user = user;
@@ -39,11 +40,14 @@ public class FeedCategoryController extends Controller {
             feed = feed.createUnique();
             feed.addUser(user);
             feedCategory.createFeed(user, feed);
+            Gson gson = SmartReaderUtils.builder.create();
+            return ok(gson.toJson(feed));
         }
         catch (Exception e) {
             e.printStackTrace();
+            return badRequest(e.toString());
         }
-        return ok();
+
     }
 
     public static Result changeName(String id) {
