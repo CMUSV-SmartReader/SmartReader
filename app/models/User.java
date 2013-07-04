@@ -67,9 +67,6 @@ public class User extends MongoModel implements Identity {
     public List<FeedCategory> feedCategories = new ArrayList<FeedCategory>();
 
     @Reference(concreteClass = ArrayList.class, lazy = true)
-    public List<UserFeed> userFeeds = new ArrayList<UserFeed>();
-
-    @Reference(concreteClass = ArrayList.class, lazy = true)
     public List<Feed> feeds = new ArrayList<Feed>();
 
     @Reference(concreteClass = ArrayList.class, lazy = true)

@@ -5,10 +5,9 @@
       <!-- FB-like Slide Menu-->
       <div id="main-feeds">
         <ul class="nav nav-list">
-          <li ng-click="getRecommendations()"> <a href="javascript: void(0)"> Home </a> </li>
-          <li ng-click="getRecommendations()"> <a href="javascript: void(0)"> Recommendation </a> </li>
-          <li ng-click=""><a href='#manage'> Manage </a> </li>
-          <!-- <li> <a href="#"> Saved </a> </li> -->
+          <li> <a href="#/home"> Home </a> </li>
+          <li> <a href="#/recommendation"> Recommendation </a> </li>
+          <li> <a href='#/manage'> Manage </a> </li>
         </ul>
       </div>
 
@@ -18,7 +17,7 @@
             <li class="divider"></li>
             <li class="nav-header"><a href="javascript: void(0)"><strong>{{category.name}}</strong></a></li>
             <li ng-repeat="feed in category.feeds" ng-click="selectFeed(feed)">
-              <a href="javascript: void(0)"> {{feed.name}} </a>
+              <a ng-href="#/feed/{{feed.id}}"> {{feed.name}} </a>
             </li>
           </ul>
         </div>
@@ -27,56 +26,13 @@
     </div>
   </div>
 
-  <div id="content-container" class="span10 sub-container">
-      <!-- Main Content Container -->
-    <div id="content">
-      <!-- Title and Misc -->
-      <h2><a>
-        <span class="logo_1 logo"></span>
-        <span class="logo_2 logo"></span>
-        <span class="logo_3 logo"></span>
-        <span class="logo_4 logo"></span>
-        <span class="logo_5 logo"></span>
-        </a>{{selectedFeed.name}}
-      </h2>
-
-      <div class="views">Order by:
-        <a href="javascript: void(0)" ng-click="setOrderRule('popular')">Popularity</a>,
-        <a href="javascript: void(0)" ng-click="setOrderRule('-date')">Date</a>
-        <!-- <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
-        <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a> -->
-      </div>
-
-      <!-- Feed Cards -->
-      <div ng-class="{'expanded': article.expanded, 'read': article.read}" class="card popular{{article.popular}}" ng-repeat="article in selectedFeed.articles | orderBy:orderRule">
-
-          <div class="media-body-text-only pull-left">
-            <h4 class="media-heading">☆
-              <a href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
-            </h4>
-              <span class="info">
-                <span class="date">{{article.date}}</span>
-                <span class="author">by <a>{{article.author}}</a></span>
-                <span class="from">from <a>{{article.feedName}}</a></span>
-              </span>
-              <p>
-                <div class="article-summary">{{article.summary}}</div>
-                <div class="article-description">
-                  <div class="article-text" ng-bind-html-unsafe="article.description"></div>
-                  <ul class="dupArticles">
-                    <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" class="popular{{dupArticle.popular}}">
-                      {{dupArticle.title}} from {{dupArticle.feedName}}
-                    </li>
-                  </ul>
-                </div>
-
-                <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
-              </p>
-          </div>
-        <div class="clearfix"></div>
-      </div>
-
-
+  <div ng-scrollend="fetchData()" id="content-container" class="span10 sub-container">
+    <!-- Main Content Container -->
+    <div id="content" ng-switch="pageName">
+      <div ng-switch-when="home" ng-include="'/assets/templates/feed.html'"></div>
+      <div ng-switch-when="recommendation" ng-include="'/assets/templates/feed.html'"></div>
+      <div ng-switch-when="feed" ng-include="'/assets/templates/feed.html'"></div>
+      <div ng-switch-when="manage" ng-include="'/assets/templates/manage.html'"></div>
     </div>
   </div>
 </div>

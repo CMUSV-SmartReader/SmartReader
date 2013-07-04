@@ -2,7 +2,7 @@
 #content-container .article-description.hidden { display: none; }
 
 #content {
-  margin: 1em 2em 0;
+  margin-left: 2em; margin-right: 2em;
 }
 
 #content-container h2 a span {
@@ -11,6 +11,17 @@
     float: left;
     display: inline;
     text-indent: -9999px;
+}
+
+div.views > a {
+  padding: 2px;
+  border-radius: 2px;
+}
+
+div.views > a.active, div.views > a:hover {
+  /*border: 3px solid #000;*/
+  background-color: #0088cc;
+  color: #fff;
 }
 
 div.view {
@@ -40,12 +51,37 @@ div.card.popular5{ border-left-color: #B2D1F0; /*blue*/ }
 
 div.card .article-summary{ display: none; }
 div.card .article-description{
-  max-height: 1.5em; overflow: hidden;
+  max-height: 0; overflow: hidden;
   transition: all 300ms ease;
 }
 div.card.expanded .article-description{
   max-height: 1536px;
+  overflow: auto;
 }
+
+.slide-enter{
+  transition: all 1s ease;
+  transform: translate3d(0, 1000px, 0);
+  -webkit-transform: translate3d(0, 1000px, 0);
+  /*position: relative;
+  top: 1000px;*/
+}
+.slide-enter.slide-enter-active{
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.slide-leave{
+  transition: all 1s ease;
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+.slide-leave.slide-leave-active{
+  transform: translate3d(0, -1000px, 0);
+  -webkit-transform: translate3d(0, -1000px, 0);
+}
+
+
 
 .card .info{
   color: gray;
@@ -92,3 +128,9 @@ div.card.expanded .article-description{
 .continue-article { text-decoration: none; }
 .continue-article:before { content: "More..."; }
 div.card.expanded .continue-article:before { content: "Less..."; }
+
+.feed-indicator {
+  background-color: #f9f9f9;
+  margin: 10px;
+  padding: 5px 20px;
+}

@@ -75,7 +75,7 @@ public class ReaderDB {
 
         static String getDBName() {
             String dbName = System.getenv("READER_DB_NAME");
-            return dbName != null ? dbName : "thermoreader-dev";
+            return dbName != null ? dbName : "thermoreader-test";
         }
     }
 }

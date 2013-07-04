@@ -1,62 +1,36 @@
-<div class="row-fluid">
-  <div id ="side-container" class="span2 sub-container">
-    <div id="side-menu" class="sidebar-nav">
 
-      <!-- FB-like Slide Menu-->
-      <div id="main-feeds">
-        <ul class="nav nav-list">
-          <li ng-click="getRecommendations()"> <a href="#"> Home </a> </li>
-          <li ng-click="getRecommendations()"> <a href="#"> Recommendation </a> </li>
-          <li ng-click=""><a href='#manage'> Manage </a> </li>
-          <!-- <li> <a href="#"> Saved </a> </li> -->
-        </ul>
-      </div>
+  <!-- Title and Misc -->
+  <h2><a><span class="logo_1"></span><span class="logo_2"></span><span class="logo_3"></span><span class="logo_4"></span><span class="logo_5"></span></a>
+    Manage Feeds
+  </h2>
 
-      <div id="user-feeds">
-        <div ng-repeat="category in allFeeds">
-          <ul class="nav nav-list">
-            <li class="divider"></li>
-            <li class="nav-header"><a href="#"><strong>{{category.name}}</strong></a></li>
-            <li ng-repeat="feed in category.feeds" ng-click="selectFeed(feed)">
-              <a href="#"> {{feed.name}} </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
+<!--   <div class="input-append">
+    <input id="manage-newfeed-input" type="text" placeholder="Paste the URL here!">
+    <button id="manage-newfeed-btn" class="btn" type="button">Add Feed!</button>
   </div>
+  <select name="manage-newfeed-category" id="manage-newfeed-category">
+    <option ng-repeat="category in allFeeds" ng-value="{{category.name}}">{{category.name}}</option>
+  </select>
+ -->
 
-  <div id="content-container" class="span10 sub-container">
-      <!-- Main Content Container -->
-    <div id="content">
-      <!-- Title and Misc -->
-      <h2><a><span class="logo_1"></span><span class="logo_2"></span><span class="logo_3"></span><span class="logo_4"></span><span class="logo_5"></span></a>
-        Manage Feeds
-      </h2>
-
-      <!-- Feed Cards -->
-      <div class="manage-category" ng-repeat="category in allFeeds">
-        <div class="manage-action">
-            <h3>{{category.name}}</h3>
-            <div class='manage-category-actions'>
-              <i class="manage-category-action icon-trash" ng-click="deleteCategory(category);"></i>
-              <i class="manage-category-action icon-pencil" ng-click="editCategory(category);"></i>
-              <i class="manage-category-action icon-plus" ng-click="showNewInput(category)"></i>
-            </div>
+  <!-- Feed Cards -->
+  <div class="manage-category" ng-repeat="category in allFeeds">
+    <div class="manage-action">
+        <h3>{{category.name}}</h3>
+        <div class='manage-category-actions'>
+          <i class="manage-category-action icon-trash" ng-click="deleteCategory(category);"></i>
+          <i class="manage-category-action icon-pencil" ng-click="editCategory(category);"></i>
+          <i class="manage-category-action icon-plus" ng-click="showNewInput(category)"></i>
         </div>
-        <ul class="manage-feeds">
-          <li class="manage-feed-input" ng-class="{'visible': category.visibleInput }">
-            <input placeholder='Feed URL' ng-model="category.feedURL" ng-blur="addNewFeed(category);" ng-trim="true" type="text"></input>
-          </li>
-          <li class="manage-feed" ng-repeat="feed in category.feeds">
-            <a href="#"> {{feed.name}} </a>
-            <i class="manage-feed-action icon-trash" ng-click="deleteUserFeed(category, feed);"></i>
-          </li>
-        </ul>
-
-      </div>
     </div>
-  </div>
+    <ul class="manage-feeds">
+      <li class="manage-feed-input" ng-class="{'visible': category.visibleInput }">
+        <input placeholder='Feed URL' ng-model="category.feedURL" ng-blur="addNewFeed(category);" ng-trim="true" type="text"></input>
+      </li>
+      <li class="manage-feed" ng-repeat="feed in category.feeds">
+        <a href="#"> {{feed.name}} </a>
+        <i class="manage-feed-action icon-trash" ng-click="deleteUserFeed(category, feed);"></i>
+      </li>
+    </ul>
 
-</div>
+  </div>

@@ -1,36 +1,44 @@
 var thermoreader = thermoreader || {};
 
-thermoreader.mainCtrl = function($scope, $http, dbFactory) {
+thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeout, dbFactory) {
+
+  $scope.pageName = $routeParams.pageName;
 
   $scope.orderRule =
     localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
+
+  $scope.isLoading = false;
+  $scope.isEndOfFeed = false;
 
   $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds){
     $scope.allFeeds = allFeeds;
   });
 
-  $scope.selectedFeed = dbFactory.getRecommendations(function(recommendations) {
-    $scope.selectedFeed = { name: "Recommendations", articles: recommendations };
-  });
+  // If the page is to display a feed
+  $scope.selectedFeed = [];
+  switch($scope.pageName){
+    case "home":
+    case "recommendation":
+      $scope.selectedFeed = { name: "Recommendations", articles: [] };
+      $scope.selectedFeed.articles = dbFactory.getRecommendations(function(recommendations) {
+        $scope.selectedFeed.articles = recommendations;
+      });
+      break;
+    case "feed":
+      $scope.selectedFeed = dbFactory.getFeed($routeParams.feedId, false, function(feed){
+        $scope.selectedFeed = feed;
+      });
+  }
 
-  $scope.selectFeed = function(feed) {
-    $scope.selectedFeed = dbFactory.getFeed(feed.id, function(feed){
-      $scope.selectedFeed = feed;
-    });
-  };
-
-  $scope.getRecommendations = function() {
-    $scope.selectedFeed = dbFactory.getRecommendations(function(recommendations){
-      $scope.selectedFeed = { name: "Recommendations", articles: recommendations };
-    });
-  };
-
+  // Feed Page Functions
   $scope.expandArticle = function(article){
     article.expanded = !article.expanded;
     $http.put("/article/"+article.id+"/read").success( function(){
       article.read = true;
     });
+    // Temporary disable duplicates before underlying service is reasonably working
     dbFactory.getDuplicates(article.id, function(d){
+      console.log(d);
       if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
         article.id, article.title, article.author, article.date,
         article.feedName, article.summary, article.description,
@@ -40,8 +48,6 @@ thermoreader.mainCtrl = function($scope, $http, dbFactory) {
   };
 
   $scope.replaceArticle = function(article, dupArticle){
-    console.log(article);
-    console.log(dupArticle);
     article.title = dupArticle.title;
     article.link = dupArticle.link;
     article.date = dupArticle.date;
@@ -55,19 +61,21 @@ thermoreader.mainCtrl = function($scope, $http, dbFactory) {
     localStorage['orderRule'] = rule;
   };
 
-  $scope.$on('$viewContentLoaded', function(){
-    $('#side-container').perfectScrollbar({wheelSpeed: 60});
-    $('#content-container').perfectScrollbar({wheelSpeed: 60});
-  });
+  $scope.fetchData = function(){
+    if($scope.pageName == "feed"){
+      if(!$scope.isEndOfFeed && !$scope.isLoading){
+        $scope.isLoading = true;
+        dbFactory.getFeed($routeParams.feedId, true, function(feed){
+          if($scope.selectedFeed.length == feed.length){ $scope.isEndOfFeed = true; }
+          else { $scope.selectedFeed = feed; }
+          $scope.isLoading = false;
+        });
+      }
+    }
+    //$scope.$apply();
+  };
 
-};
-
-thermoreader.manageCtrl = function($scope, dbFactory, $http) {
-
-  $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds) {
-    $scope.allFeeds = allFeeds;
-  });
-
+  // Manage Page Functions
   $scope.deleteUserFeed = function(category, feed) {
     console.log(category);
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
@@ -89,5 +97,18 @@ thermoreader.manageCtrl = function($scope, dbFactory, $http) {
   $scope.showNewInput = function(category) {
     category.visibleInput = true;
   };
+
+  $scope.$on('$viewContentLoaded', function(){
+    $('#side-container').perfectScrollbar({wheelSpeed: 60});
+    $('#content-container').perfectScrollbar({wheelSpeed: 60});
+  });
+
+  // Hack to keep the menu scrollTop...
+  $scope.$on('$routeChangeStart', function(next, current) {
+    $rootScope.menuScrollTop = $('#side-container').scrollTop();
+  });
+  $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
+    $timeout(function(){$('#side-container').scrollTop($rootScope.menuScrollTop);});
+  });
 
 };

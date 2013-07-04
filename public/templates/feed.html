@@ -1,0 +1,48 @@
+  <!-- Title and Misc -->
+  <h2><a>
+    <span class="logo_1 logo"></span>
+    <span class="logo_2 logo"></span>
+    <span class="logo_3 logo"></span>
+    <span class="logo_4 logo"></span>
+    <span class="logo_5 logo"></span>
+    </a>{{selectedFeed.name}}
+  </h2>
+
+  <div class="views">Order by:
+    <a href="javascript: void(0)" ng-class="{'active': orderRule == 'popular'}" ng-click="setOrderRule('popular')">Popularity</a>,
+    <a href="javascript: void(0)" ng-class="{'active': orderRule == '-date'}" ng-click="setOrderRule('-date')">Date</a>
+    <!-- <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
+    <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a> -->
+  </div>
+
+  <!-- Feed Cards -->
+  <div ng-class="{'expanded': article.expanded, 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in selectedFeed.articles | orderBy:orderRule" ng-animate="{enter: 'slide-enter', leave: 'slide-leave'}">
+
+      <div class="media-body-text-only pull-left">
+        <h4 class="media-heading"><!-- ☆ -->
+          <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
+        </h4>
+          <span class="info">
+            <span class="date">{{article.date | prettyDate}}</span>
+            <span class="author">by <a>{{article.author}}</a></span>
+            <span class="from">from <a>{{article.feedName}}</a></span>
+          </span>
+          <p>
+            <div class="article-summary">{{article.summary}}</div>
+            <div class="article-description">
+              <div class="article-text" ng-bind-html-unsafe="article.description"></div>
+              <ul class="dupArticles">
+                <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" ng-class="popular{{dupArticle.popular}}">
+                  {{dupArticle.title}} from {{dupArticle.feedName}}
+                </li>
+              </ul>
+            </div>
+
+            <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
+          </p>
+      </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <div ng-show="isLoading" class="loading-indicator feed-indicator"><img src="/assets/images/ajax-loader.gif"> Loading </div>
+  <div ng-show="isEndOfFeed" class="end-indicator feed-indicator"> End of Feed </div>
