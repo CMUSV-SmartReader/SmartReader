@@ -1,8 +1,10 @@
 
-  <!-- Title and Misc -->
-  <h2><a><span class="logo_1"></span><span class="logo_2"></span><span class="logo_3"></span><span class="logo_4"></span><span class="logo_5"></span></a>
-    Manage Feeds
-  </h2>
+<!-- Title and Misc -->
+<h2>
+  <a><span class="logo_1"></span><span class="logo_2"></span><span
+    class="logo_3"></span><span class="logo_4"></span><span
+    class="logo_5"></span></a> Manage Feeds
+</h2>
 
 <!--   <div class="input-append">
     <input id="manage-newfeed-input" type="text" placeholder="Paste the URL here!">
@@ -13,29 +15,50 @@
   </select>
  -->
 
-  <!-- import subscriptions using Google Takeout -->
-  <div id="import-from-file" class="manage-category">
-    Import from Google Takeout
-  </div>
-  
-  <!-- Feed Cards -->
-  <div class="manage-category" ng-repeat="category in allFeeds">
-    <div class="manage-action">
-        <h3>{{category.name}}</h3>
-        <div class='manage-category-actions'>
-          <i class="manage-category-action icon-trash" ng-click="deleteCategory(category);"></i>
-          <i class="manage-category-action icon-pencil" ng-click="editCategory(category);"></i>
-          <i class="manage-category-action icon-plus" ng-click="showNewInput(category)"></i>
-        </div>
-    </div>
-    <ul class="manage-feeds">
-      <li class="manage-feed-input" ng-class="{'visible': category.visibleInput }">
-        <input placeholder='Feed URL' ng-model="category.feedURL" ng-blur="addNewFeed(category);" ng-trim="true" type="text"></input>
-      </li>
-      <li class="manage-feed" ng-repeat="feed in category.feeds">
-        <a href="#"> {{feed.name}} </a>
-        <i class="manage-feed-action icon-trash" ng-click="deleteUserFeed(category, feed);"></i>
-      </li>
-    </ul>
+<!-- import subscriptions using Google Takeout -->
+<div id="import-from-file" class="manage-category">
+  <!-- <div class="manage-action">
+    <h3>Import</h3>
+  </div> -->
 
+  <!-- The global progress bar -->
+  <div id="progress" class="span6 progress progress-success progress-striped">
+    <div class="bar"></div>
   </div>
+  <span class="span6 btn btn-success fileinput-button"> 
+    <i class="icon-plus icon-white"></i> 
+    <span>Select files...</span> 
+    <!-- The file input field used as target for the file upload widget -->
+    <input id="fileupload" type="file" name="files[]" multiple>
+  </span>
+  <!-- The container for the uploaded files -->
+  <div id="files" class="files"></div>
+  <br>
+</div>
+
+<!-- Feed Cards -->
+<div class="manage-category" ng-repeat="category in allFeeds">
+  <div class="manage-action">
+    <h3>{{category.name}}</h3>
+    <div class='manage-category-actions'>
+      <i class="manage-category-action icon-trash"
+        ng-click="deleteCategory(category);"></i> <i
+        class="manage-category-action icon-pencil"
+        ng-click="editCategory(category);"></i> <i
+        class="manage-category-action icon-plus"
+        ng-click="showNewInput(category)"></i>
+    </div>
+  </div>
+  <ul class="manage-feeds">
+    <li class="manage-feed-input"
+      ng-class="{'visible': category.visibleInput }"><input
+      placeholder='Feed URL' ng-model="category.feedURL"
+      ng-blur="addNewFeed(category);" ng-trim="true" type="text"></input>
+    </li>
+    <li class="manage-feed" ng-repeat="feed in category.feeds"><a
+      href="#"> {{feed.name}} </a> <i
+      class="manage-feed-action icon-trash"
+      ng-click="deleteUserFeed(category, feed);"></i></li>
+  </ul>
+
+</div>
