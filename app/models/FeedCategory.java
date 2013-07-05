@@ -57,9 +57,13 @@ public class FeedCategory extends MongoModel {
         userFeed.feed = feed;
         userFeed.user = user;
         userFeed.create();
+        this.addUserFeed(userFeed);
+    }
+
+    public void addUserFeed(UserFeed userFeed) {
         this.userFeeds.add(userFeed);
-        this.userFeedsIds.add(feed.id.toString());
-        this.userFeedsTitles.add(feed.title);
+        this.userFeedsIds.add(userFeed.feed.id.toString());
+        this.userFeedsTitles.add(userFeed.feed.title);
         this.update();
     }
 
@@ -78,6 +82,11 @@ public class FeedCategory extends MongoModel {
         }
         this.update();
         userFeed.delete();
+    }
+
+    @Override
+    public void delete() {
+        super.delete();
     }
 
     @Reference(concreteClass = ArrayList.class, lazy=true)

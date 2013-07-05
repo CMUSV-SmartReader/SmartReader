@@ -9,7 +9,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import scala.util.Random;
-import util.SmartReaderUtils;
+import util.ReaderDB;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -20,6 +20,8 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -88,7 +90,6 @@ public class Article extends MongoModel {
         if (articleDB.get("updateDate") != null) {
             this.updateDate = (Date) articleDB.get("updateDate");
         }
-        this.loadIsRead(SmartReaderUtils.getCurrentUser());
     }
 
     public void loadFeed(DBObject articleDB) {
@@ -153,14 +154,25 @@ public class Article extends MongoModel {
         return false;
     }
 
-    @Override
-    public void create(){
+    public Article createUnique(){
         HashMap<String, Object> condition = new HashMap<String, Object>();
         condition.put("link", this.link);
-        if(Article.exists(condition, Article.class)){
-            return;
+        Article existingArticle = Article.existingArticle(condition, Article.class);
+        if (existingArticle != null){
+            return existingArticle;
         }
-        super.create();
+        else {
+            super.create();
+            return this;
+        }
+    }
+
+    public static Article existingArticle(HashMap<String, Object>condition, Class<?> clazz){
+        DBCollection collection = ReaderDB.db.getCollection(clazz.getSimpleName());
+        BasicDBObject query = new BasicDBObject();
+        query.putAll(condition);
+        DBObject entityDB = collection.findOne(query);
+        return entityDB != null ? new Article(entityDB) : null;
     }
 
     public static class Serializer implements JsonSerializer<Article> {

@@ -10,6 +10,7 @@ import org.bson.types.ObjectId;
 import play.Logger;
 import util.FeedParser;
 import util.ReaderDB;
+import util.SmartReaderUtils;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -42,6 +43,10 @@ public class Feed extends MongoModel {
     public String htmlUrl;
 
     public Date lastAccessedTime;
+
+    public boolean hasError;
+
+    public String errorReason;
 
     @Reference(lazy = true)
     public List<Article> articles = new ArrayList<Article>();
@@ -86,7 +91,9 @@ public class Feed extends MongoModel {
         query.put("feed.$id", new ObjectId(id));
         DBCursor cursor = articleCollection.find(query).limit(20);
         while (cursor.hasNext()) {
-             articles.add(new Article(cursor.next()));
+            Article article = new Article(cursor.next());
+            article.loadIsRead(SmartReaderUtils.getCurrentUser());
+            articles.add(article);
         }
         return articles;
     }
@@ -99,7 +106,9 @@ public class Feed extends MongoModel {
         query.put("publishDate", new BasicDBObject("$lt", publishedBefore));
         DBCursor cursor = articleCollection.find(query).limit(20);
         while (cursor.hasNext()) {
-             articles.add(new Article(cursor.next()));
+            Article article = new Article(cursor.next());
+            article.loadIsRead(SmartReaderUtils.getCurrentUser());
+            articles.add(article);
         }
         return articles;
     }
@@ -121,23 +130,29 @@ public class Feed extends MongoModel {
             List<Article> articles = FeedParser.parseFeed(this);
             for (Article article : articles) {
                 article.feed = this;
-                article.create();
+                article = article.createUnique();
                 this.articles.add(article);
             }
+            this.hasError = false;
+            this.errorReason = "";
             this.update();
 
         } catch (Exception e) {
-            System.out.println(e);
+            this.hasError = true;
+            this.errorReason = e.getMessage();
+            this.update();
+            throw new RuntimeException(e);
         }
         return this.articles;
     }
 
     public static void crawAll() {
+        @SuppressWarnings("unchecked")
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
         for (Feed feed : feeds) {
             try {
                 feed.crawl();
-                Logger.debug("parse[" + feed.xmlUrl + "] success");
+                Logger.info("parse[" + feed.xmlUrl + "] success");
             } catch (Exception e) {
                 Logger.warn("parse [" + feed.xmlUrl + "] fail : "
                         + e.getMessage());
