@@ -7,7 +7,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
   $scope.orderRule = localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
   $scope.isLoading = false;
   $scope.isEndOfFeed = false;
-  $scope.viewMode = "listMode";
+  $scope.viewMode = "listMode"; // or "articleMode"
 
   $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds){
     $scope.allFeeds = allFeeds;
@@ -36,14 +36,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
       article.read = true;
     });
     // Temporary disable duplicates before underlying service is reasonably working
-    dbFactory.getDuplicates(article.id, function(d){
-      console.log(d);
-      if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
-        article.id, article.title, article.author, article.date,
-        article.feedName, article.summary, article.description,
-        article.link, article.popular, article.read
-      )].concat(d); }
-    });
+    // dbFactory.getDuplicates(article.id, function(d){
+    //   console.log(d);
+    //   if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
+    //     article.id, article.title, article.author, article.date,
+    //     article.feedName, article.summary, article.description,
+    //     article.link, article.popular, article.read
+    //   )].concat(d); }
+    // });
   };
 
   $scope.replaceArticle = function(article, dupArticle){
@@ -83,18 +83,15 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
     });
   };
 
-  $scope.addNewFeed = function(category) {
-    console.log(category.feedURL);
-    $http.post('/category/' + category.id + "/add_feed", {
-      data: category.feedURL // http://rss.sina.com.cn/news/allnews/tech.xml
-    }).success(function() {
+  $scope.addNewFeed = function(category, feedURL) {
+    console.log(category);
+    console.log(feedURL);
+    $http.post("/category/" + category.id + "/add_feed", {
+      data: feedURL // http://rss.sina.com.cn/news/allnews/tech.xml
+    }).success(function(d) {
+      console.log(d);
       //category.feeds.psuh
     });
-    category.visibleInput = false;
-  };
-
-  $scope.showNewInput = function(category) {
-    category.visibleInput = true;
   };
 
   $scope.$on('$viewContentLoaded', function(){

@@ -7,11 +7,11 @@
 </h2>
 
 <div class="input-append" id="manage-input-container">
-  <select name="manage-newfeed-category" id="manage-newfeed-category">
-    <option ng-repeat="category in allFeeds">{{category.name}}</option>
+  <select name="manage-newfeed-category" id="manage-newfeed-category" ng-model="manageSelectedCategory" required="required" ng-options="category as category.name for category in allFeeds">
+    <option style="display:none" value="">Select a Category</option>
   </select>
-  <input id="manage-newfeed-input" type="text" placeholder="Paste the feed URL here!">
-  <button id="manage-addfeed-btn" class="btn" type="button">Add</button>
+  <input id="manage-newfeed-input" type="text" placeholder="Paste the feed URL here!" ng-model="manageFeedURL" ng-trim="true">
+  <button id="manage-addfeed-btn" class="btn" type="button" ng-click="addNewFeed(manageSelectedCategory, manageFeedURL)">Add</button>
   <button id="manage-importfeed-btn" class="btn" type="button">Import</button>
 </div>
 
@@ -44,23 +44,18 @@ import subscriptions using Google Takeout
     <h3>{{category.name}}</h3>
     <div class='manage-category-actions'>
       <i class="manage-category-action icon-trash"
-        ng-click="deleteCategory(category);"></i> <i
+        ng-click="deleteCategory(category);"></i> <!--<i
         class="manage-category-action icon-pencil"
-        ng-click="editCategory(category);"></i> <i
+        ng-click="editCategory(category);"></i>  <i
         class="manage-category-action icon-plus"
-        ng-click="showNewInput(category)"></i>
+        ng-click="showNewInput(category)"></i> -->
     </div>
   </div>
   <ul class="manage-feeds">
-    <li class="manage-feed-input"
-      ng-class="{'visible': category.visibleInput }"><input
-      placeholder='Feed URL' ng-model="category.feedURL"
-      ng-blur="addNewFeed(category);" ng-trim="true" type="text"></input>
+    <li class="manage-feed" ng-repeat="feed in category.feeds">
+      <a href="#"> {{feed.name}} </a>
+      <i class="manage-feed-action icon-trash" ng-click="deleteUserFeed(category, feed);"></i>
     </li>
-    <li class="manage-feed" ng-repeat="feed in category.feeds"><a
-      href="#"> {{feed.name}} </a> <i
-      class="manage-feed-action icon-trash"
-      ng-click="deleteUserFeed(category, feed);"></i></li>
   </ul>
 
 </div>
