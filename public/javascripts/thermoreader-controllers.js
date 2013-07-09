@@ -4,11 +4,10 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
 
   $scope.pageName = $routeParams.pageName;
 
-  $scope.orderRule =
-    localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
-
+  $scope.orderRule = localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
   $scope.isLoading = false;
   $scope.isEndOfFeed = false;
+  $scope.viewMode = "listMode";
 
   $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds){
     $scope.allFeeds = allFeeds;
@@ -75,7 +74,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
     //$scope.$apply();
   };
 
-  // Manage Page Functions
+  /* Manage Page Functions */
   $scope.deleteUserFeed = function(category, feed) {
     console.log(category);
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {

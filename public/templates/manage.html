@@ -6,35 +6,37 @@
     class="logo_5"></span></a> Manage Feeds
 </h2>
 
-<!--   <div class="input-append">
-    <input id="manage-newfeed-input" type="text" placeholder="Paste the URL here!">
-    <button id="manage-newfeed-btn" class="btn" type="button">Add Feed!</button>
-  </div>
+<div class="input-append" id="manage-input-container">
   <select name="manage-newfeed-category" id="manage-newfeed-category">
-    <option ng-repeat="category in allFeeds" ng-value="{{category.name}}">{{category.name}}</option>
+    <option ng-repeat="category in allFeeds">{{category.name}}</option>
   </select>
- -->
+  <input id="manage-newfeed-input" type="text" placeholder="Paste the feed URL here!">
+  <button id="manage-addfeed-btn" class="btn" type="button">Add</button>
+  <button id="manage-importfeed-btn" class="btn" type="button">Import</button>
+</div>
 
-<!-- import subscriptions using Google Takeout -->
+<!--
+import subscriptions using Google Takeout
 <div id="import-from-file" class="manage-category">
-  <!-- <div class="manage-action">
+  <div class="manage-action">
     <h3>Import</h3>
-  </div> -->
+  </div>
 
-  <!-- The global progress bar -->
+  The global progress bar
   <div id="progress" class="span6 progress progress-success progress-striped">
     <div class="bar"></div>
   </div>
-  <span class="span6 btn btn-success fileinput-button"> 
-    <i class="icon-plus icon-white"></i> 
-    <span>Select files...</span> 
-    <!-- The file input field used as target for the file upload widget -->
+  <span class="span6 btn btn-success fileinput-button">
+    <i class="icon-plus icon-white"></i>
+    <span>Select files...</span>
+    The file input field used as target for the file upload widget
     <input id="fileupload" type="file" name="files[]" multiple>
   </span>
-  <!-- The container for the uploaded files -->
+  The container for the uploaded files
   <div id="files" class="files"></div>
   <br>
-</div>
+</div> -->
+
 
 <!-- Feed Cards -->
 <div class="manage-category" ng-repeat="category in allFeeds">
