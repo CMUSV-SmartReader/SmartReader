@@ -39,6 +39,8 @@ public class Article extends MongoModel {
 
     public String desc;
 
+    public String content = "";
+
     public String summary;
 
     public String link;
@@ -53,6 +55,8 @@ public class Article extends MongoModel {
 
     public int popularity;
 
+    public List<String> categories = new ArrayList<String>();
+
     @Reference(lazy=true)
     public List<Article> dups = new ArrayList<Article>();
 
@@ -64,6 +68,16 @@ public class Article extends MongoModel {
         this.title = entry.getTitle();
         this.link = entry.getLink();
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
+        if (entry.getContents() != null) {
+            for (Object contentObj : entry.getContents()) {
+                content += contentObj.toString();
+            }
+        }
+        if (entry.getCategories() != null) {
+            for (Object categoryObject : entry.getCategories()) {
+                categories.add(categoryObject.toString());
+            }
+        }
         this.summary = this.desc;
         this.popularity = rand.nextInt(5) + 1;
         this.publishDate = entry.getPublishedDate();
@@ -214,6 +228,13 @@ public class Article extends MongoModel {
             else {
                 article.add("feed", new JsonPrimitive(""));
             }
+            if (src.content != null) {
+                article.add("content", new JsonPrimitive(src.content));
+            }
+            else {
+                article.add("content", new JsonPrimitive(""));
+            }
+            article.add("categories", ctx.serialize(src.categories));
             article.add("isRead", new JsonPrimitive(src.isRead));
             return article;
         }

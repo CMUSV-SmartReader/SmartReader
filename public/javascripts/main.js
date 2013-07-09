@@ -35,3 +35,4 @@ thermoreader.instance = angular.module('thermoReader', [])
 $(document).on('ready', function(){
   thermoreader.ui.init();
 });
+

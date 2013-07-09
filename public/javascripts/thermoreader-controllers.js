@@ -1,6 +1,6 @@
 var thermoreader = thermoreader || {};
 
-thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeout, dbFactory) {
+thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $http, $timeout, dbFactory) {
 
   $scope.pageName = $routeParams.pageName;
 
@@ -107,4 +107,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $http, $timeo
     $timeout(function(){$('#side-container').scrollTop($rootScope.menuScrollTop);});
   });
 
+  // Hotkeys
+
+  angular.element($document).bind("keyup", function(event) {
+    if (event.which === 191) {
+      $('#hotkeys').modal({
+        backdropFade: true,
+        dialogFade:true
+      });
+    }
+  });
 };
