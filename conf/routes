@@ -53,3 +53,4 @@ DELETE  /category/:id/:userFeedId   controllers.FeedCategoryController.deleteUse
 
 # UserFeed Related
 POST    /userfeed/:id/change_order  controllers.UserFeedController.changeUserFeedOrder(id)
+PUT     /userfeed/:id/inc_popularity controllers.UserFeedController.increasePopularity(id)
