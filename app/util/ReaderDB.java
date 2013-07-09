@@ -65,7 +65,7 @@ public class ReaderDB {
 
         static String getDBHost() {
             String dbHost = System.getenv("READER_DB_HOST");
-            return dbHost != null ? dbHost : "54.215.148.76";
+            return dbHost != null ? dbHost : "test.lydian.tw";
         }
 
         static int getDBPort() {
