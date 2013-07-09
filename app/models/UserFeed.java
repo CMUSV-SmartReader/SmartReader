@@ -24,6 +24,8 @@ public class UserFeed extends MongoModel {
 
     public int order;
 
+    public int popularity;
+
     @Reference(lazy = true)
     public User user;
 
@@ -34,6 +36,21 @@ public class UserFeed extends MongoModel {
         UserFeed userFeed = new UserFeed();
         userFeed.feed = Feed.createFeed(((DBRef) userFeedDB.get("feed")).fetch());
         return userFeed;
+    }
+
+    public UserFeed() {
+
+    }
+
+    public UserFeed(DBObject userFeedDB) {
+        id = new ObjectId(userFeedDB.get("_id").toString());
+        order = Integer.parseInt(userFeedDB.get("order").toString());
+        popularity = Integer.parseInt(userFeedDB.get("popularity").toString());
+    }
+
+    public void increasePopularity() {
+        this.popularity++;
+        this.update();
     }
 
     public static class Serializer implements JsonSerializer<UserFeed> {
