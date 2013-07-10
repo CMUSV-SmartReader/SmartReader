@@ -51,13 +51,14 @@ public class FeedCategory extends MongoModel {
         return this.articles;
     }
 
-    public void createFeed(User user, Feed feed) {
+    public UserFeed createFeed(User user, Feed feed) {
         feed.createUnique();
         UserFeed userFeed = new UserFeed();
         userFeed.feed = feed;
         userFeed.user = user;
         userFeed.create();
         this.addUserFeed(userFeed);
+        return userFeed;
     }
 
     public void addUserFeed(UserFeed userFeed) {

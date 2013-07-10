@@ -44,7 +44,7 @@ public class FeedParserTest {
     @Test
     public void testParsingOneFeed() throws Exception {
         Feed feed = new Feed();
-        feed.xmlUrl = "http://feedpress.me/finertech/pc";
+        feed.xmlUrl = "http://feed.feedsky.com/yeeyan";
         List<Article> articles = FeedParser.parseFeed(feed);
         for (Article article : articles) {
             System.out.println(article.link);

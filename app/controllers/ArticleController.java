@@ -42,10 +42,10 @@ public class ArticleController extends Controller {
         return ok();
     }
 
-    public static Result allArticles() {
+    public static Result recommends() {
         User user = SmartReaderUtils.getCurrentUser();
         Gson gson = SmartReaderUtils.builder.create();
-        return ok(gson.toJson(user.userArticles()));
+        return ok(gson.toJson(user.recommends()));
     }
 
 }

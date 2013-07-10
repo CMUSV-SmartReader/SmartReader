@@ -40,9 +40,9 @@ public class FeedCategoryController extends Controller {
                 Feed feed = FeedParser.parseFeedInfo(xmlUrl);
                 feed = feed.createUnique();
                 feed.addUser(user);
-                feedCategory.createFeed(user, feed);
+                UserFeed newUserFeed = feedCategory.createFeed(user, feed);
                 Gson gson = SmartReaderUtils.builder.create();
-                return ok(gson.toJson(feed));
+                return ok(gson.toJson(newUserFeed));
             }
             else {
                 throw new IllegalArgumentException("The url of the feed cannot be empty");

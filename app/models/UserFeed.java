@@ -59,8 +59,11 @@ public class UserFeed extends MongoModel {
         public JsonElement serialize(UserFeed src, Type type,
                 JsonSerializationContext ctx) {
             JsonObject userFeedObj = new JsonObject();
-            userFeedObj.add("id", new JsonPrimitive(src.feed.id.toString()));
+            userFeedObj.add("id", new JsonPrimitive(src.id.toString()));
             userFeedObj.add("name", new JsonPrimitive(src.feed.title));
+            userFeedObj.add("order", new JsonPrimitive(src.order));
+            userFeedObj.add("popularity", new JsonPrimitive(src.popularity));
+            userFeedObj.add("feed", ctx.serialize(src.feed));
             return userFeedObj;
         }
     }

@@ -24,10 +24,12 @@ import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
 import com.google.code.morphia.annotations.Transient;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.DBRef;
 
 @Entity
 public class User extends MongoModel implements Identity {
@@ -285,6 +287,21 @@ public class User extends MongoModel implements Identity {
             }
         }
         return articles;
+    }
+
+    public List<Article> recommends() {
+        List<Article> recommends = new ArrayList<Article>();
+        DBCollection userCollection = ReaderDB.getUserCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", new ObjectId(this.id.toString()));
+        DBObject userDB = userCollection.findOne(query);
+        BasicDBList recommendsDB = (BasicDBList) userDB.get("recommends");
+        for (int i = 0; i < recommendsDB.size(); i++) {
+            DBObject articleDB = (DBObject) recommendsDB.get(i);
+            DBRef articleRef = (DBRef) articleDB.get("article");
+            recommends.add(new Article(articleRef.fetch()));
+        }
+        return recommends;
     }
 
 }
