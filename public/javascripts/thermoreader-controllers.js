@@ -9,7 +9,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   $scope.isEndOfFeed = false;
   $scope.viewMode = "listMode"; // or "articleMode"
 
-  $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds){
+  $scope.allFeeds = dbFactory.getAllFeeds(false, function(allFeeds){
     $scope.allFeeds = allFeeds;
   });
 
@@ -31,10 +31,17 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
 
   // Feed Page Functions
   $scope.expandArticle = function(article){
+    //console.log(article);
+    //console.log($scope.selectedFeed);
     article.expanded = !article.expanded;
-    $http.put("/article/"+article.id+"/read").success( function(){
-      article.read = true;
-    });
+    // Fetch the articles in this feed
+    if(article.expanded && !article.read){
+      $http.put("/article/"+article.id+"/read").success( function(){
+        article.read = true;
+      });
+      $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/inc_popularity");
+    }
+
     // Temporary disable duplicates before underlying service is reasonably working
     // dbFactory.getDuplicates(article.id, function(d){
     //   console.log(d);
@@ -79,18 +86,21 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     console.log(category);
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
       console.log("successful delete");
-      delete feed;
+      dbFactory.getAllFeeds(true, function(allFeeds){
+        $scope.allFeeds = allFeeds;
+      });
     });
   };
 
   $scope.addNewFeed = function(category, feedURL) {
-    console.log(category);
-    console.log(feedURL);
+    $scope.manageFeedURL = "";
     $http.post("/category/" + category.id + "/add_feed", {
-      data: feedURL // http://rss.sina.com.cn/news/allnews/tech.xml
+      data: feedURL // ex. http://rss.sina.com.cn/news/allnews/tech.xml
     }).success(function(d) {
-      console.log(d);
-      //category.feeds.psuh
+      console.log("successful adding new feed");
+      dbFactory.getAllFeeds(true, function(allFeeds){
+        $scope.allFeeds = allFeeds;
+      });
     });
   };
 
