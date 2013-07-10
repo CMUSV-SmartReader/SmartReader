@@ -94,8 +94,17 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     }
   }
 
-  $scope.deleteUserFeed = function(category, feed) {
+  $scope.deleteCategory = function(category){
     console.log(category);
+    $http.delete("/category/" + category.id).success(function() {
+      console.log("successful delete");
+      dbFactory.getAllFeeds(true, function(allFeeds){
+        $scope.allFeeds = allFeeds;
+      });
+    });
+  }
+
+  $scope.deleteUserFeed = function(category, feed) {
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
       console.log("successful delete");
       dbFactory.getAllFeeds(true, function(allFeeds){
