@@ -44,8 +44,12 @@ public class UserFeed extends MongoModel {
 
     public UserFeed(DBObject userFeedDB) {
         id = new ObjectId(userFeedDB.get("_id").toString());
-        order = Integer.parseInt(userFeedDB.get("order").toString());
-        popularity = Integer.parseInt(userFeedDB.get("popularity").toString());
+        if (userFeedDB.get("order") != null) {
+            order = Integer.parseInt(userFeedDB.get("order").toString());
+        }
+        if (userFeedDB.get("popularity") != null) {
+            popularity = Integer.parseInt(userFeedDB.get("popularity").toString());
+        }
     }
 
     public void increasePopularity() {
@@ -60,10 +64,12 @@ public class UserFeed extends MongoModel {
                 JsonSerializationContext ctx) {
             JsonObject userFeedObj = new JsonObject();
             userFeedObj.add("id", new JsonPrimitive(src.id.toString()));
-            userFeedObj.add("name", new JsonPrimitive(src.feed.title));
+            if (src.feed != null) {
+                userFeedObj.add("name", new JsonPrimitive(src.feed.title));
+                userFeedObj.add("feed", ctx.serialize(src.feed));
+            }
             userFeedObj.add("order", new JsonPrimitive(src.order));
             userFeedObj.add("popularity", new JsonPrimitive(src.popularity));
-            userFeedObj.add("feed", ctx.serialize(src.feed));
             return userFeedObj;
         }
     }

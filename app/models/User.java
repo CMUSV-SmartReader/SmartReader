@@ -195,6 +195,7 @@ public class User extends MongoModel implements Identity {
         }
         userArticle.isRead = true;
         userArticle.update();
+        article.increasePopularity();
     }
 
     public void unread(Article article) {
@@ -302,6 +303,18 @@ public class User extends MongoModel implements Identity {
             recommends.add(new Article(articleRef.fetch()));
         }
         return recommends;
+    }
+
+    public List<UserFeed> userFeeds() {
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", new ObjectId(this.id.toString()));
+        DBCollection userFeedCollection = ReaderDB.getUserFeedCollection();
+        DBCursor cursor = userFeedCollection.find(query);
+        List<UserFeed> userFeeds = new ArrayList<UserFeed>();
+        while (cursor.hasNext()) {
+            userFeeds.add(new UserFeed(cursor.next()));
+        }
+        return userFeeds;
     }
 
 }
