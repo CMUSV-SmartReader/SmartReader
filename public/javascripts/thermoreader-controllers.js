@@ -41,14 +41,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     }
 
     // Temporary disable duplicates before underlying service is reasonably working
-    // dbFactory.getDuplicates(article.id, function(d){
-    //   console.log(d);
-    //   if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
-    //     article.id, article.title, article.author, article.date,
-    //     article.feedName, article.summary, article.description,
-    //     article.link, article.popular, article.read
-    //   )].concat(d); }
-    // });
+    dbFactory.getDuplicates(article.id, function(d){
+      console.log(d);
+      if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
+        article.id, article.title, article.author, article.date,
+        article.feedName, article.summary, article.description,
+        article.link, article.popular, article.read
+      )].concat(d); }
+    });
   };
 
   $scope.replaceArticle = function(article, dupArticle){
