@@ -139,7 +139,6 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   });
 
   // Hotkeys
-
   angular.element($document).bind("keyup", function(event) {
     if (event.which === 191) {
       $('#hotkeys').modal({
