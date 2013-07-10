@@ -136,8 +136,6 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   });
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
     $timeout(function(){$('#side-container').scrollTop($rootScope.menuScrollTop);});
-    $('#side-container').perfectScrollbar({wheelSpeed: 60});
-    $('#content-container').perfectScrollbar({wheelSpeed: 60});
   });
 
   // Hotkeys
