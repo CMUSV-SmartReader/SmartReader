@@ -195,6 +195,7 @@ public class User extends MongoModel implements Identity {
         }
         userArticle.isRead = true;
         userArticle.update();
+        article.increasePopularity();
     }
 
     public void unread(Article article) {
