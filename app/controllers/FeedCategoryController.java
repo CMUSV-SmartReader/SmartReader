@@ -21,10 +21,12 @@ public class FeedCategoryController extends Controller {
 
     @SecureSocial.UserAwareAction
     public static Result addFeedCategory() {
+        JsonNode dataNode = request().body().asJson().get("data");
+        String name = dataNode.asText();
         User user = SmartReaderUtils.getCurrentUser();
         FeedCategory feedCategory = new FeedCategory();
         feedCategory.user = user;
-        feedCategory.name = request().queryString().get("name")[0];
+        feedCategory.name = name;
         user.addUserCategory(feedCategory);
         return ok();
     }
