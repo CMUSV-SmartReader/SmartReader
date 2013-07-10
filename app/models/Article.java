@@ -244,4 +244,9 @@ public class Article extends MongoModel {
         }
     }
 
+    public void increasePopularity() {
+        this.popularity += 1;
+        this.update();
+    }
+
 }

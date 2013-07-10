@@ -29,14 +29,14 @@ public class ArticleController extends Controller {
     }
 
     public static Result read(String id) {
-        Article article = MongoModel.find(id, Article.class);
+        Article article = MongoModel.findEntity(id, Article.class);
         User user = SmartReaderUtils.getCurrentUser();
         user.read(article);
         return ok();
     }
 
     public static Result unread(String id) {
-        Article article = MongoModel.find(id, Article.class);
+        Article article = MongoModel.findEntity(id, Article.class);
         User user = SmartReaderUtils.getCurrentUser();
         user.unread(article);
         return ok();
