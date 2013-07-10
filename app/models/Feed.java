@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import util.FeedCrawler;
+import play.Logger;
 import util.FeedParser;
 import util.ReaderDB;
 import util.SmartReaderUtils;
@@ -160,17 +160,26 @@ public class Feed extends MongoModel {
     public static void crawlAll() {
         @SuppressWarnings("unchecked")
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
-        FeedCrawler[] feedCrawlers = new FeedCrawler[MAX_CRAWLER];
-        for (int i = 0; i < MAX_CRAWLER; i++) {
-            feedCrawlers[i] = new FeedCrawler();
+        for (Feed feed : feeds) {
+            try {
+                feed.crawl();
+                Logger.info("parse[" + feed.xmlUrl + "] success");
+            } catch (Exception e) {
+                Logger.warn("parse [" + feed.xmlUrl + "] fail : "
+                        + e.getMessage());
+            }
         }
-        for (int i = 0; i < feeds.size(); i++) {
-            int index = i % MAX_CRAWLER;
-            feedCrawlers[index].addFeed(feeds.get(i));
-        }
-        for (int i = 0; i < MAX_CRAWLER; i++) {
-            new Thread(feedCrawlers[i]).start();
-        }
+//        FeedCrawler[] feedCrawlers = new FeedCrawler[MAX_CRAWLER];
+//        for (int i = 0; i < MAX_CRAWLER; i++) {
+//            feedCrawlers[i] = new FeedCrawler();
+//        }
+//        for (int i = 0; i < feeds.size(); i++) {
+//            int index = i % MAX_CRAWLER;
+//            feedCrawlers[index].addFeed(feeds.get(i));
+//        }
+//        for (int i = 0; i < MAX_CRAWLER; i++) {
+//            new Thread(feedCrawlers[i]).start();
+//        }
     }
 
     public static class Serializer implements JsonSerializer<Feed> {
