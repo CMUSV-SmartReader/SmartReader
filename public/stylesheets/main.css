@@ -24,6 +24,10 @@ body {
   margin-top: 5px;
 }
 
+#thermoreaderBrand {
+  margin-left: 0;
+}
+
 .sub-container {
   max-height: 100%;
   transition: width 300ms ease, opacity 300ms ease;
