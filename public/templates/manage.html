@@ -12,31 +12,8 @@
   </select>
   <input id="manage-newfeed-input" type="text" placeholder="Paste the feed URL here!" ng-model="manageFeedURL" ng-trim="true">
   <button id="manage-addfeed-btn" class="btn" type="button" ng-click="addNewFeed(manageSelectedCategory, manageFeedURL)">Add</button>
-  <button id="manage-importfeed-btn" class="btn" type="button" data-toggle="modal" data-target="#myModal">Import</button>
+  <button id="manage-importfeed-btn" class="btn" type="button" data-toggle="modal" data-target="#import-modal">Import</button>
 </div>
-
-<!--
-import subscriptions using Google Takeout
-<div id="import-from-file" class="manage-category">
-  <div class="manage-action">
-    <h3>Import</h3>
-  </div>
-
-  The global progress bar
-  <div id="progress" class="span6 progress progress-success progress-striped">
-    <div class="bar"></div>
-  </div>
-  <span class="span6 btn btn-success fileinput-button">
-    <i class="icon-plus icon-white"></i>
-    <span>Select files...</span>
-    The file input field used as target for the file upload widget
-    <input id="fileupload" type="file" name="files[]" multiple>
-  </span>
-  The container for the uploaded files
-  <div id="files" class="files"></div>
-  <br>
-</div> -->
-
 
 <!-- Feed Cards -->
 <div class="manage-category" ng-repeat="category in allFeeds" ng-animate="{enter: 'slide-enter'}">
@@ -58,4 +35,8 @@ import subscriptions using Google Takeout
     </li>
   </ul>
 
+</div>
+
+<div id="manage-add-category" ng-animate="{enter: 'slide-enter'}">
+  <h3 ng-click="addNewCategory()"> + </h3>
 </div>

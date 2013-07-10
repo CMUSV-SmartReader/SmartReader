@@ -31,8 +31,6 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
 
   // Feed Page Functions
   $scope.expandArticle = function(article){
-    //console.log(article);
-    //console.log($scope.selectedFeed);
     article.expanded = !article.expanded;
     // Fetch the articles in this feed
     if(article.expanded && !article.read){
@@ -82,6 +80,20 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   };
 
   /* Manage Page Functions */
+  $scope.addNewCategory = function(){
+    var categoryName = window.prompt("Please input category name", "Untitiled Category");
+    if(categoryName != null && $.trim(categoryName) != ""){
+      $http.post("/category/create", {
+        data: categoryName
+      }).success(function(d) {
+        console.log("successful adding new category");
+        dbFactory.getAllFeeds(true, function(allFeeds){
+          $scope.allFeeds = allFeeds;
+        });
+      });
+    }
+  }
+
   $scope.deleteUserFeed = function(category, feed) {
     console.log(category);
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
@@ -109,12 +121,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     $('#content-container').perfectScrollbar({wheelSpeed: 60});
   });
 
-  // Hack to keep the menu scrollTop...
+  // Hack to keep the menu scrollTop and perfectScrollBar
   $scope.$on('$routeChangeStart', function(next, current) {
     $rootScope.menuScrollTop = $('#side-container').scrollTop();
   });
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
     $timeout(function(){$('#side-container').scrollTop($rootScope.menuScrollTop);});
+    $('#side-container').perfectScrollbar({wheelSpeed: 60});
+    $('#content-container').perfectScrollbar({wheelSpeed: 60});
   });
 
   // Hotkeys
