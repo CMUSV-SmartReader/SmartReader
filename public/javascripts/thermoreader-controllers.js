@@ -9,7 +9,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   $scope.isEndOfFeed = false;
   $scope.viewMode = "listMode"; // or "articleMode"
 
-  $scope.allFeeds = dbFactory.getAllFeeds(function(allFeeds){
+  $scope.allFeeds = dbFactory.getAllFeeds(false, function(allFeeds){
     $scope.allFeeds = allFeeds;
   });
 
@@ -32,9 +32,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   // Feed Page Functions
   $scope.expandArticle = function(article){
     article.expanded = !article.expanded;
-    $http.put("/article/"+article.id+"/read").success( function(){
-      article.read = true;
-    });
+    // Fetch the articles in this feed
+    if(article.expanded && !article.read){
+      $http.put("/article/"+article.id+"/read").success( function(){
+        article.read = true;
+      });
+      $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/inc_popularity");
+    }
+
     // Temporary disable duplicates before underlying service is reasonably working
     // dbFactory.getDuplicates(article.id, function(d){
     //   console.log(d);
@@ -75,22 +80,48 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   };
 
   /* Manage Page Functions */
-  $scope.deleteUserFeed = function(category, feed) {
+  $scope.addNewCategory = function(){
+    var categoryName = window.prompt("Please input category name", "Untitiled Category");
+    if(categoryName != null && $.trim(categoryName) != ""){
+      $http.post("/category/create", {
+        data: categoryName
+      }).success(function(d) {
+        console.log("successful adding new category");
+        dbFactory.getAllFeeds(true, function(allFeeds){
+          $scope.allFeeds = allFeeds;
+        });
+      });
+    }
+  }
+
+  $scope.deleteCategory = function(category){
     console.log(category);
+    $http.delete("/category/" + category.id).success(function() {
+      console.log("successful delete");
+      dbFactory.getAllFeeds(true, function(allFeeds){
+        $scope.allFeeds = allFeeds;
+      });
+    });
+  }
+
+  $scope.deleteUserFeed = function(category, feed) {
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
       console.log("successful delete");
-      delete feed;
+      dbFactory.getAllFeeds(true, function(allFeeds){
+        $scope.allFeeds = allFeeds;
+      });
     });
   };
 
   $scope.addNewFeed = function(category, feedURL) {
-    console.log(category);
-    console.log(feedURL);
+    $scope.manageFeedURL = "";
     $http.post("/category/" + category.id + "/add_feed", {
-      data: feedURL // http://rss.sina.com.cn/news/allnews/tech.xml
+      data: feedURL // ex. http://rss.sina.com.cn/news/allnews/tech.xml
     }).success(function(d) {
-      console.log(d);
-      //category.feeds.psuh
+      console.log("successful adding new feed");
+      dbFactory.getAllFeeds(true, function(allFeeds){
+        $scope.allFeeds = allFeeds;
+      });
     });
   };
 
@@ -99,12 +130,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     $('#content-container').perfectScrollbar({wheelSpeed: 60});
   });
 
-  // Hack to keep the menu scrollTop...
+  // Hack to keep the menu scrollTop and perfectScrollBar
   $scope.$on('$routeChangeStart', function(next, current) {
     $rootScope.menuScrollTop = $('#side-container').scrollTop();
   });
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
     $timeout(function(){$('#side-container').scrollTop($rootScope.menuScrollTop);});
+    $('#side-container').perfectScrollbar({wheelSpeed: 60});
+    $('#content-container').perfectScrollbar({wheelSpeed: 60});
   });
 
   // Hotkeys

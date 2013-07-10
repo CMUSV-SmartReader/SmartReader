@@ -24,6 +24,8 @@
     <script src="@routes.Assets.at("javascripts/libs/fileupload/vendor/jquery.ui.widget.js")"></script>
     <script src="@routes.Assets.at("javascripts/libs/fileupload/jquery.iframe-transport.js")"></script>
     <script src="@routes.Assets.at("javascripts/libs/fileupload/jquery.fileupload-angular.js")"></script>
+    <script src="@routes.Assets.at("javascripts/libs/fileupload/jquery.fileupload.js")"></script>
+    <script src="@routes.Assets.at("javascripts/import-feeds.js")"></script>
     <script src="@routes.Assets.at("javascripts/thermoreader-models.js")"></script>
     <script src="@routes.Assets.at("javascripts/thermoreader-db.js")"></script>
     <script src="@routes.Assets.at("javascripts/thermoreader-controllers.js")"></script>
@@ -43,7 +45,7 @@
             <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
           </button>
 
-          <span class="brand">ThermoReader</span>
+          <span id="thermoreaderBrand" class="brand">ThermoReader</span>
           <form class="navbar-form pull-left">
             <input type="text" placeholder="Search">
           </form>
@@ -58,6 +60,34 @@
     </div>
 
     <div id="main-container" ng-controller="mainCtrl" class="container-fluid" ng-view>
+    </div>
+
+    <!-- Import Modal -->
+    <div id="import-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>Import feeds from Google Takeout</h3>
+      </div>
+      <div class="modal-body">
+        <!-- The fileinput-button span is used to style the file input field as button -->
+        <span class="btn btn-success fileinput-button">
+        <i class="icon-plus icon-white"></i>
+        <span>Select files...</span>
+          <!-- The file input field used as target for the file upload widget -->
+          <input id="fileupload" type="file" name="files[]" multiple>
+        </span>
+            <!-- The global progress bar -->
+        <div id="progress" class="progress progress-success progress-striped">
+            <div class="bar"></div>
+        </div>
+        <!-- The container for the uploaded files -->
+        <div id="files" class="files"></div>
+        <br>
+       </div>
+       <div class="modal-footer">
+          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+          <button class="btn btn-primary">Save changes</button>
+        </div>
     </div>
 
     <div id="hotkeys" class="modal hide fade" tabindex="-1" role="dialog">

@@ -2,7 +2,6 @@ package util;
 
 import java.util.List;
 
-import models.Article;
 import models.Feed;
 import models.MongoModel;
 
@@ -44,10 +43,11 @@ public class FeedParserTest {
     @Test
     public void testParsingOneFeed() throws Exception {
         Feed feed = new Feed();
-        feed.xmlUrl = "http://feed.feedsky.com/yeeyan";
-        List<Article> articles = FeedParser.parseFeed(feed);
-        for (Article article : articles) {
-            System.out.println(article.link);
-        }
+        feed.xmlUrl = "http://feeds.feedburner.com/jandan";
+        feed.crawl();
+//        List<Article> articles = FeedParser.parseFeed(feed);
+//        for (Article article : articles) {
+//            System.out.println(article.link);
+//        }
     }
 }

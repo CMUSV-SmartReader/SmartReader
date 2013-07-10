@@ -19,18 +19,17 @@ public class Global extends GlobalSettings {
         MorphiaLoggerFactory.registerLogger(SLF4JLogrImplFactory.class);
         ReaderDB.setUp();
 
-        Akka.system().scheduler().schedule(
-                Duration.create(0, TimeUnit.SECONDS),
+        Akka.system().scheduler().schedule(Duration.create(0, TimeUnit.SECONDS),
                 Duration.create(10, TimeUnit.MINUTES),
-                new Runnable() {
-                  @Override
+            new Runnable() {
+                @Override
                 public void run() {
                       Logger.debug("Start Crawling");
-                      Feed.crawAll();
-                  }
-                },
-                Akka.system().dispatcher()
-              );
+                      Feed.crawlAll();
+                }
+            },
+            Akka.system().dispatcher()
+        );
     }
 
 }
