@@ -1,7 +1,8 @@
 
 #manage-input-container { width:100%;}
-#manage-newfeed-input { width: 60%; }
-#manage-newfeed-category, #manage-addfeed-btn, #manage-importfeed-btn { width: 12%; }
+#manage-newfeed-input { width: 54%; }
+#manage-newfeed-category { width: 18%; }
+#manage-addfeed-btn, #manage-importfeed-btn { width: 12%; }
 
 .manage-category {
   display: inline-block; position: relative; height: 220px; width: 30%;
@@ -13,6 +14,10 @@
 
 .manage-category:hover{
   box-shadow: 1px 1px 6px 2px #aaa;
+}
+
+.manage-category h3 {
+  margin-top: 0;
 }
 
 .manage-category-actions {

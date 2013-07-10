@@ -6,13 +6,20 @@
     class="logo_5"></span></a> Manage Feeds
 </h2>
 
-<div class="input-append" id="manage-input-container">
+<div class="input-append" id="manage-input-container" ng-animate="{enter: 'slide-enter'}">
   <select name="manage-newfeed-category" id="manage-newfeed-category" ng-model="manageSelectedCategory" required="required" ng-options="category as category.name for category in allFeeds">
     <option style="display:none" value="">Select a Category</option>
   </select>
   <input id="manage-newfeed-input" type="text" placeholder="Paste the feed URL here!" ng-model="manageFeedURL" ng-trim="true">
   <button id="manage-addfeed-btn" class="btn" type="button" ng-click="addNewFeed(manageSelectedCategory, manageFeedURL)">Add</button>
-  <button id="manage-importfeed-btn" class="btn" type="button">Import</button>
+  <form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data" data-ng-controller="DemoFileUploadController" data-file-upload="options" data-ng-class="{'fileupload-processing': processing() || loadingFiles}" class="ng-scope ng-pristine ng-valid">
+    <span id="manage-importfeed-btn" class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+      <span>Import</span>
+      <input type="file" name="files[]" multiple="" ng-disabled="disabled">
+    </span>
+  </form>
+  <!-- <input id="manage-importfeed-btn" type="file" multiple="multiple" id="MyFile" /> -->
+  <!-- <button id="manage-importfeed-btn" class="btn" type="button">Import</button> -->
 </div>
 
 <!--
@@ -39,7 +46,7 @@ import subscriptions using Google Takeout
 
 
 <!-- Feed Cards -->
-<div class="manage-category" ng-repeat="category in allFeeds">
+<div class="manage-category" ng-repeat="category in allFeeds" ng-animate="{enter: 'slide-enter'}">
   <div class="manage-action">
     <h3>{{category.name}}</h3>
     <div class='manage-category-actions'>
