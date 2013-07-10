@@ -38,7 +38,7 @@ GET     /categories                 controllers.Application.getCategories()
 
 # Ariticle Related
 GET     /article/:id/dup            controllers.ArticleController.getDuplicatedArticles(id)
-GET     /article/all_recommend      controllers.ArticleController.allArticles()
+GET     /article/all_recommend      controllers.ArticleController.recommends()
 GET     /article/:id/recommend      controllers.ArticleController.getRecommendedArticles(id)
 PUT     /article/:id/read           controllers.ArticleController.read(id)
 PUT     /article/:id/unread         controllers.ArticleController.unread(id)
