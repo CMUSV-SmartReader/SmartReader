@@ -24,8 +24,8 @@ thermoreader.db = function($http){
       return recommendations;
     },
 
-    getAllFeeds = function(callback){
-      if(categoryFeeds.length == 0){
+    getAllFeeds = function(isReload, callback){
+      if(categoryFeeds.length == 0 || isReload){
         $http.get("/categories").success(function(data) {
           console.log(data);
           categoryFeeds = [];
