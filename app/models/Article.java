@@ -24,6 +24,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
+import com.sun.syndication.feed.synd.SyndCategoryImpl;
+import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 
 @Entity
@@ -39,7 +41,7 @@ public class Article extends MongoModel {
 
     public String desc;
 
-    public String content = "";
+    public String contents = "";
 
     public String summary;
 
@@ -70,12 +72,14 @@ public class Article extends MongoModel {
         this.desc = entry.getDescription() != null ? entry.getDescription().getValue() : null;
         if (entry.getContents() != null) {
             for (Object contentObj : entry.getContents()) {
-                content += contentObj.toString();
+                SyndContentImpl content = (SyndContentImpl)contentObj;
+                contents += content.getValue();
             }
         }
         if (entry.getCategories() != null) {
             for (Object categoryObject : entry.getCategories()) {
-                categories.add(categoryObject.toString());
+                SyndCategoryImpl category = (SyndCategoryImpl)categoryObject;
+                categories.add(category.getName());
             }
         }
         this.summary = this.desc;
@@ -228,8 +232,8 @@ public class Article extends MongoModel {
             else {
                 article.add("feed", new JsonPrimitive(""));
             }
-            if (src.content != null) {
-                article.add("content", new JsonPrimitive(src.content));
+            if (src.contents != null) {
+                article.add("contents", new JsonPrimitive(src.contents));
             }
             else {
                 article.add("content", new JsonPrimitive(""));
