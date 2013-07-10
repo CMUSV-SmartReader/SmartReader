@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import play.Logger;
+import util.FeedCrawler;
 import util.FeedParser;
 import util.ReaderDB;
 import util.SmartReaderUtils;
@@ -47,6 +47,8 @@ public class Feed extends MongoModel {
     public boolean hasError;
 
     public String errorReason;
+
+    private static int MAX_CRAWLER = 5;
 
     @Reference(lazy = true)
     public List<Article> articles = new ArrayList<Article>();
@@ -89,7 +91,10 @@ public class Feed extends MongoModel {
         DBCollection articleCollection = ReaderDB.getArticleCollection();
         BasicDBObject query = new BasicDBObject();
         query.put("feed.$id", new ObjectId(id));
-        DBCursor cursor = articleCollection.find(query).limit(20);
+        BasicDBObject orderBy = new BasicDBObject();
+        orderBy.put("publishDate", -1);
+        orderBy.put("updateDate", -1);
+        DBCursor cursor = articleCollection.find(query).sort(orderBy).limit(20);
         while (cursor.hasNext()) {
             Article article = new Article(cursor.next());
             article.loadIsRead(SmartReaderUtils.getCurrentUser());
@@ -104,7 +109,10 @@ public class Feed extends MongoModel {
         BasicDBObject query = new BasicDBObject();
         query.put("feed.$id", new ObjectId(id));
         query.put("publishDate", new BasicDBObject("$lt", publishedBefore));
-        DBCursor cursor = articleCollection.find(query).limit(20);
+        BasicDBObject orderBy = new BasicDBObject();
+        orderBy.put("publishDate", -1);
+        orderBy.put("updateDate", -1);
+        DBCursor cursor = articleCollection.find(query).sort(orderBy).limit(20);
         while (cursor.hasNext()) {
             Article article = new Article(cursor.next());
             article.loadIsRead(SmartReaderUtils.getCurrentUser());
@@ -129,6 +137,9 @@ public class Feed extends MongoModel {
         try {
             List<Article> articles = FeedParser.parseFeed(this);
             for (Article article : articles) {
+                if (this.xmlUrl.equals("http://feeds.feedburner.com/jandan")) {
+                    System.out.println(article.link);
+                }
                 article.feed = this;
                 article = article.createUnique();
                 this.articles.add(article);
@@ -146,17 +157,19 @@ public class Feed extends MongoModel {
         return this.articles;
     }
 
-    public static void crawAll() {
+    public static void crawlAll() {
         @SuppressWarnings("unchecked")
         List<Feed> feeds = (List<Feed>) MongoModel.all(Feed.class);
-        for (Feed feed : feeds) {
-            try {
-                feed.crawl();
-                Logger.info("parse[" + feed.xmlUrl + "] success");
-            } catch (Exception e) {
-                Logger.warn("parse [" + feed.xmlUrl + "] fail : "
-                        + e.getMessage());
-            }
+        FeedCrawler[] feedCrawlers = new FeedCrawler[MAX_CRAWLER];
+        for (int i = 0; i < MAX_CRAWLER; i++) {
+            feedCrawlers[i] = new FeedCrawler();
+        }
+        for (int i = 0; i < feeds.size(); i++) {
+            int index = i % MAX_CRAWLER;
+            feedCrawlers[index].addFeed(feeds.get(i));
+        }
+        for (int i = 0; i < MAX_CRAWLER; i++) {
+            new Thread(feedCrawlers[i]).start();
         }
     }
 
