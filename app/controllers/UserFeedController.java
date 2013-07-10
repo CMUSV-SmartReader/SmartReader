@@ -11,7 +11,7 @@ public class UserFeedController extends Controller {
     }
 
     public static Result increasePopularity(String id) {
-        UserFeed userFeed = UserFeed.find(id, UserFeed.class);
+        UserFeed userFeed = UserFeed.findEntity(id, UserFeed.class);
         userFeed.increasePopularity();
         return ok();
     }
