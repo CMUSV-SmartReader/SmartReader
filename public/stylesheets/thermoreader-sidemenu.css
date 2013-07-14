@@ -1,5 +1,6 @@
 
 #side-container {
+  min-height: 100%;
   background-color: #CDD6DC;
 }
 #side-container.side-inverse {

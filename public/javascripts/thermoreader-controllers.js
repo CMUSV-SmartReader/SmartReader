@@ -24,8 +24,11 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
       });
       break;
     case "feed":
+      console.log(dbFactory.checkFeed($routeParams.feedId));
+      if(dbFactory.checkFeed($routeParams.feedId).articles.length == 0){ $scope.isLoading = true; }
       $scope.selectedFeed = dbFactory.getFeed($routeParams.feedId, false, function(feed){
         $scope.selectedFeed = feed;
+        $scope.isLoading = false;
       });
   }
 
