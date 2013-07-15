@@ -88,6 +88,9 @@ public class FeedCategory extends MongoModel {
     @Override
     public void delete() {
         super.delete();
+        for (UserFeed userFeed : this.userFeeds) {
+            userFeed.delete();
+        }
     }
 
     @Reference(concreteClass = ArrayList.class, lazy=true)

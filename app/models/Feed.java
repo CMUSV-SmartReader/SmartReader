@@ -137,9 +137,6 @@ public class Feed extends MongoModel {
         try {
             List<Article> articles = FeedParser.parseFeed(this);
             for (Article article : articles) {
-                if (this.xmlUrl.equals("http://feeds.feedburner.com/jandan")) {
-                    System.out.println(article.link);
-                }
                 article.feed = this;
                 article = article.createUnique();
                 this.articles.add(article);
@@ -147,7 +144,13 @@ public class Feed extends MongoModel {
             this.hasError = false;
             this.errorReason = "";
             this.update();
-
+            if (articles.size() > 0) {
+                List<UserFeed> userFeeds = this.userFeeds();
+                for (UserFeed userFeed : userFeeds) {
+                    userFeed.hasUpdate = true;
+                    userFeed.update();
+                }
+            }
         } catch (Exception e) {
             this.hasError = true;
             this.errorReason = e.getMessage();
@@ -169,17 +172,18 @@ public class Feed extends MongoModel {
                         + e.getMessage());
             }
         }
-//        FeedCrawler[] feedCrawlers = new FeedCrawler[MAX_CRAWLER];
-//        for (int i = 0; i < MAX_CRAWLER; i++) {
-//            feedCrawlers[i] = new FeedCrawler();
-//        }
-//        for (int i = 0; i < feeds.size(); i++) {
-//            int index = i % MAX_CRAWLER;
-//            feedCrawlers[index].addFeed(feeds.get(i));
-//        }
-//        for (int i = 0; i < MAX_CRAWLER; i++) {
-//            new Thread(feedCrawlers[i]).start();
-//        }
+    }
+
+    public List<UserFeed> userFeeds() {
+        List<UserFeed> userFeeds = new ArrayList<UserFeed>();
+        DBCollection userFeedsCollection = ReaderDB.getUserFeedCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("feed.$id", id);
+        DBCursor cursor = userFeedsCollection.find(query);
+        while (cursor.hasNext()) {
+            userFeeds.add(MongoModel.findEntity(cursor.next().get("_id").toString(), UserFeed.class));
+        }
+        return userFeeds;
     }
 
     public static class Serializer implements JsonSerializer<Feed> {

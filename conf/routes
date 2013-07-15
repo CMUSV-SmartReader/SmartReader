@@ -55,6 +55,7 @@ DELETE  /category/:id/:userFeedId   controllers.FeedCategoryController.deleteUse
 POST    /userfeed/:id/change_order  controllers.UserFeedController.changeUserFeedOrder(id)
 PUT     /userfeed/:id/inc_popularity controllers.UserFeedController.increasePopularity(id)
 GET     /userfeed/all               controllers.UserFeedController.allUserFeeds()
+PUT     /userfeed/:id/clear_update  controllers.UserFeedController.clearUpdate(id)
 
 # Import Feeds
 POST    /import-feeds               controllers.FeedImportController.upload()

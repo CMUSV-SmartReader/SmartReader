@@ -26,4 +26,10 @@ public class UserFeedController extends Controller {
         return ok(gson.toJson(user.userFeeds()));
     }
 
+    public static Result clearUpdate(String id) {
+        UserFeed userFeed = UserFeed.findEntity(id, UserFeed.class);
+        userFeed.clearUpdate();
+        return ok();
+    }
+
 }

@@ -26,6 +26,8 @@ public class UserFeed extends MongoModel {
 
     public int popularity;
 
+    public boolean hasUpdate;
+
     @Reference(lazy = true)
     public User user;
 
@@ -57,6 +59,16 @@ public class UserFeed extends MongoModel {
         this.update();
     }
 
+    public void clearUpdate() {
+        this.hasUpdate = false;
+        this.update();
+    }
+
+    public void notifyUpdate() {
+        this.hasUpdate = true;
+        this.update();
+    }
+
     public static class Serializer implements JsonSerializer<UserFeed> {
 
         @Override
@@ -64,6 +76,7 @@ public class UserFeed extends MongoModel {
                 JsonSerializationContext ctx) {
             JsonObject userFeedObj = new JsonObject();
             userFeedObj.add("id", new JsonPrimitive(src.id.toString()));
+            userFeedObj.add("hasUpdate", new JsonPrimitive(src.hasUpdate));
             if (src.feed != null) {
                 userFeedObj.add("name", new JsonPrimitive(src.feed.title));
                 userFeedObj.add("feed", ctx.serialize(src.feed));
