@@ -24,8 +24,11 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
       });
       break;
     case "feed":
+      console.log(dbFactory.checkFeed($routeParams.feedId));
+      if(dbFactory.checkFeed($routeParams.feedId).articles.length == 0){ $scope.isLoading = true; }
       $scope.selectedFeed = dbFactory.getFeed($routeParams.feedId, false, function(feed){
         $scope.selectedFeed = feed;
+        $scope.isLoading = false;
       });
   }
 
@@ -41,14 +44,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     }
 
     // Temporary disable duplicates before underlying service is reasonably working
-    // dbFactory.getDuplicates(article.id, function(d){
-    //   console.log(d);
-    //   if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
-    //     article.id, article.title, article.author, article.date,
-    //     article.feedName, article.summary, article.description,
-    //     article.link, article.popular, article.read
-    //   )].concat(d); }
-    // });
+    dbFactory.getDuplicates(article.id, function(d){
+      console.log(d);
+      if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
+        article.id, article.title, article.author, article.date,
+        article.feedName, article.summary, article.description,
+        article.link, article.popular, article.read
+      )].concat(d); }
+    });
   };
 
   $scope.replaceArticle = function(article, dupArticle){
@@ -94,8 +97,17 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     }
   }
 
-  $scope.deleteUserFeed = function(category, feed) {
+  $scope.deleteCategory = function(category){
     console.log(category);
+    $http.delete("/category/" + category.id).success(function() {
+      console.log("successful delete");
+      dbFactory.getAllFeeds(true, function(allFeeds){
+        $scope.allFeeds = allFeeds;
+      });
+    });
+  }
+
+  $scope.deleteUserFeed = function(category, feed) {
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
       console.log("successful delete");
       dbFactory.getAllFeeds(true, function(allFeeds){
@@ -127,12 +139,9 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   });
   $rootScope.$on('$routeChangeSuccess', function(newRoute, oldRoute) {
     $timeout(function(){$('#side-container').scrollTop($rootScope.menuScrollTop);});
-    $('#side-container').perfectScrollbar({wheelSpeed: 60});
-    $('#content-container').perfectScrollbar({wheelSpeed: 60});
   });
 
   // Hotkeys
-
   angular.element($document).bind("keyup", function(event) {
     if (event.which === 191) {
       $('#hotkeys').modal({

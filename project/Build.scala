@@ -37,7 +37,7 @@ object ApplicationBuild extends Build {
    playStage <<= (playStage, baseDirectory) map {(stageCommand, baseDir) =>
       val content = """#!/usr/bin/env sh
                       |
-                      |exec sudo READER_DB_HOST=test.lydian.tw READER_DB_NAME=thermoreader FACEBOOK_CLIENT_ID=478707512205435 FACEBOOK_CLIENT_SECRET=bb4fc429713005e4c1d1378108a34d49 GOOGLE_CLIENT_ID=94895237141-lu9kgt0298h5c8u63kkqv3ejoakkulp0.apps.googleusercontent.com GOOGLE_CLIENT_SECRET=peNdMDBz3VLcGJPb6B2Ae1Xa java $@ -cp "`dirname $0`/staged/*" play.core.server.NettyServer `dirname $0`/..""".stripMargin
+                      |exec sudo READER_DB_HOST=test.lydian.tw READER_DB_NAME=thermoreader-test FACEBOOK_CLIENT_ID=478707512205435 FACEBOOK_CLIENT_SECRET=bb4fc429713005e4c1d1378108a34d49 GOOGLE_CLIENT_ID=94895237141-lu9kgt0298h5c8u63kkqv3ejoakkulp0.apps.googleusercontent.com GOOGLE_CLIENT_SECRET=peNdMDBz3VLcGJPb6B2Ae1Xa java $@ -cp "`dirname $0`/staged/*" play.core.server.NettyServer `dirname $0`/..""".stripMargin
       IO.write(baseDir / "target" / "start", content)
       stageCommand
     }

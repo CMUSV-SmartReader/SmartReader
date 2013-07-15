@@ -19,7 +19,7 @@ thermoreader.db = function($http){
             d[i].link, Math.floor(Math.random()*5+1), false
           ));
         };
-        callback(recommendations);
+        if(callback){ callback(recommendations); }
       });
       return recommendations;
     },
@@ -42,10 +42,14 @@ thermoreader.db = function($http){
                 feedArticles[data[i].userFeedsInfos[j]["feedId"]] = feed;
             }
           }
-          callback(categoryFeeds);
+          if(callback){ callback(categoryFeeds); }
         });
       }
       return categoryFeeds;
+    },
+
+    checkFeed = function(feedId){
+      return feedArticles[feedId];
     },
 
     getFeed = function(feedId, isScroll, callback){
@@ -67,7 +71,7 @@ thermoreader.db = function($http){
               feedArticles[feedId].earliest = (new Date(d[i].publishDate));
             }
           };
-          callback(feedArticles[feedId]);
+          if(callback){ callback(feedArticles[feedId]); }
         });
       }
       return feedArticles[feedId];
@@ -83,7 +87,7 @@ thermoreader.db = function($http){
             d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
           ));
         }
-        callback(duplicates);
+        if(callback){ callback(duplicates); }
       });
     };
 
@@ -91,7 +95,8 @@ thermoreader.db = function($http){
     getRecommendations : getRecommendations,
     getDuplicates : getDuplicates,
     getAllFeeds : getAllFeeds,
-    getFeed : getFeed
+    getFeed : getFeed,
+    checkFeed : checkFeed
   };
 
 };
