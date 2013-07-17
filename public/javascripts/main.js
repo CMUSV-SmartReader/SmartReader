@@ -5,7 +5,6 @@ thermoreader.instance = angular.module('thermoReader', [])
   .controller('menuCtrl', thermoreader.menuCtrl)
   .controller('manageCtrl', thermoreader.manageCtrl)
   .controller('feedCtrl', thermoreader.feedCtrl)
-  .controller('mainCtrl', thermoreader.mainCtrl)
   .directive('ngBlur', function() {
     return function(scope, elem, attrs) {
       elem.bind('blur', function() { scope.$apply(attrs.ngBlur); });
@@ -28,11 +27,10 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .config(function($routeProvider) {
   	$routeProvider
-  	//.when("/home", {controller: "mainCtrl", templateUrl: "/assets/templates/feed.html"})
+  	.when("/home", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
+    .when("/recommendation", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
     .when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
     .when("/feed/:feedId", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
-    //.when("/:pageName", {controller: "mainCtrl", templateUrl: "/assets/templates/feed.html"})
-    //.when("/:pageName/:feedId", {controller: "mainCtrl", templateUrl: "/assets/templates/feed.html"})
     .otherwise({redirectTo: '/home'});
   }
 );

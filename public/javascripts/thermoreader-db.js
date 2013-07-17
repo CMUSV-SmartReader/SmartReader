@@ -3,23 +3,25 @@ var thermoreader = thermoreader || {};
 thermoreader.dbService = function($http){
   this.userId = localStorage.hasOwnProperty('userId')? JSON.parse(localStorage['userId']):"";
   this.categoryFeeds = [];
-  this.recommendations = [];
+  this.recommendations = { name: "Recommendations", articles: [] };
   this.feedArticles = {};
 
   this.getRecommendations = function(callback){
-    var self = this;
-    $http.get("/article/all_recommend").success(function(d) {
-      console.log(d);
-      self.recommendations.length = 0;
-      for(var i=0; i<d.length; ++i){
-        self.recommendations.push( new thermoreader.model.article(
-          d[i].id, d[i].title, d[i].author, d[i].publishDate,
-          "Recommendations", d[i].desc.slice(0, 48), d[i].desc,
-          d[i].link, Math.floor(Math.random()*5+1), false
-        ));
-      };
-      if(callback){ callback(self.recommendations); }
-    });
+    if(this.recommendations.articles.length == 0){
+      var self = this;
+      $http.get("/article/all_recommend").success(function(d) {
+        console.log(d);
+        self.recommendations.articles.length = 0;
+        for(var i=0; i<d.length; ++i){
+          self.recommendations.articles.push( new thermoreader.model.article(
+            d[i].id, d[i].title, d[i].author, d[i].publishDate,
+            "Recommendations", d[i].desc.slice(0, 48), d[i].desc,
+            d[i].link, Math.floor(Math.random()*5+1), false
+          ));
+        };
+        if(callback){ callback(self.recommendations); }
+      });
+    }
     return this.recommendations;
   };
 
