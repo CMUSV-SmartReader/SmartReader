@@ -1,13 +1,16 @@
 var thermoreader = thermoreader || {};
 thermoreader.model = {};
 
-thermoreader.model.feed = function(id, name, userFeedId, latest, earliest, articles) {
+thermoreader.model.feed = function(id, name, userFeedId, latest, earliest, articles, hasUpdate, order, popularity) {
   this.id = id || "";
   this.name = name || "";
   this.userFeedId = userFeedId || "";
   this.latest = latest || new Date();
   this.earliest = earliest || new Date();
   this.articles = articles || [];
+  this.hasUpdate = hasUpdate || false;
+  this.order = order || 0;
+  this.popularity = popularity || 0;
 };
 
 thermoreader.model.article = function(id, title, author, date, feedName, summary, des, link, popular, read) {

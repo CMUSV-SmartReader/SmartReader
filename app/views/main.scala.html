@@ -80,7 +80,7 @@
                   <li class="divider"></li>
                   <li class="nav-header"><a href="javascript: void(0)"><strong>{{category.name}}</strong></a></li>
                   <li ng-repeat="feed in category.feeds" ng-click="selectFeed(feed)">
-                    <a ng-href="#/feed/{{feed.id}}"> {{feed.name}} </a>
+                    <a ng-class="{'hasUpdate': feed.hasUpdate}" ng-href="#/feed/{{feed.id}}"> {{feed.name}} </a>
                   </li>
                 </ul>
               </div>

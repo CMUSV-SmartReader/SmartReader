@@ -12,7 +12,6 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .directive('ngScrollend', function() {
     return function(scope, elem, attrs) {
-      console.log($('#content-container'));
       $('#content-container').bind('scroll', function(){
         if($('#content-container')[0].scrollTop + $('#content-container')[0].offsetHeight >= $('#content-container')[0].scrollHeight){
           scope.$apply(attrs.ngScrollend);

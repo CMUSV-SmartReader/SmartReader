@@ -63,7 +63,7 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
     // Fetch the articles in this feed
     if(article.expanded && !article.read){
       $http.put("/article/"+article.id+"/read").success( function(){ article.read = true; });
-      $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/inc_popularity");
+      if($scope.isFeedPage){ $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/inc_popularity"); }
     }
 
     // Temporary disable duplicates before underlying service is reasonably working
@@ -104,6 +104,7 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
 
   $scope.$on('$viewContentLoaded', function(){
     $('#content-container').scrollTop(0);
+    if($scope.isFeedPage){ $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/clear_update"); }
   });
 };
 
