@@ -12,7 +12,7 @@ thermoreader.recommandationCtrl = function(){
 
 };
 
-thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
+thermoreader.feedCtrl = function($scope, $routeParams, $http, $timeout, dbService){
 
   $scope.orderRule = localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
   $scope.isLoading = (dbService.checkFeed($routeParams.feedId).articles.length == 0);
@@ -59,21 +59,15 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
   };
 
   $scope.fetchData = function(){
-    console.log("fetch");
     if(!$scope.isEndOfFeed && !$scope.isLoading){
       $scope.isLoading = true;
       dbService.getFeed($routeParams.feedId, true, function(feed){
         if($scope.selectedFeed.length == feed.length){ $scope.isEndOfFeed = true; }
-        else { $scope.selectedFeed = feed; }
         $scope.isLoading = false;
       });
     }
     //$scope.$apply();
   };
-
-  $scope.$on('$viewContentLoaded', function(){
-    $('#content-container').perfectScrollbar({wheelSpeed: 60});
-  });
 
 };
 
