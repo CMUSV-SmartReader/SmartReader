@@ -1,7 +1,10 @@
 var thermoreader = thermoreader || {};
 
 thermoreader.instance = angular.module('thermoReader', [])
-  .factory('dbFactory', thermoreader.db)
+  .service('dbService', thermoreader.dbService)
+  .controller('menuCtrl', thermoreader.menuCtrl)
+  .controller('manageCtrl', thermoreader.manageCtrl)
+  .controller('feedCtrl', thermoreader.feedCtrl)
   .controller('mainCtrl', thermoreader.mainCtrl)
   .directive('ngBlur', function() {
     return function(scope, elem, attrs) {
@@ -24,9 +27,11 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .config(function($routeProvider) {
   	$routeProvider
-  	//.when("/home", {controller: "mainCtrl", templateUrl: "/assets/templates/main.html"})
-    .when("/:pageName", {controller: "mainCtrl", templateUrl: "/assets/templates/main.html"})
-    .when("/:pageName/:feedId", {controller: "mainCtrl", templateUrl: "/assets/templates/main.html"})
+  	//.when("/home", {controller: "mainCtrl", templateUrl: "/assets/templates/feed.html"})
+    .when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
+    .when("/feed/:feedId", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
+    //.when("/:pageName", {controller: "mainCtrl", templateUrl: "/assets/templates/feed.html"})
+    //.when("/:pageName/:feedId", {controller: "mainCtrl", templateUrl: "/assets/templates/feed.html"})
     .otherwise({redirectTo: '/home'});
   }
 );

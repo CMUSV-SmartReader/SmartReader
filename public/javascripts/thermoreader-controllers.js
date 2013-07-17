@@ -1,6 +1,85 @@
 var thermoreader = thermoreader || {};
 
-thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $http, $timeout, dbFactory) {
+thermoreader.menuCtrl = function($scope, dbService) {
+  $scope.allFeeds = dbService.getAllFeeds(false);
+};
+
+thermoreader.manageCtrl = function(){
+
+};
+
+thermoreader.recommandationCtrl = function(){
+
+};
+
+thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
+
+  $scope.orderRule = localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
+  $scope.isLoading = (dbService.checkFeed($routeParams.feedId).articles.length == 0);
+  $scope.isEndOfFeed = false;
+  $scope.viewMode = "listMode"; // or "articleMode"
+
+  // If the page is to display a feed
+  $scope.selectedFeed = dbService.getFeed($routeParams.feedId, false, function(){
+    $scope.isLoading = false;
+  });
+
+  // Feed Page Functions
+  $scope.expandArticle = function(article){
+    article.expanded = !article.expanded;
+    // Fetch the articles in this feed
+    if(article.expanded && !article.read){
+      $http.put("/article/"+article.id+"/read").success( function(){ article.read = true; });
+      $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/inc_popularity");
+    }
+
+    // Temporary disable duplicates before underlying service is reasonably working
+    // dbService.getDuplicates(article.id, function(d){
+    //   console.log(d);
+    //   if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
+    //     article.id, article.title, article.author, article.date,
+    //     article.feedName, article.summary, article.description,
+    //     article.link, article.popular, article.read
+    //   )].concat(d); }
+    // });
+  };
+
+  $scope.replaceArticle = function(article, dupArticle){
+    article.title = dupArticle.title;
+    article.link = dupArticle.link;
+    article.date = dupArticle.date;
+    article.author = dupArticle.author;
+    article.feedName = dupArticle.feedName;
+    article.description = dupArticle.description;
+  };
+
+  $scope.setOrderRule = function(rule){
+    $scope.orderRule = rule;
+    localStorage['orderRule'] = rule;
+  };
+
+  $scope.fetchData = function(){
+    console.log("fetch");
+    if(!$scope.isEndOfFeed && !$scope.isLoading){
+      $scope.isLoading = true;
+      dbService.getFeed($routeParams.feedId, true, function(feed){
+        if($scope.selectedFeed.length == feed.length){ $scope.isEndOfFeed = true; }
+        else { $scope.selectedFeed = feed; }
+        $scope.isLoading = false;
+      });
+    }
+    //$scope.$apply();
+  };
+
+  $scope.$on('$viewContentLoaded', function(){
+    $('#content-container').perfectScrollbar({wheelSpeed: 60});
+  });
+
+};
+
+
+
+thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $http, $timeout, dbService) {
 
   $scope.pageName = $routeParams.pageName;
 
@@ -9,7 +88,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   $scope.isEndOfFeed = false;
   $scope.viewMode = "listMode"; // or "articleMode"
 
-  $scope.allFeeds = dbFactory.getAllFeeds(false, function(allFeeds){
+  $scope.allFeeds = dbService.getAllFeeds(false, function(allFeeds){
     $scope.allFeeds = allFeeds;
   });
 
@@ -19,14 +98,14 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     case "home":
     case "recommendation":
       $scope.selectedFeed = { name: "Recommendations", articles: [] };
-      $scope.selectedFeed.articles = dbFactory.getRecommendations(function(recommendations) {
+      $scope.selectedFeed.articles = dbService.getRecommendations(function(recommendations) {
         $scope.selectedFeed.articles = recommendations;
       });
       break;
     case "feed":
-      console.log(dbFactory.checkFeed($routeParams.feedId));
-      if(dbFactory.checkFeed($routeParams.feedId).articles.length == 0){ $scope.isLoading = true; }
-      $scope.selectedFeed = dbFactory.getFeed($routeParams.feedId, false, function(feed){
+      console.log(dbService.checkFeed($routeParams.feedId));
+      if(dbService.checkFeed($routeParams.feedId).articles.length == 0){ $scope.isLoading = true; }
+      $scope.selectedFeed = dbService.getFeed($routeParams.feedId, false, function(feed){
         $scope.selectedFeed = feed;
         $scope.isLoading = false;
       });
@@ -44,7 +123,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     }
 
     // Temporary disable duplicates before underlying service is reasonably working
-    dbFactory.getDuplicates(article.id, function(d){
+    dbService.getDuplicates(article.id, function(d){
       console.log(d);
       if(d.length > 0){ article.duplicates = [new thermoreader.model.article(
         article.id, article.title, article.author, article.date,
@@ -72,7 +151,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     if($scope.pageName == "feed"){
       if(!$scope.isEndOfFeed && !$scope.isLoading){
         $scope.isLoading = true;
-        dbFactory.getFeed($routeParams.feedId, true, function(feed){
+        dbService.getFeed($routeParams.feedId, true, function(feed){
           if($scope.selectedFeed.length == feed.length){ $scope.isEndOfFeed = true; }
           else { $scope.selectedFeed = feed; }
           $scope.isLoading = false;
@@ -90,7 +169,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
         data: categoryName
       }).success(function(d) {
         console.log("successful adding new category");
-        dbFactory.getAllFeeds(true, function(allFeeds){
+        dbService.getAllFeeds(true, function(allFeeds){
           $scope.allFeeds = allFeeds;
         });
       });
@@ -101,7 +180,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
     console.log(category);
     $http.delete("/category/" + category.id).success(function() {
       console.log("successful delete");
-      dbFactory.getAllFeeds(true, function(allFeeds){
+      dbService.getAllFeeds(true, function(allFeeds){
         $scope.allFeeds = allFeeds;
       });
     });
@@ -110,7 +189,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
   $scope.deleteUserFeed = function(category, feed) {
     $http.delete("/category/" + category.id + "/" + feed.userFeedId).success(function() {
       console.log("successful delete");
-      dbFactory.getAllFeeds(true, function(allFeeds){
+      dbService.getAllFeeds(true, function(allFeeds){
         $scope.allFeeds = allFeeds;
       });
     });
@@ -122,7 +201,7 @@ thermoreader.mainCtrl = function($scope, $rootScope, $routeParams, $document, $h
       data: feedURL // ex. http://rss.sina.com.cn/news/allnews/tech.xml
     }).success(function(d) {
       console.log("successful adding new feed");
-      dbFactory.getAllFeeds(true, function(allFeeds){
+      dbService.getAllFeeds(true, function(allFeeds){
         $scope.allFeeds = allFeeds;
       });
     });
