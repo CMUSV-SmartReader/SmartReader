@@ -187,7 +187,6 @@ public class Feed extends MongoModel {
     }
 
     public static class Serializer implements JsonSerializer<Feed> {
-
         @Override
         public JsonElement serialize(Feed src, Type type,
                 JsonSerializationContext ctx) {
@@ -198,5 +197,4 @@ public class Feed extends MongoModel {
             return feedObject;
         }
     }
-
 }

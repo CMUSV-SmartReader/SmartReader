@@ -26,6 +26,8 @@ POST    /reset/:token               securesocial.controllers.Registration.handle
 GET     /password                   securesocial.controllers.PasswordChange.page
 POST    /password                   securesocial.controllers.PasswordChange.handlePasswordChange
 POST    /crawl                      controllers.Application.crawl
+GET     /twitter_login              controllers.Application.twitterLogin
+GET     /oauth_callback             controllers.Application.twitterCallback
 
 # Providers entry points
 GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
@@ -59,3 +61,6 @@ PUT     /userfeed/:id/clear_update  controllers.UserFeedController.clearUpdate(i
 
 # Import Feeds
 POST    /import-feeds               controllers.FeedImportController.upload()
+
+# Social Network
+GET     /twitter/timeline           controllers.SocialController.twitterStatus()

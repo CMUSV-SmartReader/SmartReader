@@ -16,6 +16,11 @@ import securesocial.core.OAuth1Info;
 import securesocial.core.OAuth2Info;
 import securesocial.core.PasswordInfo;
 import securesocial.core.UserId;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 import util.GoogleReaderImporter;
 import util.ReaderDB;
 
@@ -62,6 +67,10 @@ public class User extends MongoModel implements Identity {
 
     public PasswordInfo passwordInfo;
 
+    public String twitterAccessToken;
+
+    public String twitterAccessTokenSecret;
+
     @Indexed
     public String email;
 
@@ -80,7 +89,7 @@ public class User extends MongoModel implements Identity {
         query.put("email", email);
         DBObject userDB = userCollection.findOne(query);
         if (userDB != null) {
-            return User.createUser(userDB);
+            return MongoModel.findEntity(userDB.get("_id").toString(), User.class);
         }
         return null;
     }
@@ -208,6 +217,27 @@ public class User extends MongoModel implements Identity {
         }
         userArticle.isRead = false;
         userArticle.update();
+    }
+
+    public void updateAccessToken(String token, String secret) {
+        this.twitterAccessToken = token;
+        this.twitterAccessTokenSecret = secret;
+        this.update();
+    }
+
+    public Twitter getTwitter() {
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.setDebugEnabled(true);
+        builder.setOAuthConsumerKey("BploO8qFE4tWwmdNNsE1g");
+        builder.setOAuthConsumerSecret("lpcBV30Wrr1dN1RO9ehxYDhfrGUkJjqa7V0idWKcoM");
+        Configuration configuration = builder.build();
+        TwitterFactory factory = new TwitterFactory(configuration);
+        Twitter twitter = factory.getInstance();
+        System.out.println(twitterAccessToken);
+        System.out.println(twitterAccessTokenSecret);
+        AccessToken token = new AccessToken(twitterAccessToken, twitterAccessTokenSecret);
+        twitter.setOAuthAccessToken(token);
+        return twitter;
     }
 
     @Override

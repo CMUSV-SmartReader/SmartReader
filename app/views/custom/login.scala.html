@@ -46,6 +46,18 @@
                 </p>
             </div>
         }
+        
+        @Registry.providers.get(UsernamePassword).map { up =>
+            <div class="clearfix">
+                @if( externalProviders.size > 0 ) {
+                    <h3>@Messages("securesocial.login.useEmailAndPassword")</h3>
+                } else {
+                    <h3>@Messages("securesocial.login.useEmailAndPasswordOnly")</h3>
+                }
+
+               @provider("userpass", Some(loginForm))(request)
+            </div>
+        }
     }
 
 
