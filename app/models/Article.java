@@ -9,6 +9,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import scala.util.Random;
+import twitter4j.Status;
 import util.ReaderDB;
 
 import com.google.code.morphia.annotations.Entity;
@@ -37,6 +38,9 @@ public class Article extends MongoModel {
     @Reference
     public Feed feed;
 
+    @Reference
+    public SNSProvider provider;
+
     public String title;
 
     public String desc;
@@ -56,6 +60,8 @@ public class Article extends MongoModel {
     public boolean isRead;
 
     public int popularity;
+
+    public long twitterStatusId;
 
     public List<String> categories = new ArrayList<String>();
 
@@ -90,6 +96,13 @@ public class Article extends MongoModel {
     }
 
     public Article() {
+    }
+
+    public Article(Status status) {
+        this.summary = status.getText();
+        this.author = status.getSource();
+        this.publishDate = status.getCreatedAt();
+        this.twitterStatusId = status.getId();
     }
 
     public Article(DBObject articleDB) {
@@ -175,7 +188,7 @@ public class Article extends MongoModel {
     public Article createUnique(){
         HashMap<String, Object> condition = new HashMap<String, Object>();
         condition.put("link", this.link);
-        Article existingArticle = Article.existingArticle(condition, Article.class);
+        Article existingArticle = Article.existingArticle(condition);
         if (existingArticle != null){
             return existingArticle;
         }
@@ -185,8 +198,21 @@ public class Article extends MongoModel {
         }
     }
 
-    public static Article existingArticle(HashMap<String, Object>condition, Class<?> clazz){
-        DBCollection collection = ReaderDB.db.getCollection(clazz.getSimpleName());
+    public Article createTwitterArticle() {
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("twitterStatusId", this.twitterStatusId);
+        Article existingArticle = Article.existingArticle(condition);
+        if (existingArticle != null){
+            return existingArticle;
+        }
+        else {
+            super.create();
+            return this;
+        }
+    }
+
+    public static Article existingArticle(HashMap<String, Object>condition){
+        DBCollection collection = ReaderDB.getArticleCollection();
         BasicDBObject query = new BasicDBObject();
         query.putAll(condition);
         DBObject entityDB = collection.findOne(query);

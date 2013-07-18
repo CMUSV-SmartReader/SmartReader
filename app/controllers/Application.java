@@ -74,10 +74,12 @@ public class Application extends Controller {
     }
 
 
+    @SecureSocial.UserAwareAction
     public static Result twitterCallback() {
         RequestToken token = new RequestToken(session().get("token"), session().get("tokenSec"));
         String verifier = request().getQueryString("oauth_verifier");
         User user = SmartReaderUtils.getCurrentUser();
+        user.createTwitterProvider();
         try {
             AccessToken accessToken = SmartReaderUtils.getTwitter().getOAuthAccessToken(token, verifier);
             user.updateAccessToken(accessToken.getToken(), accessToken.getTokenSecret());
@@ -87,6 +89,7 @@ public class Application extends Controller {
         return ok();
     }
 
+    @SecureSocial.UserAwareAction
     public static Result twitterLogin() {
         try {
             RequestToken twitterRequestToken = SmartReaderUtils.getTwitter().getOAuthRequestToken();

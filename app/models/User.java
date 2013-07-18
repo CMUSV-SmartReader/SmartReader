@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +17,10 @@ import securesocial.core.OAuth1Info;
 import securesocial.core.OAuth2Info;
 import securesocial.core.PasswordInfo;
 import securesocial.core.UserId;
+import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.Configuration;
@@ -327,12 +331,51 @@ public class User extends MongoModel implements Identity {
         query.put("_id", new ObjectId(this.id.toString()));
         DBObject userDB = userCollection.findOne(query);
         BasicDBList recommendsDB = (BasicDBList) userDB.get("recommends");
-        for (int i = 0; i < recommendsDB.size(); i++) {
-            DBObject articleDB = (DBObject) recommendsDB.get(i);
-            DBRef articleRef = (DBRef) articleDB.get("article");
-            recommends.add(new Article(articleRef.fetch()));
+        if (recommendsDB != null) {
+            for (int i = 0; i < recommendsDB.size(); i++) {
+                DBObject articleDB = (DBObject) recommendsDB.get(i);
+                DBRef articleRef = (DBRef) articleDB.get("article");
+                recommends.add(new Article(articleRef.fetch()));
+            }
         }
         return recommends;
+    }
+
+    public void crawlTwitter() {
+        SNSProvider twitterProvider = SNSProvider.findTwitterProvider(this);
+        if (twitterAccessToken != null && twitterAccessTokenSecret != null && twitterProvider != null) {
+            Twitter twitter = this.getTwitter();
+            try {
+                ResponseList<Status> statusList = twitter.getHomeTimeline();
+                for (Status status : statusList) {
+                    Article article = new Article(status);
+                    article.createTwitterArticle();
+                    article.provider = twitterProvider;
+                    article.update();
+                    twitterProvider.articles.add(article);
+                }
+                twitterProvider.update();
+            }
+            catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void createTwitterProvider() {
+        if (!existTwitterProvider()) {
+            SNSProvider provider = new SNSProvider();
+            provider.user = this;
+            provider.provider = "twitter";
+            provider.create();
+        }
+    }
+
+    public boolean existTwitterProvider() {
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("provider", "twitter");
+        condition.put("user.$id", this.id);
+        return SNSProvider.existingProvider(condition) != null;
     }
 
     public List<UserFeed> userFeeds() {
@@ -345,6 +388,26 @@ public class User extends MongoModel implements Identity {
             userFeeds.add(new UserFeed(cursor.next()));
         }
         return userFeeds;
+    }
+
+    public List<SNSProvider> providers() {
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", new ObjectId(this.id.toString()));
+        DBCollection providerCollection = ReaderDB.getSNSProviderCollection();
+        DBCursor cursor = providerCollection.find(query);
+        List<SNSProvider> providers = new ArrayList<SNSProvider>();
+        while (cursor.hasNext()) {
+            providers.add(new SNSProvider(cursor.next()));
+        }
+        return providers;
+    }
+
+    public static void crawlSocialNetwork() {
+        @SuppressWarnings("unchecked")
+        List<User> allUsers = (List<User>) MongoModel.all(User.class);
+        for (User user : allUsers) {
+            user.crawlTwitter();
+        }
     }
 
 }

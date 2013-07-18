@@ -64,3 +64,5 @@ POST    /import-feeds               controllers.FeedImportController.upload()
 
 # Social Network
 GET     /twitter/timeline           controllers.SocialController.twitterStatus()
+GET     /social/all_provider        controllers.SocialController.allProviders()
+GET     /social/:id/articles        controllers.SocialController.articles(id)
