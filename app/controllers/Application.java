@@ -10,6 +10,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import securesocial.core.Identity;
 import securesocial.core.java.SecureSocial;
+import twitter4j.TwitterException;
+import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 import util.SmartReaderUtils;
 import views.html.main;
 
@@ -33,7 +36,7 @@ public class Application extends Controller {
         return ok("Hello " + userName + ", you are seeing a public page");
     }
 
-    @SecureSocial.SecuredAction( authorization = WithProvider.class, params = {"twitter"})
+    @SecureSocial.SecuredAction(authorization = WithProvider.class, params = {"twitter"})
     public static Result onlyTwitter() {
         return ok("You are seeing this because you logged in using Twitter");
     }
@@ -68,6 +71,38 @@ public class Application extends Controller {
         User user = User.findByEmail(identity.email().get());
         Gson gson = SmartReaderUtils.builder.create();
         return ok(gson.toJson(user.allFeedCategoriesWithFeed()));
+    }
+
+
+    @SecureSocial.UserAwareAction
+    public static Result twitterCallback() {
+        RequestToken token = new RequestToken(session().get("token"), session().get("tokenSec"));
+        String verifier = request().getQueryString("oauth_verifier");
+        User user = SmartReaderUtils.getCurrentUser();
+        user.createTwitterProvider();
+        try {
+            AccessToken accessToken = SmartReaderUtils.getTwitter().getOAuthAccessToken(token, verifier);
+            user.updateAccessToken(accessToken.getToken(), accessToken.getTokenSecret());
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
+        return ok();
+    }
+
+    @SecureSocial.UserAwareAction
+    public static Result twitterLogin() {
+        try {
+            RequestToken twitterRequestToken = SmartReaderUtils.getTwitter().getOAuthRequestToken();
+            String token = twitterRequestToken.getToken();
+            String tokenSecret = twitterRequestToken.getTokenSecret();
+            session().put("token", token);
+            session().put("tokenSec", tokenSecret);
+            String authorizationUrl = twitterRequestToken.getAuthorizationURL();
+            return redirect(authorizationUrl);
+        } catch (TwitterException e) {
+
+        }
+        return ok();
     }
 
 }

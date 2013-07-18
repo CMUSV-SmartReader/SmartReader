@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +17,14 @@ import securesocial.core.OAuth1Info;
 import securesocial.core.OAuth2Info;
 import securesocial.core.PasswordInfo;
 import securesocial.core.UserId;
+import twitter4j.ResponseList;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 import util.GoogleReaderImporter;
 import util.ReaderDB;
 
@@ -62,6 +71,10 @@ public class User extends MongoModel implements Identity {
 
     public PasswordInfo passwordInfo;
 
+    public String twitterAccessToken;
+
+    public String twitterAccessTokenSecret;
+
     @Indexed
     public String email;
 
@@ -80,7 +93,7 @@ public class User extends MongoModel implements Identity {
         query.put("email", email);
         DBObject userDB = userCollection.findOne(query);
         if (userDB != null) {
-            return User.createUser(userDB);
+            return MongoModel.findEntity(userDB.get("_id").toString(), User.class);
         }
         return null;
     }
@@ -210,6 +223,27 @@ public class User extends MongoModel implements Identity {
         userArticle.update();
     }
 
+    public void updateAccessToken(String token, String secret) {
+        this.twitterAccessToken = token;
+        this.twitterAccessTokenSecret = secret;
+        this.update();
+    }
+
+    public Twitter getTwitter() {
+        ConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.setDebugEnabled(true);
+        builder.setOAuthConsumerKey("BploO8qFE4tWwmdNNsE1g");
+        builder.setOAuthConsumerSecret("lpcBV30Wrr1dN1RO9ehxYDhfrGUkJjqa7V0idWKcoM");
+        Configuration configuration = builder.build();
+        TwitterFactory factory = new TwitterFactory(configuration);
+        Twitter twitter = factory.getInstance();
+        System.out.println(twitterAccessToken);
+        System.out.println(twitterAccessTokenSecret);
+        AccessToken token = new AccessToken(twitterAccessToken, twitterAccessTokenSecret);
+        twitter.setOAuthAccessToken(token);
+        return twitter;
+    }
+
     @Override
     public AuthenticationMethod authMethod() {
         return authMethod;
@@ -297,12 +331,51 @@ public class User extends MongoModel implements Identity {
         query.put("_id", new ObjectId(this.id.toString()));
         DBObject userDB = userCollection.findOne(query);
         BasicDBList recommendsDB = (BasicDBList) userDB.get("recommends");
-        for (int i = 0; i < recommendsDB.size(); i++) {
-            DBObject articleDB = (DBObject) recommendsDB.get(i);
-            DBRef articleRef = (DBRef) articleDB.get("article");
-            recommends.add(new Article(articleRef.fetch()));
+        if (recommendsDB != null) {
+            for (int i = 0; i < recommendsDB.size(); i++) {
+                DBObject articleDB = (DBObject) recommendsDB.get(i);
+                DBRef articleRef = (DBRef) articleDB.get("article");
+                recommends.add(new Article(articleRef.fetch()));
+            }
         }
         return recommends;
+    }
+
+    public void crawlTwitter() {
+        SNSProvider twitterProvider = SNSProvider.findTwitterProvider(this);
+        if (twitterAccessToken != null && twitterAccessTokenSecret != null && twitterProvider != null) {
+            Twitter twitter = this.getTwitter();
+            try {
+                ResponseList<Status> statusList = twitter.getHomeTimeline();
+                for (Status status : statusList) {
+                    Article article = new Article(status);
+                    article.createTwitterArticle();
+                    article.provider = twitterProvider;
+                    article.update();
+                    twitterProvider.articles.add(article);
+                }
+                twitterProvider.update();
+            }
+            catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void createTwitterProvider() {
+        if (!existTwitterProvider()) {
+            SNSProvider provider = new SNSProvider();
+            provider.user = this;
+            provider.provider = "twitter";
+            provider.create();
+        }
+    }
+
+    public boolean existTwitterProvider() {
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("provider", "twitter");
+        condition.put("user.$id", this.id);
+        return SNSProvider.existingProvider(condition) != null;
     }
 
     public List<UserFeed> userFeeds() {
@@ -315,6 +388,26 @@ public class User extends MongoModel implements Identity {
             userFeeds.add(new UserFeed(cursor.next()));
         }
         return userFeeds;
+    }
+
+    public List<SNSProvider> providers() {
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", new ObjectId(this.id.toString()));
+        DBCollection providerCollection = ReaderDB.getSNSProviderCollection();
+        DBCursor cursor = providerCollection.find(query);
+        List<SNSProvider> providers = new ArrayList<SNSProvider>();
+        while (cursor.hasNext()) {
+            providers.add(new SNSProvider(cursor.next()));
+        }
+        return providers;
+    }
+
+    public static void crawlSocialNetwork() {
+        @SuppressWarnings("unchecked")
+        List<User> allUsers = (List<User>) MongoModel.all(User.class);
+        for (User user : allUsers) {
+            user.crawlTwitter();
+        }
     }
 
 }

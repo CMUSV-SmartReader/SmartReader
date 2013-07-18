@@ -22,6 +22,7 @@ object ApplicationBuild extends Build {
     "com.google.code.gson" % "gson" % "2.2.4",
     "asm" % "asm" % "3.3.1",
     "cglib" % "cglib" % "2.2.2",
+    "org.twitter4j" % "twitter4j-core" % "3.0.3",
     "com.thoughtworks.proxytoys" % "proxytoys" % "1.0",
     "rome" % "rome" % "1.0"
   )

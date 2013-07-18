@@ -56,6 +56,7 @@ public class FeedCategoryController extends Controller {
         }
     }
 
+    @SecureSocial.UserAwareAction
     public static Result moveUserFeed(String srcId, String dstId) {
         JsonNode dataNode = request().body().asJson().get("data");
         String userFeedId = dataNode.asText();
@@ -67,16 +68,19 @@ public class FeedCategoryController extends Controller {
         return ok();
     }
 
+    @SecureSocial.UserAwareAction
     public static Result changeFeedCategoryOrder(String id) {
         return ok();
     }
 
+    @SecureSocial.UserAwareAction
     public static Result deleteFeedCategory(String id) {
         FeedCategory feedCategory = MongoModel.findEntity(id, FeedCategory.class);
         feedCategory.delete();
         return ok();
     }
 
+    @SecureSocial.UserAwareAction
     public static Result deleteUserFeed(String id, String userFeedId) {
         FeedCategory feedCategory = MongoModel.findEntity(id, FeedCategory.class);
         UserFeed userFeed = MongoModel.findEntity(userFeedId, UserFeed.class);
