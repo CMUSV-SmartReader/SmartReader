@@ -101,6 +101,7 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
     localStorage['viewMode'] = mode;
     if(mode == "articleMode"){
       $scope.animationMode = {show: 'slideleft-in'};
+      $scope.isEndOfFeed = false;
     } else if(mode == "listMode"){
       $scope.animationMode = {enter: 'slideup-in', leave: 'slidedown-out'};
     }

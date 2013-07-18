@@ -23,8 +23,8 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .directive('ngGlobalkeydown', function($document, $parse) {
     return function(scope, elem, attrs) {
-      $document.unbind();
-      $document.bind('keydown',function(e){
+      $document.unbind('keydown');
+      $document.bind('keydown',function(event){
         //console.log("keydown");
         scope.$apply(function() {
           $parse(attrs.ngGlobalkeydown)(scope, { $event: event });
