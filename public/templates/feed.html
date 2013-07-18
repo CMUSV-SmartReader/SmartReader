@@ -1,4 +1,4 @@
-<div ng-scrollend="fetchData()" id="content">
+<div ng-scrollend="fetchData()" ng-globalkeydown="keyTriggers($event)"  id="content">
   <!-- Title and Misc -->
   <h2><a>
     <span class="logo_1 logo"></span>
@@ -17,12 +17,13 @@
   </div>
 
   <!-- Feed Cards -->
-  <div ng-class="{'expanded': article.expanded, 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in selectedFeed.articles | orderBy:orderRule" ng-animate="{enter: 'slide-enter', leave: 'slide-leave'}">
-
-      <div class="media-body-text-only pull-left">
-        <h4 class="media-heading"><!-- ☆ -->
-          <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
-        </h4>
+  <div ng-switch on="viewMode">
+    <div ng-switch-when="listMode">
+      <div ng-class="{'expanded': article.expanded, 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in selectedFeed.articles | orderBy:orderRule" ng-animate="{enter: 'slideup-in', leave: 'slidedown-out'}">
+        <div class="media-body-text-only pull-left">
+          <h4 class="media-heading"><!-- ☆ -->
+            <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
+          </h4>
           <span class="info">
             <span class="date">{{article.date | prettyDate}}</span>
             <span class="author">by <a>{{article.author}}</a></span>
@@ -41,10 +42,39 @@
 
             <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
           </p>
+        </div>
+        <div class="clearfix"></div>
       </div>
-    <div class="clearfix"></div>
-  </div>
+    </div>
+    <div ng-switch-when="articleMode">
+      <div ng-show="article.id == orderedArticles[currentArticleIndex].id" ng-class="{'read': article.read, 'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="{show: 'slideup-in'}">
+        <div class="media-body-text-only pull-left">
+          <h4 class="media-heading"><!-- ☆ -->
+            <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
+          </h4>
+          <span class="info">
+            <span class="date">{{article.date | prettyDate}}</span>
+            <span class="author">by <a>{{article.author}}</a></span>
+            <span class="from">from <a>{{article.feedName}}</a></span>
+          </span>
+          <p>
+            <div class="article-summary">{{article.summary}}</div>
+            <div class="article-description">
+              <div class="article-text" ng-bind-html-unsafe="article.description"></div>
+              <ul class="dupArticles">
+                <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" ng-class="popular{{dupArticle.popular}}">
+                  {{dupArticle.title}} from {{dupArticle.feedName}}
+                </li>
+              </ul>
+            </div>
+          </p>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
 
-  <div ng-show="isLoading" class="loading-indicator feed-indicator"><img src="/assets/images/ajax-loader.gif"> Loading </div>
-  <div ng-show="isEndOfFeed" class="end-indicator feed-indicator"> End of Feed </div>
+    <div ng-show="isLoading" class="loading-indicator feed-indicator"><img src="/assets/images/ajax-loader.gif"> Loading </div>
+    <div ng-show="isEndOfFeed" class="end-indicator feed-indicator"> End of Feed </div>
+
+  </div>
 </div>
