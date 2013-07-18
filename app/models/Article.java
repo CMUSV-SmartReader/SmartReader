@@ -107,7 +107,9 @@ public class Article extends MongoModel {
 
     public Article(DBObject articleDB) {
         this.id = (ObjectId) articleDB.get("_id");
-        this.title = articleDB.get("title").toString();
+        if (articleDB.get("title") != null) {
+            this.title = articleDB.get("title").toString();
+        }
         if (articleDB.get("link") != null) {
             this.link = articleDB.get("link").toString();
         }
