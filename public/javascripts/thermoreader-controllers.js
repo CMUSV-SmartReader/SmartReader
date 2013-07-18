@@ -52,7 +52,10 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
   $scope.isLoading = ($scope.isFeedPage)? (dbService.checkFeed($routeParams.feedId).articles.length == 0):true;
   $scope.isEndOfFeed = false;
   $scope.viewMode = localStorage.hasOwnProperty('viewMode')? localStorage['viewMode']:"listMode"; // or "articleMode"
-  $scope.animationMode = {show: 'slideleft-in'}; //{show: 'slideleft-in', enter: 'slideup-in', leave: 'slidedown-out'}
+
+  $scope.animationMode = ($scope.viewMode == "listMode")?
+    {enter: 'slideup-in', leave: 'slidedown-out'}:{show: 'slideleft-in'};
+    //{show: 'slideleft-in', enter: 'slideup-in', leave: 'slidedown-out'}
 
   $scope.selectedFeed = ($scope.isFeedPage)?
     dbService.getFeed($routeParams.feedId, false, function(){ $scope.isLoading = false; }):
@@ -91,19 +94,32 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
 
   $scope.setOrderRule = function(rule){
     localStorage['orderRule'] = rule;
+    $('.views select').blur();
   };
 
   $scope.setViewMode = function(mode){
     localStorage['viewMode'] = mode;
+    if(mode == "articleMode"){
+      $scope.animationMode = {show: 'slideleft-in'};
+    } else if(mode == "listMode"){
+      $scope.animationMode = {enter: 'slideup-in', leave: 'slidedown-out'};
+    }
+    $('.views select').blur();
   };
 
-  $scope.fetchData = function(){
-    if(!$scope.isEndOfFeed && !$scope.isLoading && $scope.isFeedPage && $scope.viewMode == "listMode"){
-      $scope.isLoading = true;
-      dbService.getFeed($routeParams.feedId, true, function(feed){
-        if($scope.selectedFeed.length == feed.length){ $scope.isEndOfFeed = true; }
-        $scope.isLoading = false;
-      });
+  $scope.fetchData = function(isScrollTriggered){
+    if(!$scope.isEndOfFeed && !$scope.isLoading && $scope.isFeedPage){
+      if(!(isScrollTriggered ^ ($scope.viewMode == "listMode"))){
+        var currentFeedLength = $scope.selectedFeed.articles.length;
+        $scope.isLoading = true;
+        dbService.getFeed($routeParams.feedId, true, function(feed){
+          if(currentFeedLength == feed.articles.length){ $scope.isEndOfFeed = true; }
+          else{
+            if($scope.viewMode == "articleMode"){ $scope.currentArticleIndex += 1; }
+          }
+          $scope.isLoading = false;
+        });
+      }
     }
     //$scope.$apply();
   };
@@ -112,12 +128,19 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
     console.log(e);
     switch(e.keyCode){
       case 39:
-        if($scope.viewMode == "articleMode"){ $scope.animationMode = {show: 'slideleft-in'}; }
-        $scope.currentArticleIndex += 1;
+        if($scope.viewMode == "articleMode"){
+          $scope.animationMode = {show: 'slideleft-in'};
+          if($scope.currentArticleIndex+1 >= $scope.selectedFeed.articles.length){
+            $scope.fetchData(false);
+          } else { $scope.currentArticleIndex += 1; }
+        }
         break;
       case 37:
-        if($scope.viewMode == "articleMode"){ $scope.animationMode = {show: 'slideright-in'}; }
-        $scope.currentArticleIndex -= 1;
+        if($scope.viewMode == "articleMode"){
+          $scope.animationMode = {show: 'slideright-in'};
+          if($scope.currentArticleIndex < $scope.selectedFeed.articles.length){ $scope.isEndOfFeed = false; }
+          if($scope.currentArticleIndex > 0){ $scope.currentArticleIndex -= 1; }
+        }
         break;
       case 38:
         $('#content-container').scrollTop($('#content-container').scrollTop()-50);
