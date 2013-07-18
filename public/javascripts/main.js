@@ -12,8 +12,10 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .directive('ngScrollend', function() {
     return function(scope, elem, attrs) {
+      $('#content-container').unbind('scroll');
       $('#content-container').bind('scroll', function(){
         if($('#content-container')[0].scrollTop + $('#content-container')[0].offsetHeight >= $('#content-container')[0].scrollHeight){
+          console.log("scroll");
           scope.$apply(attrs.ngScrollend);
         }
       });
@@ -21,7 +23,9 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .directive('ngGlobalkeydown', function($document, $parse) {
     return function(scope, elem, attrs) {
+      $document.unbind();
       $document.bind('keydown',function(e){
+        console.log("keydown");
         scope.$apply(function() {
           $parse(attrs.ngGlobalkeydown)(scope, { $event: event });
         });

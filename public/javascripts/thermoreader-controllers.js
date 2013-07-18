@@ -46,12 +46,13 @@ thermoreader.manageCtrl = function($scope, $http, dbService){
 
 thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
 
+  // Some state variables
   $scope.orderRule = localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
   $scope.isFeedPage = ($routeParams.feedId)? true:false;
   $scope.isLoading = ($scope.isFeedPage)? (dbService.checkFeed($routeParams.feedId).articles.length == 0):true;
   $scope.isEndOfFeed = false;
-  $scope.viewMode = "listMode"; // or "articleMode"
-  //$scope.animationMode
+  $scope.viewMode = localStorage.hasOwnProperty('viewMode')? localStorage['viewMode']:"listMode"; // or "articleMode"
+  $scope.animationMode = {show: 'slideleft-in'}; //{show: 'slideleft-in', enter: 'slideup-in', leave: 'slidedown-out'}
 
   $scope.selectedFeed = ($scope.isFeedPage)?
     dbService.getFeed($routeParams.feedId, false, function(){ $scope.isLoading = false; }):
@@ -89,12 +90,15 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
   };
 
   $scope.setOrderRule = function(rule){
-    $scope.orderRule = rule;
     localStorage['orderRule'] = rule;
   };
 
+  $scope.setViewMode = function(mode){
+    localStorage['viewMode'] = mode;
+  };
+
   $scope.fetchData = function(){
-    if(!$scope.isEndOfFeed && !$scope.isLoading && $scope.isFeedPage){
+    if(!$scope.isEndOfFeed && !$scope.isLoading && $scope.isFeedPage && $scope.viewMode == "listMode"){
       $scope.isLoading = true;
       dbService.getFeed($routeParams.feedId, true, function(feed){
         if($scope.selectedFeed.length == feed.length){ $scope.isEndOfFeed = true; }
@@ -107,8 +111,14 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
   $scope.keyTriggers = function(e){
     console.log(e);
     switch(e.keyCode){
-      case 39: $scope.currentArticleIndex += 1; break;
-      case 37: $scope.currentArticleIndex -= 1; break;
+      case 39:
+        if($scope.viewMode == "articleMode"){ $scope.animationMode = {show: 'slideleft-in'}; }
+        $scope.currentArticleIndex += 1;
+        break;
+      case 37:
+        if($scope.viewMode == "articleMode"){ $scope.animationMode = {show: 'slideright-in'}; }
+        $scope.currentArticleIndex -= 1;
+        break;
       case 38:
         $('#content-container').scrollTop($('#content-container').scrollTop()-50);
         $('#content-container').perfectScrollbar('update');
