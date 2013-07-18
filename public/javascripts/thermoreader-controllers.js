@@ -51,6 +51,7 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
   $scope.isLoading = ($scope.isFeedPage)? (dbService.checkFeed($routeParams.feedId).articles.length == 0):true;
   $scope.isEndOfFeed = false;
   $scope.viewMode = "listMode"; // or "articleMode"
+  //$scope.animationMode
 
   $scope.selectedFeed = ($scope.isFeedPage)?
     dbService.getFeed($routeParams.feedId, false, function(){ $scope.isLoading = false; }):

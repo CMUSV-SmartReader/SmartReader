@@ -18,8 +18,8 @@
 
   <!-- Feed Cards -->
   <div ng-switch on="viewMode">
-    <div ng-switch-when="listMode">
-      <div ng-class="{'expanded': article.expanded, 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in selectedFeed.articles | orderBy:orderRule" ng-animate="{enter: 'slideup-in', leave: 'slidedown-out'}">
+
+      <div ng-class="{'expanded': article.expanded || viewMode == 'articleMode', 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="{show: 'slideleft-in', enter: 'slideup-in', leave: 'slidedown-out'}">
         <div class="media-body-text-only pull-left">
           <h4 class="media-heading"><!-- ☆ -->
             <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
@@ -40,16 +40,16 @@
               </ul>
             </div>
 
-            <a class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
+            <a ng-show="viewMode == 'listMode'" class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
           </p>
         </div>
         <div class="clearfix"></div>
       </div>
-    </div>
-    <div ng-switch-when="articleMode">
-      <div ng-show="article.id == orderedArticles[currentArticleIndex].id" ng-class="{'read': article.read, 'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="{show: 'slideup-in'}">
+
+    <!--
+      <div ng-show="article.id == orderedArticles[currentArticleIndex].id" ng-class="{'read': article.read, 'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="{show: 'slideleft-in'}">
         <div class="media-body-text-only pull-left">
-          <h4 class="media-heading"><!-- ☆ -->
+          <h4 class="media-heading">
             <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
           </h4>
           <span class="info">
@@ -71,7 +71,7 @@
         </div>
         <div class="clearfix"></div>
       </div>
-    </div>
+     -->
 
     <div ng-show="isLoading" class="loading-indicator feed-indicator"><img src="/assets/images/ajax-loader.gif"> Loading </div>
     <div ng-show="isEndOfFeed" class="end-indicator feed-indicator"> End of Feed </div>
