@@ -52,10 +52,11 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
   $scope.isEndOfFeed = false;
   $scope.viewMode = "listMode"; // or "articleMode"
 
-  // If the page is to display a feed
   $scope.selectedFeed = ($scope.isFeedPage)?
     dbService.getFeed($routeParams.feedId, false, function(){ $scope.isLoading = false; }):
     dbService.getRecommendations(function(){ $scope.isLoading = false; });
+  $scope.currentArticleIndex = 0; //orderedArticles[0];
+
 
   // Feed Page Functions
   $scope.expandArticle = function(article){
@@ -102,18 +103,25 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
     //$scope.$apply();
   };
 
+  $scope.keyTriggers = function(e){
+    console.log(e);
+    switch(e.keyCode){
+      case 39: $scope.currentArticleIndex += 1; break;
+      case 37: $scope.currentArticleIndex -= 1; break;
+      case 38:
+        $('#content-container').scrollTop($('#content-container').scrollTop()-50);
+        $('#content-container').perfectScrollbar('update');
+        break;
+      case 40:
+        $('#content-container').scrollTop($('#content-container').scrollTop()+50);
+        $('#content-container').perfectScrollbar('update');
+        break;
+    }
+  };
+
   $scope.$on('$viewContentLoaded', function(){
     $('#content-container').scrollTop(0);
     if($scope.isFeedPage){ $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/clear_update"); }
   });
 };
 
-// Hotkeys Binding
-// angular.element($document).bind("keyup", function(event) {
-//   if (event.which === 191) {
-//     $('#hotkeys').modal({
-//       backdropFade: true,
-//       dialogFade:true
-//     });
-//   }
-// });

@@ -11,6 +11,7 @@
     float: left;
     display: inline;
     text-indent: -9999px;
+    overflow: hidden;
 }
 
 div.views > a {
@@ -56,27 +57,37 @@ div.card .article-description{
 }
 div.card.expanded .article-description{
   max-height: 1536px;
-  overflow: auto;
+  overflow: hidden;
 }
 
-.slide-enter{
+.slideup-in{
   transition: all 1s ease;
   transform: translate3d(0, 1000px, 0);
   -webkit-transform: translate3d(0, 1000px, 0);
   /*position: relative;
   top: 1000px;*/
 }
-.slide-enter.slide-enter-active{
+.slideup-in.slideup-in-active{
   transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
 }
 
-.slide-leave{
+.slideleft-in{
+  transition: all 1s ease;
+  transform: translate3d(1000px, 0, 0);
+  -webkit-transform: translate3d(1000px, 0, 0);
+}
+.slideleft-in.slideleft-in-active{
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+.slidedown-out{
   transition: all 1s ease;
   transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
 }
-.slide-leave.slide-leave-active{
+.slidedown-out.slidedown-active{
   transform: translate3d(0, -1000px, 0);
   -webkit-transform: translate3d(0, -1000px, 0);
 }

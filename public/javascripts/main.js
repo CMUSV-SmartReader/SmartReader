@@ -19,6 +19,15 @@ thermoreader.instance = angular.module('thermoReader', [])
       });
     };
   })
+  .directive('ngGlobalkeydown', function($document, $parse) {
+    return function(scope, elem, attrs) {
+      $document.bind('keydown',function(e){
+        scope.$apply(function() {
+          $parse(attrs.ngGlobalkeydown)(scope, { $event: event });
+        });
+      });
+    };
+  })
   .filter('prettyDate', function() {
     return function(time) {
       return prettyDate(new Date(time));
@@ -26,11 +35,11 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .config(function($routeProvider) {
   	$routeProvider
-  	.when("/home", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
+  	.when("/discover", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
     .when("/recommendation", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
     .when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
     .when("/feed/:feedId", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
-    .otherwise({redirectTo: '/home'});
+    .otherwise({redirectTo: '/discover'});
   }
 );
 
