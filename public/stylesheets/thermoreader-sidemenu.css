@@ -21,6 +21,7 @@
 
 #side-menu ul li { text-align: right; cursor: pointer;}
 #side-menu ul li a { color: #413839; }
+#side-menu ul li a.hasUpdate { font-weight: 700; }
 #side-container.side-inverse #side-menu ul li a { color: #ddd; }
 #side-menu ul li a:hover, #side-menu ul li:active {
   /* IE10 Consumer Preview */

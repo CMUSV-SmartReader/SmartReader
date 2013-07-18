@@ -59,7 +59,43 @@
       </div></div></div>
     </div>
 
-    <div id="main-container" ng-controller="mainCtrl" class="container-fluid" ng-view>
+    <div id="main-container" class="container-fluid">
+      <div class="row-fluid">
+
+        <div id ="side-container" class="span2 sub-container" ng-controller="menuCtrl">
+          <div id="side-menu" class="sidebar-nav">
+
+            <!-- FB-like Slide Menu-->
+            <div id="main-feeds">
+              <ul class="nav nav-list">
+                <li> <a href="#/home"> Home </a> </li>
+                <li> <a href="#/recommendation"> Recommendation </a> </li>
+                <li> <a href='#/manage'> Manage </a> </li>
+              </ul>
+            </div>
+
+            <div id="user-feeds">
+              <div ng-repeat="category in allFeeds">
+                <ul class="nav nav-list">
+                  <li class="divider"></li>
+                  <li class="nav-header"><a href="javascript: void(0)"><strong>{{category.name}}</strong></a></li>
+                  <li ng-repeat="feed in category.feeds" ng-click="selectFeed(feed)">
+                    <a ng-class="{'hasUpdate': feed.hasUpdate}" ng-href="#/feed/{{feed.id}}"> {{feed.name}} </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Main Content Container -->
+        <div id="content-container" class="span10 sub-container">
+          <div ng-view> </div>
+        </div>
+
+      </div>
+
     </div>
 
     <!-- Import Modal -->
