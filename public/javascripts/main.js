@@ -12,11 +12,23 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .directive('ngScrollend', function() {
     return function(scope, elem, attrs) {
-      console.log($('#content-container'));
+      $('#content-container').unbind('scroll');
       $('#content-container').bind('scroll', function(){
         if($('#content-container')[0].scrollTop + $('#content-container')[0].offsetHeight >= $('#content-container')[0].scrollHeight){
+          //console.log("scroll");
           scope.$apply(attrs.ngScrollend);
         }
+      });
+    };
+  })
+  .directive('ngGlobalkeydown', function($document, $parse) {
+    return function(scope, elem, attrs) {
+      $document.unbind('keydown');
+      $document.bind('keydown',function(event){
+        //console.log("keydown");
+        scope.$apply(function() {
+          $parse(attrs.ngGlobalkeydown)(scope, { $event: event });
+        });
       });
     };
   })
@@ -27,11 +39,11 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .config(function($routeProvider) {
   	$routeProvider
-  	.when("/home", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
+  	.when("/discover", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
     .when("/recommendation", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
     .when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
     .when("/feed/:feedId", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
-    .otherwise({redirectTo: '/home'});
+    .otherwise({redirectTo: '/discover'});
   }
 );
 

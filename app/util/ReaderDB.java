@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import models.Article;
 import models.Feed;
 import models.FeedCategory;
+import models.SNSProvider;
 import models.UserFeed;
 
 import com.google.code.morphia.Datastore;
@@ -44,6 +45,7 @@ public class ReaderDB {
             SmartReaderUtils.builder.registerTypeAdapter(UserFeed.class, new UserFeed.Serializer());
             SmartReaderUtils.builder.registerTypeAdapter(Feed.class, new Feed.Serializer());
             SmartReaderUtils.builder.registerTypeAdapter(Article.class, new Article.Serializer());
+            SmartReaderUtils.builder.registerTypeAdapter(SNSProvider.class, new SNSProvider.Serializer());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -67,6 +69,10 @@ public class ReaderDB {
 
     public static DBCollection getUserFeedCollection() {
         return db.getCollection("UserFeed");
+    }
+
+    public static DBCollection getSNSProviderCollection() {
+        return db.getCollection("SNSProvider");
     }
 
     private static class DBInfo {

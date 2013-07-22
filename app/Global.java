@@ -1,6 +1,7 @@
 import java.util.concurrent.TimeUnit;
 
 import models.Feed;
+import models.User;
 import play.GlobalSettings;
 import play.Logger;
 import play.libs.Akka;
@@ -25,6 +26,7 @@ public class Global extends GlobalSettings {
                 @Override
                 public void run() {
                       Logger.debug("Start Crawling");
+                      User.crawlSocialNetwork();
                       Feed.crawlAll();
                 }
             },

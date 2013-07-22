@@ -28,23 +28,27 @@ thermoreader.dbService = function($http){
   this.getAllFeeds = function(isReload, callback){
     if(this.categoryFeeds.length == 0 || isReload){
       var self = this;
-      $http.get("/categories").success(function(d) {
-        console.log(d);
-        self.categoryFeeds.length = 0;
-        for(var i=0; i<d.length; ++i){
-          self.categoryFeeds.push({ id: d[i].id, name : d[i].name, feeds : [] });
-          for(var j=0; j<d[i].userFeedsInfos.length; ++j){
-            var feed = new thermoreader.model.feed(
-              d[i].userFeedsInfos[j]["feedId"],
-              d[i].userFeedsInfos[j]["feedTitle"],
-              d[i].userFeedsInfos[j]["userFeedId"],
-              (new Date()), (new Date()), []
-            );
-            self.categoryFeeds[i].feeds.push(feed);
-            self.feedArticles[d[i].userFeedsInfos[j]["feedId"]] = feed;
+      $http.get("/userfeed/all").success(function(d) {
+        var userFeedInfo = {};
+        for(var i=0; i<d.length; ++i){ userFeedInfo[d[i].id] = d[i]; }
+        $http.get("/categories").success(function(d) {
+          self.categoryFeeds.length = 0;
+          for(var i=0; i<d.length; ++i){
+            self.categoryFeeds.push({ id: d[i].id, name : d[i].name, feeds : [] });
+            for(var j=0; j<d[i].userFeedsInfos.length; ++j){
+              var userFeedId = d[i].userFeedsInfos[j].userFeedId;
+              var feed = new thermoreader.model.feed(
+                d[i].userFeedsInfos[j].feedId, d[i].userFeedsInfos[j].feedTitle,
+                userFeedId, (new Date()), (new Date()), [],
+                userFeedInfo[userFeedId].hasUpdate, userFeedInfo[userFeedId].order, userFeedInfo[userFeedId].popularity
+              );
+              self.categoryFeeds[i].feeds.push(feed);
+              self.feedArticles[d[i].userFeedsInfos[j]["feedId"]] = feed;
+            }
           }
-        }
-        if(callback){ callback(self.categoryFeeds); }
+          console.log(self.categoryFeeds);
+          if(callback){ callback(self.categoryFeeds); }
+        });
       });
     }
     return this.categoryFeeds;
