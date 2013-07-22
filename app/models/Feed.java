@@ -48,8 +48,6 @@ public class Feed extends MongoModel {
 
     public String errorReason;
 
-    private static int MAX_CRAWLER = 5;
-
     @Reference(lazy = true)
     public List<Article> articles = new ArrayList<Article>();
 
