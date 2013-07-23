@@ -11,11 +11,9 @@ public class GoogleReaderImporterTest {
     public void setUp() {
         ReaderDB.setUp();
     }
-    
+
     @Test
     public void testImportingUsingAccountAndPassword() {
-        GoogleReaderImporter.importFromGoogle("seanlionheart@gmail.com",
-                "314159265358979");
     }
 
 }

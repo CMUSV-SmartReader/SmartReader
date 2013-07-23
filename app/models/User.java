@@ -172,7 +172,7 @@ public class User extends MongoModel implements Identity {
 
     public void crawl() {
         for (FeedCategory feedCategory : this.feedCategories) {
-            this.articles.addAll(feedCategory.crawl());
+            feedCategory.crawl();
         }
         this.update();
     }
@@ -333,9 +333,13 @@ public class User extends MongoModel implements Identity {
         BasicDBList recommendsDB = (BasicDBList) userDB.get("recommends");
         if (recommendsDB != null) {
             for (int i = 0; i < recommendsDB.size(); i++) {
-                DBObject articleDB = (DBObject) recommendsDB.get(i);
-                DBRef articleRef = (DBRef) articleDB.get("article");
-                recommends.add(new Article(articleRef.fetch()));
+                try {
+                    DBObject articleDB = (DBObject) recommendsDB.get(i);
+                    DBRef articleRef = (DBRef) articleDB.get("article");
+                    recommends.add(new Article(articleRef.fetch()));
+                } catch (Exception e) {
+                    //Maybe there are data inconsistency.
+                }
             }
         }
         return recommends;
@@ -349,12 +353,8 @@ public class User extends MongoModel implements Identity {
                 ResponseList<Status> statusList = twitter.getHomeTimeline();
                 for (Status status : statusList) {
                     Article article = new Article(status);
-                    article.createTwitterArticle();
-                    article.provider = twitterProvider;
-                    article.update();
-                    twitterProvider.articles.add(article);
+                    article.createTwitterArticle(twitterProvider);
                 }
-                twitterProvider.update();
             }
             catch (TwitterException e) {
                 e.printStackTrace();

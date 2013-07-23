@@ -35,9 +35,6 @@ public class SNSProvider extends MongoModel {
     @Reference
     public User user;
 
-    @Reference
-    public List<Article> articles = new ArrayList<Article>();
-
     public SNSProvider() {
 
     }

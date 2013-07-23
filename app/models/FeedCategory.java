@@ -44,11 +44,10 @@ public class FeedCategory extends MongoModel {
 
     public List<Map<String, String>> userFeedsInfos = new ArrayList<Map<String,String>>();
 
-    public List<Article> crawl() {
+    public void crawl() {
         for(UserFeed userFeed: this.userFeeds){
-            this.articles.addAll(userFeed.feed.crawl());
+            userFeed.feed.crawl();
         }
-        return this.articles;
     }
 
     public UserFeed createFeed(User user, Feed feed) {
@@ -92,9 +91,6 @@ public class FeedCategory extends MongoModel {
             userFeed.delete();
         }
     }
-
-    @Reference(concreteClass = ArrayList.class, lazy=true)
-    public List<Article> articles = new ArrayList<Article>();
 
     public static FeedCategory find(String categoryId) {
         return ReaderDB.datastore.get(FeedCategory.class, categoryId);

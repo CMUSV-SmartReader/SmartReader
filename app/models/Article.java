@@ -61,7 +61,7 @@ public class Article extends MongoModel {
 
     public int popularity;
 
-    public long twitterStatusId;
+    public Long twitterStatusId;
 
     public List<String> categories = new ArrayList<String>();
 
@@ -200,14 +200,16 @@ public class Article extends MongoModel {
         }
     }
 
-    public Article createTwitterArticle() {
+    public Article createTwitterArticle(SNSProvider provider) {
         HashMap<String, Object> condition = new HashMap<String, Object>();
         condition.put("twitterStatusId", this.twitterStatusId);
+        condition.put("provider.$id", provider.id);
         Article existingArticle = Article.existingArticle(condition);
         if (existingArticle != null){
-            return existingArticle;
+            return null;
         }
         else {
+            this.provider = provider;
             super.create();
             return this;
         }

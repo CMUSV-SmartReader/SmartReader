@@ -2,6 +2,8 @@ package util;
 
 import java.util.List;
 
+import models.User;
+
 import org.junit.Test;
 
 import twitter4j.Status;
@@ -29,5 +31,12 @@ public class TwitterTest {
                                status.getText());
         }
 
+    }
+
+    @Test
+    public void testParseTwitter() {
+        ReaderDB.setUp();
+        User user = User.findByEmail("clyde1008li@gmail.com");
+        user.crawlTwitter();
     }
 }
