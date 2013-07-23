@@ -17,7 +17,7 @@ import com.google.code.morphia.logging.slf4j.SLF4JLogrImplFactory;
 
 public class Global extends GlobalSettings {
 
-    private static final int THREAD_COUNT = 5;
+    private static final int THREAD_COUNT = 10;
 
     @Override
     public void onStart(play.Application arg0) {
@@ -27,7 +27,7 @@ public class Global extends GlobalSettings {
         ReaderDB.setUp();
 
         Akka.system().scheduler().schedule(Duration.create(0, TimeUnit.SECONDS),
-                Duration.create(10, TimeUnit.MINUTES),
+                Duration.create(20, TimeUnit.MINUTES),
             new Runnable() {
                 @SuppressWarnings("unchecked")
                 @Override

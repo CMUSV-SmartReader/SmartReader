@@ -137,7 +137,6 @@ public class Feed extends MongoModel {
             for (Article article : articles) {
                 article.feed = this;
                 article = article.createUnique();
-                this.articles.add(article);
             }
             this.hasError = false;
             this.errorReason = "";

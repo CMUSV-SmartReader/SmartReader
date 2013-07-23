@@ -24,7 +24,7 @@ public class SocialNetworkCrawler {
                     @Override
                     public void run() {
                         for (User user : users) {
-                            Logger.debug("Start Crawling twitter for" + user.email);
+                            Logger.debug("Start Crawling twitter for " + user.email);
                             user.crawlTwitter();
                         }
                     }
