@@ -65,7 +65,7 @@ public class Application extends Controller {
         }
     }
 
-    @SecureSocial.UserAwareAction
+    @SecureSocial.SecuredAction
     public static Result getCategories() {
         Identity identity = SecureSocial.currentUser();
         User user = User.findByEmail(identity.email().get());
@@ -74,7 +74,7 @@ public class Application extends Controller {
     }
 
 
-    @SecureSocial.UserAwareAction
+    @SecureSocial.SecuredAction
     public static Result twitterCallback() {
         RequestToken token = new RequestToken(session().get("token"), session().get("tokenSec"));
         String verifier = request().getQueryString("oauth_verifier");
@@ -83,13 +83,14 @@ public class Application extends Controller {
         try {
             AccessToken accessToken = SmartReaderUtils.getTwitter().getOAuthAccessToken(token, verifier);
             user.updateAccessToken(accessToken.getToken(), accessToken.getTokenSecret());
+            return redirect("/");
         } catch (TwitterException e) {
             e.printStackTrace();
         }
         return ok();
     }
 
-    @SecureSocial.UserAwareAction
+    @SecureSocial.SecuredAction
     public static Result twitterLogin() {
         try {
             RequestToken twitterRequestToken = SmartReaderUtils.getTwitter().getOAuthRequestToken();

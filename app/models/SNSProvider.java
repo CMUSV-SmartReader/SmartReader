@@ -44,7 +44,7 @@ public class SNSProvider extends MongoModel {
 
     public SNSProvider(DBObject providerDB) {
         id = new ObjectId(providerDB.get("_id").toString());
-        provider = providerDB.get("popularity").toString();
+        provider = providerDB.get("provider").toString();
     }
 
     public static SNSProvider existingProvider(HashMap<String, Object>condition) {
