@@ -33,7 +33,6 @@ public class FeedCrawler {
                                 } catch (Exception e) {
                                     Logger.warn("parse [" + feed.xmlUrl + "] fail : "
                                             + e.getMessage());
-                                    e.printStackTrace();
                                 }
                             }
                         }

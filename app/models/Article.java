@@ -47,8 +47,6 @@ public class Article extends MongoModel {
 
     public String contents = "";
 
-    public String summary;
-
     public String link;
 
     public Date publishDate;
@@ -88,7 +86,6 @@ public class Article extends MongoModel {
                 categories.add(category.getName());
             }
         }
-        this.summary = this.desc;
         this.popularity = rand.nextInt(5) + 1;
         this.publishDate = entry.getPublishedDate();
         this.updateDate = entry.getUpdatedDate();
@@ -99,7 +96,7 @@ public class Article extends MongoModel {
     }
 
     public Article(Status status) {
-        this.summary = status.getText();
+        this.desc = status.getText();
         this.author = status.getSource();
         this.publishDate = status.getCreatedAt();
         this.twitterStatusId = status.getId();

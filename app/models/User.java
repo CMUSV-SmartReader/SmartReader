@@ -22,6 +22,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.URLEntity;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -39,6 +40,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
+
+import facebook4j.Facebook;
+import facebook4j.FacebookFactory;
 
 @Entity
 public class User extends MongoModel implements Identity {
@@ -74,6 +78,8 @@ public class User extends MongoModel implements Identity {
     public String twitterAccessToken;
 
     public String twitterAccessTokenSecret;
+
+    public String facebookAccessToken;
 
     @Indexed
     public String email;
@@ -223,9 +229,14 @@ public class User extends MongoModel implements Identity {
         userArticle.update();
     }
 
-    public void updateAccessToken(String token, String secret) {
+    public void updateTwitterAccessToken(String token, String secret) {
         this.twitterAccessToken = token;
         this.twitterAccessTokenSecret = secret;
+        this.update();
+    }
+
+    public void updateFacebookAccessToken(String token) {
+        this.facebookAccessToken = token;
         this.update();
     }
 
@@ -237,11 +248,17 @@ public class User extends MongoModel implements Identity {
         Configuration configuration = builder.build();
         TwitterFactory factory = new TwitterFactory(configuration);
         Twitter twitter = factory.getInstance();
-        System.out.println(twitterAccessToken);
-        System.out.println(twitterAccessTokenSecret);
         AccessToken token = new AccessToken(twitterAccessToken, twitterAccessTokenSecret);
         twitter.setOAuthAccessToken(token);
         return twitter;
+    }
+
+    public Facebook getFacebook() {
+        Facebook facebook = new FacebookFactory().getInstance();
+        facebook.setOAuthAppId("421655734614850", "4466551b2b5a71f8bc0ea17e0a5f8835");
+        facebook.setOAuthPermissions("read_stream");
+        facebook.setOAuthAccessToken(new facebook4j.auth.AccessToken(facebookAccessToken, null));
+        return facebook;
     }
 
     @Override
@@ -352,8 +369,11 @@ public class User extends MongoModel implements Identity {
             try {
                 ResponseList<Status> statusList = twitter.getHomeTimeline();
                 for (Status status : statusList) {
-                    Article article = new Article(status);
-                    article.createTwitterArticle(twitterProvider);
+                    URLEntity[] urls = status.getURLEntities();
+                    if (urls.length > 0) {
+                        Article article = new Article(status);
+                        article.createTwitterArticle(twitterProvider);
+                    }
                 }
             }
             catch (TwitterException e) {
@@ -371,9 +391,25 @@ public class User extends MongoModel implements Identity {
         }
     }
 
+    public void createFacebookProvider() {
+        if (!existFacebookProvider()) {
+            SNSProvider provider = new SNSProvider();
+            provider.user = this;
+            provider.provider = "facebook";
+            provider.create();
+        }
+    }
+
     public boolean existTwitterProvider() {
         HashMap<String, Object> condition = new HashMap<String, Object>();
         condition.put("provider", "twitter");
+        condition.put("user.$id", this.id);
+        return SNSProvider.existingProvider(condition) != null;
+    }
+
+    public boolean existFacebookProvider() {
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("provider", "facebook");
         condition.put("user.$id", this.id);
         return SNSProvider.existingProvider(condition) != null;
     }

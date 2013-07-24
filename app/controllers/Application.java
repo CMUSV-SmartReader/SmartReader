@@ -17,6 +17,9 @@ import util.SmartReaderUtils;
 import views.html.main;
 
 import com.google.gson.Gson;
+
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
 public class Application extends Controller {
 
     /**
@@ -82,7 +85,7 @@ public class Application extends Controller {
         user.createTwitterProvider();
         try {
             AccessToken accessToken = SmartReaderUtils.getTwitter().getOAuthAccessToken(token, verifier);
-            user.updateAccessToken(accessToken.getToken(), accessToken.getTokenSecret());
+            user.updateTwitterAccessToken(accessToken.getToken(), accessToken.getTokenSecret());
             return redirect("/");
         } catch (TwitterException e) {
             e.printStackTrace();
@@ -106,4 +109,24 @@ public class Application extends Controller {
         return ok();
     }
 
+    @SecureSocial.SecuredAction
+    public static Result facebookLogin() {
+        Facebook facebook = SmartReaderUtils.getFacebook();
+        String callbackUrl = routes.Application.facebookCallback().absoluteURL(request());
+        return redirect(facebook.getOAuthAuthorizationURL(callbackUrl));
+    }
+
+    @SecureSocial.SecuredAction
+    public static Result facebookCallback() {
+        Facebook facebook = SmartReaderUtils.getFacebook();
+        String oauthCode = request().getQueryString("code");
+        User user = SmartReaderUtils.getCurrentUser();
+        try {
+            facebook4j.auth.AccessToken token = facebook.getOAuthAccessToken(oauthCode);
+            user.updateFacebookAccessToken(token.getToken());
+        } catch (FacebookException e) {
+            e.printStackTrace();
+        }
+        return redirect("/");
+    }
 }
