@@ -99,6 +99,7 @@ public class Article extends MongoModel {
         this.desc = status.getText();
         this.author = status.getSource();
         this.publishDate = status.getCreatedAt();
+        this.link = status.getURLEntities()[0].getURL();
         this.twitterStatusId = status.getId();
     }
 
