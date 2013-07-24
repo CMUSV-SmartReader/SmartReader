@@ -77,6 +77,20 @@ public class SNSProvider extends MongoModel {
         }
     }
 
+    public static SNSProvider findFacebookProvider(User user) {
+        DBCollection collection = ReaderDB.getSNSProviderCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", user.id);
+        query.put("provider", "facebook");
+        DBObject entityDB = collection.findOne(query);
+        if (entityDB != null) {
+            return MongoModel.findEntity(entityDB.get("_id").toString(), SNSProvider.class);
+        }
+        else {
+            return null;
+        }
+    }
+
     public List<Article> articles() {
         List<Article> articles = new ArrayList<Article>();
         DBCollection articleCollection = ReaderDB.getArticleCollection();

@@ -26,6 +26,7 @@ public class SocialNetworkCrawler {
                         for (User user : users) {
                             Logger.debug("Start Crawling twitter for " + user.email);
                             user.crawlTwitter();
+                            user.crawlFacebook();
                         }
                     }
                 }, Akka.system().dispatcher());

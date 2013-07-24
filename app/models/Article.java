@@ -29,6 +29,8 @@ import com.sun.syndication.feed.synd.SyndCategoryImpl;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 
+import facebook4j.Post;
+
 @Entity
 public class Article extends MongoModel {
 
@@ -60,6 +62,8 @@ public class Article extends MongoModel {
     public int popularity;
 
     public Long twitterStatusId;
+
+    public String facebookPostId;
 
     public List<String> categories = new ArrayList<String>();
 
@@ -101,6 +105,17 @@ public class Article extends MongoModel {
         this.publishDate = status.getCreatedAt();
         this.link = status.getURLEntities()[0].getURL();
         this.twitterStatusId = status.getId();
+    }
+
+    public Article(Post post) {
+        this.title = post.getCaption();
+        this.desc = post.getMessage();
+        this.author = post.getSource().toString();
+        this.contents = post.getStory();
+        this.publishDate = post.getCreatedTime();
+        this.updateDate = post.getUpdatedTime();
+        this.link = post.getLink().toString();
+        this.facebookPostId = post.getId();
     }
 
     public Article(DBObject articleDB) {
@@ -201,6 +216,21 @@ public class Article extends MongoModel {
     public Article createTwitterArticle(SNSProvider provider) {
         HashMap<String, Object> condition = new HashMap<String, Object>();
         condition.put("twitterStatusId", this.twitterStatusId);
+        condition.put("provider.$id", provider.id);
+        Article existingArticle = Article.existingArticle(condition);
+        if (existingArticle != null){
+            return null;
+        }
+        else {
+            this.provider = provider;
+            super.create();
+            return this;
+        }
+    }
+
+    public Article createFacebookArticle(SNSProvider provider) {
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("facebookPostId", this.facebookPostId);
         condition.put("provider.$id", provider.id);
         Article existingArticle = Article.existingArticle(condition);
         if (existingArticle != null){

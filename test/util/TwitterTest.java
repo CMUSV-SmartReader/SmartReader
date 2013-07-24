@@ -51,6 +51,8 @@ public class TwitterTest {
         Facebook facebook = user.getFacebook();
         ResponseList<Post> feeds = facebook.getHome();
         for (Post post : feeds) {
+            System.out.println(post.getCaption());
+            System.out.println(post.getType());
             System.out.println(post.getMessage());
         }
     }

@@ -42,7 +42,9 @@ import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 
 import facebook4j.Facebook;
+import facebook4j.FacebookException;
 import facebook4j.FacebookFactory;
+import facebook4j.Post;
 
 @Entity
 public class User extends MongoModel implements Identity {
@@ -377,6 +379,25 @@ public class User extends MongoModel implements Identity {
                 }
             }
             catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void crawlFacebook() {
+        SNSProvider facebookProvider = SNSProvider.findFacebookProvider(this);
+        if (facebookAccessToken != null && facebookProvider != null) {
+            Facebook facebook = this.getFacebook();
+            try {
+                facebook4j.ResponseList<Post> feeds = facebook.getHome();
+                for (Post post : feeds) {
+                    if ("link".equals(post.getType())) {
+                        Article article = new Article(post);
+                        article.createFacebookArticle(facebookProvider);
+                    }
+                }
+            }
+            catch (FacebookException e) {
                 e.printStackTrace();
             }
         }
