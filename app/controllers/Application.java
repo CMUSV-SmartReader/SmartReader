@@ -124,6 +124,7 @@ public class Application extends Controller {
         Facebook facebook = SmartReaderUtils.getFacebook();
         String oauthCode = request().getQueryString("code");
         User user = SmartReaderUtils.getCurrentUser();
+        user.createFacebookProvider();
         try {
             facebook4j.auth.AccessToken token = facebook.getOAuthAccessToken(oauthCode);
             user.updateFacebookAccessToken(token.getToken());
@@ -134,8 +135,7 @@ public class Application extends Controller {
     }
 
     public static Result randomArticles() {
-        @SuppressWarnings("unchecked")
-        List<Article> candidateArticles = (List<Article>) MongoModel.all(Article.class, 2000);
+        List<Article> candidateArticles = MongoModel.findAll(Article.class, 100);
         List<Article> articles = new ArrayList<Article>();
         Random random = new Random();
         for(int i = 0; i < 20; i++) {
