@@ -42,6 +42,10 @@ thermoreader.manageCtrl = function($scope, $http, dbService){
     });
   };
 
+  $scope.$on('$viewContentLoaded', function(){
+    $('#content-container').scrollTop(0);
+  });
+
 };
 
 thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
@@ -129,7 +133,7 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
     console.log(e);
     switch(e.keyCode){
       case 39:
-        if($scope.viewMode == "articleMode"){
+        if($scope.viewMode == "articleMode" && !$scope.isLoading){
           $scope.animationMode = {show: 'slideleft-in'};
           if($scope.currentArticleIndex+1 >= $scope.selectedFeed.articles.length){
             $scope.fetchData(false);
