@@ -1,10 +1,13 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import models.Article;
 import models.Feed;
+import models.MongoModel;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -128,5 +131,17 @@ public class Application extends Controller {
             e.printStackTrace();
         }
         return redirect("/");
+    }
+
+    public static Result randomArticles() {
+        @SuppressWarnings("unchecked")
+        List<Article> candidateArticles = (List<Article>) MongoModel.all(Article.class, 2000);
+        List<Article> articles = new ArrayList<Article>();
+        Random random = new Random();
+        for(int i = 0; i < 20; i++) {
+            articles.add(candidateArticles.get(random.nextInt(candidateArticles.size())));
+        }
+        Gson gson = SmartReaderUtils.builder.create();
+        return ok(gson.toJson(articles));
     }
 }

@@ -30,6 +30,7 @@ GET     /twitter_login              controllers.Application.twitterLogin
 GET     /oauth_callback             controllers.Application.twitterCallback
 GET     /facebook_login             controllers.Application.facebookLogin
 GET     /facebook_callback          controllers.Application.facebookCallback
+GET     /category_articles          controllers.Application.randomArticles
 
 # Providers entry points
 GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
