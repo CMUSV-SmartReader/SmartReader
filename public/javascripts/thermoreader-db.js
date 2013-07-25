@@ -81,6 +81,7 @@ thermoreader.dbService = function($http){
         if(callback){ callback(self.feedArticles[feedId]); }
       });
     }
+    this.feedArticles[feedId] = this.feedArticles[feedId] || {};
     return this.feedArticles[feedId];
   };
 

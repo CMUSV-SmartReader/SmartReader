@@ -39,8 +39,9 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .config(function($routeProvider) {
   	$routeProvider
-  	.when("/discover", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
     .when("/recommendation", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
+    .when("/discover", {controller: "discoverCtrl", templateUrl: "/assets/templates/discover.html"})
+    .when("/social", {controller: "socialCtrl", templateUrl: "/assets/templates/social.html"})
     .when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
     .when("/feed/:feedId", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
     .otherwise({redirectTo: '/discover'});
