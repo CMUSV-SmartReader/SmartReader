@@ -189,13 +189,13 @@ public class User extends MongoModel implements Identity {
         this.addUserCategory(feedCategory);
     }
 
-    public FeedCategory findDefaultCategory() {
-        DBCollection collection = ReaderDB.getFeedCategoryCollection();
-        BasicDBObject query = new BasicDBObject();
-        query.put("user.$id", this.id);
-        query.put("name", "Uncategorized");
-        DBObject feedCategoryDB = collection.findOne(query);
-        return FeedCategory.createFeedCategory(feedCategoryDB);
+    public FeedCategory getDefaultCategory() {
+        for(FeedCategory feedCategory : feedCategories) {
+            if (feedCategory.name == "Uncategorized") {
+                return feedCategory;
+            }
+        }
+        return null;
     }
 
     public void read(Article article) {
