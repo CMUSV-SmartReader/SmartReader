@@ -133,7 +133,9 @@ public class Article extends MongoModel {
         if (articleDB.get("desc") != null) {
             this.desc = articleDB.get("desc").toString();
         }
-        this.author = articleDB.get("author").toString();
+        if (articleDB.get("author") != null) {
+            this.author = articleDB.get("author").toString();
+        }
         if (articleDB.get("publishDate") != null) {
             this.publishDate = (Date) articleDB.get("publishDate");
         }
