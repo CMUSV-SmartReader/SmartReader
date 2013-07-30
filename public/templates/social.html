@@ -1,18 +1,24 @@
 <div ng-scrollend="fetchData(true)" ng-globalkeydown="keyTriggers($event)"  id="content">
   <!-- Title and Misc -->
-  <h2><a>
-    <span class="logo_1 logo"></span>
-    <span class="logo_2 logo"></span>
-    <span class="logo_3 logo"></span>
-    <span class="logo_4 logo"></span>
-    <span class="logo_5 logo"></span>
-    </a>{{selectedFeed.name}}
+  <h2>
+    <a>
+      <span class="logo_1 logo"></span>
+      <span class="logo_2 logo"></span>
+      <span class="logo_3 logo"></span>
+      <span class="logo_4 logo"></span>
+      <span class="logo_5 logo"></span>
+    </a>
+    Social 
   </h2>
 
+  <ul class="provider-list">
+    <li><img src="/assets/images/social/twitter-bird-light-bgs.png">
+      <a href="/twitter_login"></a>
+    </li>
+    <li><img src="/assets/images/social/FB-f-Logo__blue_50.png"><a href="/facebook_login"></a></li>
+  </ul>
+
   <div class="views">
-    <ul class="provider-list">
-      <li class="provider-item"><img></li>
-    </ul>
     <div class="input-prepend">
       <span class="add-on">Order:</span>
       <select ng-model="orderRule" ng-change="setOrderRule(orderRule)">
@@ -25,7 +31,7 @@
   </div>
 
   <!-- Feed Cards -->
-  <div ng-show="article.id == orderedArticles[currentArticleIndex].id || viewMode == 'listMode'" ng-class="{'expanded': article.expanded || viewMode == 'articleMode', 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="animationMode">
+  <div ng-show="article.id == orderedArticles[currentArticleIndex].id || viewMode == 'listMode'" ng-class="{'read': article.read, 'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="animationMode">
     <div class="media-body-text-only pull-left">
       <h4 class="media-heading"><!-- ☆ -->
         <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>

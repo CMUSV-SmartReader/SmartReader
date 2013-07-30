@@ -1,0 +1,12 @@
+.provider-list {
+	float: left; margin: 0;
+	list-style: none;
+}
+
+.provider-list li {
+	display: inline-block;
+}
+
+.provider-list img {
+	width: 24px; height: 24px;
+}

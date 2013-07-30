@@ -130,7 +130,7 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
   };
 
   $scope.keyTriggers = function(e){
-    console.log(e);
+    //console.log(e);
     switch(e.keyCode){
       case 39:
         if($scope.viewMode == "articleMode" && !$scope.isLoading){
