@@ -94,9 +94,10 @@ public class Feed extends MongoModel {
         orderBy.put("publishDate", -1);
         orderBy.put("updateDate", -1);
         DBCursor cursor = articleCollection.find(query).sort(orderBy).limit(20);
+        User currentUser = SmartReaderUtils.getCurrentUser();
         while (cursor.hasNext()) {
             Article article = new Article(cursor.next());
-            article.loadIsRead(SmartReaderUtils.getCurrentUser());
+            article.loadIsRead(currentUser);
             articles.add(article);
         }
         return articles;
@@ -112,9 +113,10 @@ public class Feed extends MongoModel {
         orderBy.put("publishDate", -1);
         orderBy.put("updateDate", -1);
         DBCursor cursor = articleCollection.find(query).sort(orderBy).limit(20);
+        User currentUser = SmartReaderUtils.getCurrentUser();
         while (cursor.hasNext()) {
             Article article = new Article(cursor.next());
-            article.loadIsRead(SmartReaderUtils.getCurrentUser());
+            article.loadIsRead(currentUser);
             articles.add(article);
         }
         return articles;

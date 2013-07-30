@@ -110,11 +110,15 @@ public class Article extends MongoModel {
     public Article(Post post) {
         this.title = post.getCaption();
         this.desc = post.getMessage();
-        this.author = post.getSource().toString();
+        if (post.getSource() != null) {
+            this.author = post.getSource().toString();
+        }
         this.contents = post.getStory();
         this.publishDate = post.getCreatedTime();
         this.updateDate = post.getUpdatedTime();
-        this.link = post.getLink().toString();
+        if (post.getLink() != null) {
+            this.link = post.getLink().toString();
+        }
         this.facebookPostId = post.getId();
     }
 
