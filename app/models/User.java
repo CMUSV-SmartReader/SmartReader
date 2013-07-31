@@ -250,8 +250,10 @@ public class User extends MongoModel implements Identity {
         Configuration configuration = builder.build();
         TwitterFactory factory = new TwitterFactory(configuration);
         Twitter twitter = factory.getInstance();
-        AccessToken token = new AccessToken(twitterAccessToken, twitterAccessTokenSecret);
-        twitter.setOAuthAccessToken(token);
+        if (twitterAccessToken != null && twitterAccessTokenSecret != null) {
+            AccessToken token = new AccessToken(twitterAccessToken, twitterAccessTokenSecret);
+            twitter.setOAuthAccessToken(token);
+        }
         return twitter;
     }
 
@@ -372,7 +374,9 @@ public class User extends MongoModel implements Identity {
                 ResponseList<Status> statusList = twitter.getHomeTimeline();
                 for (Status status : statusList) {
                     URLEntity[] urls = status.getURLEntities();
+                    System.out.println("Twitter: " + this.email);
                     if (urls.length > 0) {
+                        System.out.println("Twitter: " + status.getId());
                         Article article = new Article(status);
                         article.createTwitterArticle(twitterProvider);
                     }
@@ -390,7 +394,9 @@ public class User extends MongoModel implements Identity {
             Facebook facebook = this.getFacebook();
             try {
                 facebook4j.ResponseList<Post> feeds = facebook.getHome();
+                System.out.println("Facebook: " + this.email);
                 for (Post post : feeds) {
+                    System.out.println("Facebook: " + post.getId());
                     if ("link".equals(post.getType())) {
                         Article article = new Article(post);
                         article.createFacebookArticle(facebookProvider);
@@ -465,6 +471,43 @@ public class User extends MongoModel implements Identity {
         for (User user : allUsers) {
             user.crawlTwitter();
         }
+    }
+
+    public void initArticleCategory() {
+        ArticleCategory sportsArticleCategory = new ArticleCategory();
+        sportsArticleCategory.name = "Sports";
+        sportsArticleCategory.user = this;
+        sportsArticleCategory.create();
+
+        ArticleCategory foodArticleCategory = new ArticleCategory();
+        foodArticleCategory.name = "Food";
+        foodArticleCategory.user = this;
+        foodArticleCategory.create();
+
+        ArticleCategory technologyArticleCategory = new ArticleCategory();
+        technologyArticleCategory.name = "Technology";
+        technologyArticleCategory.user = this;
+        technologyArticleCategory.create();
+
+        ArticleCategory travelArticleCategory = new ArticleCategory();
+        travelArticleCategory.name = "Travel";
+        travelArticleCategory.user = this;
+        travelArticleCategory.create();
+
+        ArticleCategory liftStyleArticleCategory = new ArticleCategory();
+        liftStyleArticleCategory.name = "Life Style";
+        liftStyleArticleCategory.user = this;
+        liftStyleArticleCategory.create();
+
+        ArticleCategory beautyArticleCategory = new ArticleCategory();
+        beautyArticleCategory.name = "Sports";
+        beautyArticleCategory.user = this;
+        beautyArticleCategory.create();
+
+        ArticleCategory randomArticleCategory = new ArticleCategory();
+        randomArticleCategory.name = "Random";
+        randomArticleCategory.user = this;
+        randomArticleCategory.create();
     }
 
 }

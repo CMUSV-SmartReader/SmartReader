@@ -73,6 +73,9 @@ public class Article extends MongoModel {
     @Reference(lazy=true)
     public List<Article> recommends = new ArrayList<Article>();
 
+    @Reference(lazy=true)
+    public List<ArticleCategory> articleCategories = new ArrayList<ArticleCategory>();
+
     public Article(SyndEntry entry) {
         Random rand = new Random();
         this.title = entry.getTitle();

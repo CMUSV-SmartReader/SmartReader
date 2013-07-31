@@ -99,13 +99,19 @@ public class Application extends Controller {
     @SecureSocial.SecuredAction
     public static Result twitterLogin() {
         try {
-            RequestToken twitterRequestToken = SmartReaderUtils.getTwitter().getOAuthRequestToken();
-            String token = twitterRequestToken.getToken();
-            String tokenSecret = twitterRequestToken.getTokenSecret();
-            session().put("token", token);
-            session().put("tokenSec", tokenSecret);
-            String authorizationUrl = twitterRequestToken.getAuthorizationURL();
-            return redirect(authorizationUrl);
+            User user = SmartReaderUtils.getCurrentUser();
+            if (user.twitterAccessToken == null && user.twitterAccessTokenSecret == null) {
+                RequestToken twitterRequestToken = user.getTwitter().getOAuthRequestToken();
+                String token = twitterRequestToken.getToken();
+                String tokenSecret = twitterRequestToken.getTokenSecret();
+                session().put("token", token);
+                session().put("tokenSec", tokenSecret);
+                String authorizationUrl = twitterRequestToken.getAuthorizationURL();
+                return redirect(authorizationUrl);
+            }
+            else {
+                return redirect("/");
+            }
         } catch (TwitterException e) {
 
         }

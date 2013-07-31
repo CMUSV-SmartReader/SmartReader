@@ -10,6 +10,7 @@ import org.junit.Test;
 import util.ReaderDB;
 import util.SmartReaderUtils;
 
+import com.google.code.morphia.Datastore;
 import com.google.gson.Gson;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -107,7 +108,18 @@ public class ModelTest {
     }
 
     @Test
+    public void testInitialCategory() {
+        Datastore ds = ReaderDB.datastore;
+        ds.delete(ds.createQuery(ArticleCategory.class));
+        List<User> allUsers = (List<User>) MongoModel.all(User.class);
+        for (User user : allUsers) {
+            user.initArticleCategory();
+        }
+    }
+
+    @Test
     public void testAllRecommends() {
+
         List<Article> articles = new ArrayList<Article>();
         DBCollection collection = ReaderDB.getArticleCollection();
         DBCursor cursor = collection.find();

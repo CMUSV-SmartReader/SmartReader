@@ -1,6 +1,7 @@
 package util;
 
 import models.Article;
+import models.ArticleCategory;
 import models.Feed;
 import models.FeedCategory;
 import models.User;
@@ -17,7 +18,7 @@ public class DBUtils {
     public void setUp() {
         ReaderDB.setUp();
     }
-    
+
     @Test
     public void clearDatabase() {
         Datastore ds = ReaderDB.datastore;
@@ -27,10 +28,16 @@ public class DBUtils {
         ds.delete(ds.createQuery(FeedCategory.class));
         ds.delete(ds.createQuery(Article.class));
     }
-    
+
     @Test
     public void deleteArticle() {
         Datastore ds = ReaderDB.datastore;
         ds.delete(ds.createQuery(Article.class));
+    }
+
+    @Test
+    public void deleteCategoryArticle() {
+        Datastore ds = ReaderDB.datastore;
+        ds.delete(ds.createQuery(ArticleCategory.class));
     }
 }
