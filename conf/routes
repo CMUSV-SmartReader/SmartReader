@@ -41,7 +41,7 @@ GET     /not-authorized             securesocial.controllers.ProviderController.
 GET     /feed/:id                   controllers.Application.getFeed(id)
 GET     /categories                 controllers.Application.getCategories()
 
-# Ariticle Related
+# Article Related
 GET     /article/:id/dup            controllers.ArticleController.getDuplicatedArticles(id)
 GET     /article/all_recommend      controllers.ArticleController.recommends()
 GET     /article/:id/recommend      controllers.ArticleController.getRecommendedArticles(id)
@@ -69,3 +69,7 @@ POST    /import-feeds               controllers.FeedImportController.upload()
 GET     /twitter/timeline           controllers.SocialController.twitterStatus()
 GET     /social/all_provider        controllers.SocialController.allProviders()
 GET     /social/:id/articles        controllers.SocialController.articles(id)
+
+# Article Category
+GET     /all_categories              controllers.ArticleCategoryController.allCategories()
+GET     /category/:id               controllers.ArticleCategoryController.categoryArticles(id)

@@ -178,6 +178,18 @@ public class User extends MongoModel implements Identity {
         return feedCategories;
     }
 
+    public List<ArticleCategory> allCategories() {
+        DBCollection categoryCollection = ReaderDB.getArticleCategoryCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", new ObjectId(this.id.toString()));
+        DBCursor cursor = categoryCollection.find(query);
+        List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
+        while (cursor.hasNext()) {
+            categories.add(new ArticleCategory(cursor.next()));
+        }
+        return categories;
+    }
+
     public void crawl() {
         for (FeedCategory feedCategory : this.feedCategories) {
             feedCategory.crawl();
@@ -197,13 +209,13 @@ public class User extends MongoModel implements Identity {
         this.addUserCategory(feedCategory);
     }
 
-    public FeedCategory findDefaultCategory() {
+    public FeedCategory getDefaultCategory() {
         DBCollection collection = ReaderDB.getFeedCategoryCollection();
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", this.id);
         query.put("name", "Uncategorized");
         DBObject feedCategoryDB = collection.findOne(query);
-        return FeedCategory.createFeedCategory(feedCategoryDB);
+        return MongoModel.findEntity(feedCategoryDB.get("_id").toString(), FeedCategory.class);
     }
 
     public void read(Article article) {

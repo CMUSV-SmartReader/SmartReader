@@ -64,9 +64,8 @@ public class Feed extends MongoModel {
 
     }
 
-    public Feed(SyndFeed syndFeed) {
+    public void mergeFeed(SyndFeed syndFeed) {
         this.title = syndFeed.getTitle();
-        this.xmlUrl = syndFeed.getLink();
     }
 
     public Feed createUnique() {
