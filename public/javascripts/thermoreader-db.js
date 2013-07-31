@@ -7,6 +7,7 @@ thermoreader.dbService = function($http){
   this.categoryFeeds = [];
   this.recommendations = { name: "Recommendations", articles: [] };
   this.feedArticles = {};
+  this.topicArticles = {};
 
   this.getRecommendations = function(callback){
     if(this.recommendations.articles.length == 0){
@@ -116,10 +117,36 @@ thermoreader.dbService = function($http){
     var self = this;
     for(var provider in this.providers){
       $http.get('social/'+this.providers[provider]+'/articles').success(function(d){
-        console.log(d);
+        // console.log(d);
+        self.socialArticles.length = 0;
+        for(var i=0; i<d.length; ++i){
+          self.socialArticles.push( new thermoreader.model.article(
+            d[i].id, d[i].desc.slice(0, 12), d[i].author || d[i].feed.title, d[i].publishDate,
+            provider, d[i].desc.slice(0, 48), d[i].desc,
+            d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
+          ));
+        }
       });
     }
     return this.socialArticles;
   };
+
+  this.getTopicArticles = function(topicName, callback){
+    var self = this;
+    $http.get('/category_articles').success(function(d){
+      console.log(d);
+      self.topicArticles[topicName].length = 0;
+      for(var i=0; i<d.length; ++i){
+        self.topicArticles[topicName].articles.push( new thermoreader.model.article(
+          d[i].id, d[i].title, d[i].author || d[i].feed.title, d[i].publishDate,
+          d[i].feed.title, d[i].desc.slice(0, 48), d[i].desc,
+          d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
+        ));
+      }
+      if(callback){ callback(); }
+    });
+    this.topicArticles[topicName] = this.topicArticles[topicName] || { name: topicName, articles: [] };
+    return this.topicArticles[topicName];
+  }
 
 };

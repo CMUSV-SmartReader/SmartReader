@@ -4,6 +4,7 @@
 	min-height: 17.5em;
 	margin-bottom: 1.5em;
 	cursor: pointer;
+  -webkit-filter: grayscale(60%);
 }
 
 .discover-row{
@@ -17,15 +18,16 @@
 }
 
 .discover-category:hover{
-  	box-shadow: 1px 1px 6px 2px #aaa;
+  box-shadow: 1px 1px 6px 2px #aaa;
+  -webkit-filter: grayscale(30%);
 }
 
 .discover-category.half {
-	min-height: 8em;	
+	min-height: 8em;
 }
 
 .discover-category.third-quarter {
-	min-height: 12em;	
+	min-height: 12em;
 }
 
 #discover-sport {

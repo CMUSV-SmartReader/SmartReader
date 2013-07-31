@@ -1,34 +1,22 @@
-<div id="content" ng-controller="socialCtrl">
+<div ng-scrollend="fetchData(true)" ng-globalkeydown="keyTriggers($event)" ng-controller="topicCtrl" id="content">
   <!-- Title and Misc -->
-  <h2>
-    <a>
-      <span class="logo_1 logo"></span>
-      <span class="logo_2 logo"></span>
-      <span class="logo_3 logo"></span>
-      <span class="logo_4 logo"></span>
-      <span class="logo_5 logo"></span>
-    </a>
-    Social Network
+  <h2><a>
+    <span class="logo_1 logo"></span>
+    <span class="logo_2 logo"></span>
+    <span class="logo_3 logo"></span>
+    <span class="logo_4 logo"></span>
+    <span class="logo_5 logo"></span>
+    </a>{{selectedFeed.name}}
   </h2>
 
-  <ul class="provider-list">
-    <li>
-      <img src="/assets/images/social/twitter-bird-light-bgs.png">
-      <span class="social-login-status">
-        <a ng-show="!checkProvider('twitter')" href="/twitter_login">Connect</a>
-        <b ng-show="checkProvider('twitter')">Connected</b>
-      </span>
-    </li>
-    <li>
-      <img src="/assets/images/social/FB-f-Logo__blue_50.png">
-      <span class="social-login-status">
-        <a ng-show="!checkProvider('facebook')" href="/facebook_login">Connect</a>
-        <b ng-show="checkProvider('facebook')">Connected</b>
-      </span>
-    </li>
-  </ul>
-
   <div class="views">
+    <div class="input-prepend">
+      <span class="add-on">View:</span>
+      <select ng-model="viewMode" ng-change="setViewMode(viewMode)">
+        <option value="listMode">List Mode</option>
+        <option value="articleMode">Article Mode</option>
+      </select>
+    </div>
     <div class="input-prepend">
       <span class="add-on">Order:</span>
       <select ng-model="orderRule" ng-change="setOrderRule(orderRule)">
@@ -39,14 +27,14 @@
   </div>
 
   <!-- Feed Cards -->
-  <div ng-class="{'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (socialArticles | orderBy:orderRule))" ng-animate="animationMode">
+  <div ng-show="article.id == orderedArticles[currentArticleIndex].id || viewMode == 'listMode'" ng-class="{'expanded': article.expanded || viewMode == 'articleMode', 'read': article.read, 'popular{{article.popular}}': true}" class="card" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="animationMode">
     <div class="media-body-text-only pull-left">
       <h4 class="media-heading"><!-- ☆ -->
         <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
       </h4>
       <span class="info">
         <span class="date">{{article.date | prettyDate}}</span>
-        by <span class="author" ng-bind-html-unsafe="article.author">by</span>
+        <span class="author">by <a>{{article.author}}</a></span>
         <span class="from">from <a>{{article.feedName}}</a></span>
       </span>
       <p>

@@ -175,7 +175,13 @@ thermoreader.feedCtrl = function($scope, $routeParams, dbService){
 thermoreader.recommendationCtrl = function($scope, dbService){
   $scope.isLoading = true;
   $scope.selectedFeed = dbService.getRecommendations(function(){ $scope.isLoading = false; });
+};
 
+
+/* The controller for Dicover Topic pages */
+thermoreader.topicCtrl = function($scope, $routeParams, dbService){
+  $scope.isLoading = true;
+  $scope.selectedFeed = dbService.getTopicArticles($routeParams.topicName ,function(){ $scope.isLoading = false; });
 };
 
 /* The controller for Social Network Page */
