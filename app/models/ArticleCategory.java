@@ -39,7 +39,9 @@ public class ArticleCategory extends MongoModel {
     public ArticleCategory(DBObject db) {
         id = new ObjectId(db.get("_id").toString());
         name = db.get("name").toString();
-        imgLink = db.get("imgLink").toString();
+        if (db.get("imgLink") != null) {
+            imgLink = db.get("imgLink").toString();
+        }
     }
 
     public ArticleCategory() {
@@ -54,7 +56,9 @@ public class ArticleCategory extends MongoModel {
             JsonObject articleCategoryObj = new JsonObject();
             articleCategoryObj.add("id", new JsonPrimitive(src.id.toString()));
             articleCategoryObj.add("name", new JsonPrimitive(src.name));
-            articleCategoryObj.add("imgLink", new JsonPrimitive(src.imgLink));
+            if (src.imgLink != null) {
+                articleCategoryObj.add("imgLink", new JsonPrimitive(src.imgLink));
+            }
             return articleCategoryObj;
         }
     }

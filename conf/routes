@@ -71,5 +71,5 @@ GET     /social/all_provider        controllers.SocialController.allProviders()
 GET     /social/:id/articles        controllers.SocialController.articles(id)
 
 # Article Category
-GET     /all_category/              controllers.ArticleCategoryController.allCategories()
+GET     /all_categories              controllers.ArticleCategoryController.allCategories()
 GET     /category/:id               controllers.ArticleCategoryController.categoryArticles(id)
