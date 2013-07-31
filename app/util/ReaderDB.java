@@ -77,6 +77,10 @@ public class ReaderDB {
         return db.getCollection("SNSProvider");
     }
 
+    public static DBCollection getArticleCategoryCollection() {
+        return db.getCollection("ArticleCategory");
+    }
+
     private static class DBInfo {
 
         static String getDBHost() {

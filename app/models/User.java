@@ -178,6 +178,18 @@ public class User extends MongoModel implements Identity {
         return feedCategories;
     }
 
+    public List<ArticleCategory> allCategories() {
+        DBCollection categoryCollection = ReaderDB.getArticleCategoryCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", new ObjectId(this.id.toString()));
+        DBCursor cursor = categoryCollection.find(query);
+        List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
+        while (cursor.hasNext()) {
+            categories.add(new ArticleCategory(cursor.next()));
+        }
+        return categories;
+    }
+
     public void crawl() {
         for (FeedCategory feedCategory : this.feedCategories) {
             feedCategory.crawl();
