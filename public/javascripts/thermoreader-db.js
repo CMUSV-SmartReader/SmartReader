@@ -2,6 +2,7 @@ var thermoreader = thermoreader || {};
 
 thermoreader.dbService = function($http){
   this.userId = localStorage.hasOwnProperty('userId')? JSON.parse(localStorage['userId']):"";
+  this.providers = {};
   this.categoryFeeds = [];
   this.recommendations = { name: "Recommendations", articles: [] };
   this.feedArticles = {};
@@ -97,6 +98,16 @@ thermoreader.dbService = function($http){
       }
       if(callback){ callback(duplicates); }
     });
+  };
+
+  this.getProviders = function(){
+    var self = this;
+    $http.get('/social/all_provider').success(function(d){
+      for(var i=0; i<d.length; ++i){
+        self.providers[d[i].provider] = d[i].id;
+      }
+    });
+    return this.providers;
   };
 
 };

@@ -4,7 +4,10 @@ thermoreader.instance = angular.module('thermoReader', [])
   .service('dbService', thermoreader.dbService)
   .controller('menuCtrl', thermoreader.menuCtrl)
   .controller('manageCtrl', thermoreader.manageCtrl)
+  .controller('baseCtrl', thermoreader.baseCtrl)
   .controller('feedCtrl', thermoreader.feedCtrl)
+  .controller('socialCtrl', thermoreader.socialCtrl)
+  .controller('recommendationCtrl', thermoreader.recommendationCtrl)
   .directive('ngBlur', function() {
     return function(scope, elem, attrs) {
       elem.bind('blur', function() { scope.$apply(attrs.ngBlur); });
@@ -39,11 +42,11 @@ thermoreader.instance = angular.module('thermoReader', [])
   })
   .config(function($routeProvider) {
   	$routeProvider
-    .when("/recommendation", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
-    .when("/discover", {controller: "feedCtrl", templateUrl: "/assets/templates/discover.html"})
-    .when("/social", {controller: "feedCtrl", templateUrl: "/assets/templates/social.html"})
+    .when("/recommendation", {controller: "baseCtrl", templateUrl: "/assets/templates/recommendation.html"})
+    .when("/discover", {controller: "baseCtrl", templateUrl: "/assets/templates/discover.html"})
+    .when("/social", {controller: "baseCtrl", templateUrl: "/assets/templates/social.html"})
     .when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
-    .when("/feed/:feedId", {controller: "feedCtrl", templateUrl: "/assets/templates/feed.html"})
+    .when("/feed/:feedId", {controller: "baseCtrl", templateUrl: "/assets/templates/feed.html"})
     .otherwise({redirectTo: '/discover'});
   }
 );
