@@ -69,12 +69,11 @@ public class FeedImportController extends Controller{
         Identity identity = SecureSocial.currentUser();
         User user = User.findByEmail(identity.email().get());
 
-        
         FeedCategory currFeedCategory = user.getDefaultCategory();
-                
+
         if (currFeedCategory == null) {
             currFeedCategory = new FeedCategory();
-            currFeedCategory.name = "Nani?";
+            currFeedCategory.name = "Uncategorized";
             currFeedCategory.user = user;
             user.addUserCategory(currFeedCategory);
         }
@@ -105,6 +104,12 @@ public class FeedImportController extends Controller{
                 userFeed.create();
                 
                 currFeedCategory.addUserFeed(userFeed);
+                try {
+                    feedEntity.crawl();
+                } catch (Exception e){
+                    System.out.println("||||||caught exception when crawl");
+                }
+                
             }
         }
         return true;
