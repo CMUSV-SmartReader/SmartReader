@@ -157,22 +157,25 @@ thermoreader.baseCtrl = function($scope, $routeParams, $http, dbService){
     }
   };
 
-  $scope.$on('$viewContentLoaded', function(){
-    $('#content-container').scrollTop(0);
-    if($scope.isFeedPage){ $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/clear_update"); }
-  });
+  $scope.$on('$viewContentLoaded', function(){ $('#content-container').scrollTop(0); });
+
 };
 
 /* The controller for RSS feed page */
 thermoreader.feedCtrl = function($scope, $routeParams, dbService){
   $scope.isLoading = (dbService.checkFeed($routeParams.feedId).articles.length == 0);
   $scope.selectedFeed = dbService.getFeed($routeParams.feedId, false, function(){ $scope.isLoading = false; });
+
+  $scope.$on('$viewContentLoaded', function(){
+    $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/clear_update");
+  });
 };
 
 /* The controller for Recommendation Page */
 thermoreader.recommendationCtrl = function($scope, dbService){
   $scope.isLoading = true;
   $scope.selectedFeed = dbService.getRecommendations(function(){ $scope.isLoading = false; });
+
 };
 
 /* The controller for Social Network Page */
@@ -182,5 +185,6 @@ thermoreader.socialCtrl = function($scope, dbService){
 
   $scope.checkProvider = function(provider){
     return $scope.providers.hasOwnProperty(provider);
-  }
+  };
+
 };
