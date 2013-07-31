@@ -16,6 +16,7 @@ import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 import com.google.code.morphia.annotations.Reference;
+import com.google.code.morphia.annotations.Transient;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -48,9 +49,7 @@ public class Feed extends MongoModel {
 
     public String errorReason;
 
-    private static int MAX_CRAWLER = 5;
-
-    @Reference(lazy = true)
+    @Transient
     public List<Article> articles = new ArrayList<Article>();
 
     @Reference(lazy = true)
@@ -94,9 +93,10 @@ public class Feed extends MongoModel {
         orderBy.put("publishDate", -1);
         orderBy.put("updateDate", -1);
         DBCursor cursor = articleCollection.find(query).sort(orderBy).limit(20);
+        User currentUser = SmartReaderUtils.getCurrentUser();
         while (cursor.hasNext()) {
             Article article = new Article(cursor.next());
-            article.loadIsRead(SmartReaderUtils.getCurrentUser());
+            article.loadIsRead(currentUser);
             articles.add(article);
         }
         return articles;
@@ -112,9 +112,10 @@ public class Feed extends MongoModel {
         orderBy.put("publishDate", -1);
         orderBy.put("updateDate", -1);
         DBCursor cursor = articleCollection.find(query).sort(orderBy).limit(20);
+        User currentUser = SmartReaderUtils.getCurrentUser();
         while (cursor.hasNext()) {
             Article article = new Article(cursor.next());
-            article.loadIsRead(SmartReaderUtils.getCurrentUser());
+            article.loadIsRead(currentUser);
             articles.add(article);
         }
         return articles;
@@ -131,14 +132,13 @@ public class Feed extends MongoModel {
         return ReaderDB.datastore.find(Feed.class).filter("xmlUrl", xmlUrl).get();
     }
 
-    public List<Article> crawl() {
+    public void crawl() {
         lastAccessedTime = new Date();
         try {
             List<Article> articles = FeedParser.parseFeed(this);
             for (Article article : articles) {
                 article.feed = this;
                 article = article.createUnique();
-                this.articles.add(article);
             }
             this.hasError = false;
             this.errorReason = "";
@@ -156,7 +156,6 @@ public class Feed extends MongoModel {
             this.update();
             throw new RuntimeException(e);
         }
-        return this.articles;
     }
 
     public static void crawlAll() {

@@ -22,6 +22,7 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
+import twitter4j.URLEntity;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
@@ -39,6 +40,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
+
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
+import facebook4j.FacebookFactory;
+import facebook4j.Post;
 
 @Entity
 public class User extends MongoModel implements Identity {
@@ -74,6 +80,8 @@ public class User extends MongoModel implements Identity {
     public String twitterAccessToken;
 
     public String twitterAccessTokenSecret;
+
+    public String facebookAccessToken;
 
     @Indexed
     public String email;
@@ -170,9 +178,21 @@ public class User extends MongoModel implements Identity {
         return feedCategories;
     }
 
+    public List<ArticleCategory> allCategories() {
+        DBCollection categoryCollection = ReaderDB.getArticleCategoryCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", new ObjectId(this.id.toString()));
+        DBCursor cursor = categoryCollection.find(query);
+        List<ArticleCategory> categories = new ArrayList<ArticleCategory>();
+        while (cursor.hasNext()) {
+            categories.add(new ArticleCategory(cursor.next()));
+        }
+        return categories;
+    }
+
     public void crawl() {
         for (FeedCategory feedCategory : this.feedCategories) {
-            this.articles.addAll(feedCategory.crawl());
+            feedCategory.crawl();
         }
         this.update();
     }
@@ -223,9 +243,14 @@ public class User extends MongoModel implements Identity {
         userArticle.update();
     }
 
-    public void updateAccessToken(String token, String secret) {
+    public void updateTwitterAccessToken(String token, String secret) {
         this.twitterAccessToken = token;
         this.twitterAccessTokenSecret = secret;
+        this.update();
+    }
+
+    public void updateFacebookAccessToken(String token) {
+        this.facebookAccessToken = token;
         this.update();
     }
 
@@ -237,11 +262,19 @@ public class User extends MongoModel implements Identity {
         Configuration configuration = builder.build();
         TwitterFactory factory = new TwitterFactory(configuration);
         Twitter twitter = factory.getInstance();
-        System.out.println(twitterAccessToken);
-        System.out.println(twitterAccessTokenSecret);
-        AccessToken token = new AccessToken(twitterAccessToken, twitterAccessTokenSecret);
-        twitter.setOAuthAccessToken(token);
+        if (twitterAccessToken != null && twitterAccessTokenSecret != null) {
+            AccessToken token = new AccessToken(twitterAccessToken, twitterAccessTokenSecret);
+            twitter.setOAuthAccessToken(token);
+        }
         return twitter;
+    }
+
+    public Facebook getFacebook() {
+        Facebook facebook = new FacebookFactory().getInstance();
+        facebook.setOAuthAppId("421655734614850", "4466551b2b5a71f8bc0ea17e0a5f8835");
+        facebook.setOAuthPermissions("read_stream");
+        facebook.setOAuthAccessToken(new facebook4j.auth.AccessToken(facebookAccessToken, null));
+        return facebook;
     }
 
     @Override
@@ -333,9 +366,13 @@ public class User extends MongoModel implements Identity {
         BasicDBList recommendsDB = (BasicDBList) userDB.get("recommends");
         if (recommendsDB != null) {
             for (int i = 0; i < recommendsDB.size(); i++) {
-                DBObject articleDB = (DBObject) recommendsDB.get(i);
-                DBRef articleRef = (DBRef) articleDB.get("article");
-                recommends.add(new Article(articleRef.fetch()));
+                try {
+                    DBObject articleDB = (DBObject) recommendsDB.get(i);
+                    DBRef articleRef = (DBRef) articleDB.get("article");
+                    recommends.add(new Article(articleRef.fetch()));
+                } catch (Exception e) {
+                    //Maybe there are data inconsistency.
+                }
             }
         }
         return recommends;
@@ -348,15 +385,37 @@ public class User extends MongoModel implements Identity {
             try {
                 ResponseList<Status> statusList = twitter.getHomeTimeline();
                 for (Status status : statusList) {
-                    Article article = new Article(status);
-                    article.createTwitterArticle();
-                    article.provider = twitterProvider;
-                    article.update();
-                    twitterProvider.articles.add(article);
+                    URLEntity[] urls = status.getURLEntities();
+                    System.out.println("Twitter: " + this.email);
+                    if (urls.length > 0) {
+                        System.out.println("Twitter: " + status.getId());
+                        Article article = new Article(status);
+                        article.createTwitterArticle(twitterProvider);
+                    }
                 }
-                twitterProvider.update();
             }
             catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void crawlFacebook() {
+        SNSProvider facebookProvider = SNSProvider.findFacebookProvider(this);
+        if (facebookAccessToken != null && facebookProvider != null) {
+            Facebook facebook = this.getFacebook();
+            try {
+                facebook4j.ResponseList<Post> feeds = facebook.getHome();
+                System.out.println("Facebook: " + this.email);
+                for (Post post : feeds) {
+                    System.out.println("Facebook: " + post.getId());
+                    if ("link".equals(post.getType())) {
+                        Article article = new Article(post);
+                        article.createFacebookArticle(facebookProvider);
+                    }
+                }
+            }
+            catch (FacebookException e) {
                 e.printStackTrace();
             }
         }
@@ -371,9 +430,25 @@ public class User extends MongoModel implements Identity {
         }
     }
 
+    public void createFacebookProvider() {
+        if (!existFacebookProvider()) {
+            SNSProvider provider = new SNSProvider();
+            provider.user = this;
+            provider.provider = "facebook";
+            provider.create();
+        }
+    }
+
     public boolean existTwitterProvider() {
         HashMap<String, Object> condition = new HashMap<String, Object>();
         condition.put("provider", "twitter");
+        condition.put("user.$id", this.id);
+        return SNSProvider.existingProvider(condition) != null;
+    }
+
+    public boolean existFacebookProvider() {
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("provider", "facebook");
         condition.put("user.$id", this.id);
         return SNSProvider.existingProvider(condition) != null;
     }
@@ -408,6 +483,43 @@ public class User extends MongoModel implements Identity {
         for (User user : allUsers) {
             user.crawlTwitter();
         }
+    }
+
+    public void initArticleCategory() {
+        ArticleCategory sportsArticleCategory = new ArticleCategory();
+        sportsArticleCategory.name = "Sports";
+        sportsArticleCategory.user = this;
+        sportsArticleCategory.create();
+
+        ArticleCategory foodArticleCategory = new ArticleCategory();
+        foodArticleCategory.name = "Food";
+        foodArticleCategory.user = this;
+        foodArticleCategory.create();
+
+        ArticleCategory technologyArticleCategory = new ArticleCategory();
+        technologyArticleCategory.name = "Technology";
+        technologyArticleCategory.user = this;
+        technologyArticleCategory.create();
+
+        ArticleCategory travelArticleCategory = new ArticleCategory();
+        travelArticleCategory.name = "Travel";
+        travelArticleCategory.user = this;
+        travelArticleCategory.create();
+
+        ArticleCategory liftStyleArticleCategory = new ArticleCategory();
+        liftStyleArticleCategory.name = "Life Style";
+        liftStyleArticleCategory.user = this;
+        liftStyleArticleCategory.create();
+
+        ArticleCategory beautyArticleCategory = new ArticleCategory();
+        beautyArticleCategory.name = "Sports";
+        beautyArticleCategory.user = this;
+        beautyArticleCategory.create();
+
+        ArticleCategory randomArticleCategory = new ArticleCategory();
+        randomArticleCategory.name = "Random";
+        randomArticleCategory.user = this;
+        randomArticleCategory.create();
     }
 
 }

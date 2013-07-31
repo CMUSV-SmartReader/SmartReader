@@ -1,9 +1,11 @@
 var thermoreader = thermoreader || {};
 
+/* The controller for Menu */
 thermoreader.menuCtrl = function($scope, dbService) {
   $scope.allFeeds = dbService.getAllFeeds(false);
 };
 
+/* The controller for RSS Manage */
 thermoreader.manageCtrl = function($scope, $http, dbService){
   $scope.allFeeds = dbService.getAllFeeds(false);
 
@@ -42,14 +44,18 @@ thermoreader.manageCtrl = function($scope, $http, dbService){
     });
   };
 
+  $scope.$on('$viewContentLoaded', function(){
+    $('#content-container').scrollTop(0);
+  });
+
 };
 
-thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
+/* The base controller for all pages that display articles */
+thermoreader.baseCtrl = function($scope, $routeParams, $http, dbService){
 
   // Some state variables
   $scope.orderRule = localStorage.hasOwnProperty('orderRule')? localStorage['orderRule']:"popular";
   $scope.isFeedPage = ($routeParams.feedId)? true:false;
-  $scope.isLoading = ($scope.isFeedPage)? (dbService.checkFeed($routeParams.feedId).articles.length == 0):true;
   $scope.isEndOfFeed = false;
   $scope.viewMode = localStorage.hasOwnProperty('viewMode')? localStorage['viewMode']:"listMode"; // or "articleMode"
 
@@ -57,9 +63,6 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
     {enter: 'slideup-in', leave: 'slidedown-out'}:{show: 'slideleft-in'};
     //{show: 'slideleft-in', enter: 'slideup-in', leave: 'slidedown-out'}
 
-  $scope.selectedFeed = ($scope.isFeedPage)?
-    dbService.getFeed($routeParams.feedId, false, function(){ $scope.isLoading = false; }):
-    dbService.getRecommendations(function(){ $scope.isLoading = false; });
   $scope.currentArticleIndex = 0; //orderedArticles[0];
 
 
@@ -126,10 +129,10 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
   };
 
   $scope.keyTriggers = function(e){
-    console.log(e);
+    //console.log(e);
     switch(e.keyCode){
       case 39:
-        if($scope.viewMode == "articleMode"){
+        if($scope.viewMode == "articleMode" && !$scope.isLoading){
           $scope.animationMode = {show: 'slideleft-in'};
           if($scope.currentArticleIndex+1 >= $scope.selectedFeed.articles.length){
             $scope.fetchData(false);
@@ -154,9 +157,34 @@ thermoreader.feedCtrl = function($scope, $routeParams, $http, dbService){
     }
   };
 
+  $scope.$on('$viewContentLoaded', function(){ $('#content-container').scrollTop(0); });
+
+};
+
+/* The controller for RSS feed page */
+thermoreader.feedCtrl = function($scope, $routeParams, dbService){
+  $scope.isLoading = (dbService.checkFeed($routeParams.feedId).articles.length == 0);
+  $scope.selectedFeed = dbService.getFeed($routeParams.feedId, false, function(){ $scope.isLoading = false; });
+
   $scope.$on('$viewContentLoaded', function(){
-    $('#content-container').scrollTop(0);
-    if($scope.isFeedPage){ $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/clear_update"); }
+    $http.put("/userfeed/"+$scope.selectedFeed.userFeedId+"/clear_update");
   });
 };
 
+/* The controller for Recommendation Page */
+thermoreader.recommendationCtrl = function($scope, dbService){
+  $scope.isLoading = true;
+  $scope.selectedFeed = dbService.getRecommendations(function(){ $scope.isLoading = false; });
+
+};
+
+/* The controller for Social Network Page */
+thermoreader.socialCtrl = function($scope, dbService){
+  $scope.providers = dbService.getProviders();
+  $scope.socialArticles = dbService.getSocialArticles();
+
+  $scope.checkProvider = function(provider){
+    return $scope.providers.hasOwnProperty(provider);
+  };
+
+};

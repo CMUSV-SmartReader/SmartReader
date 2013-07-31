@@ -1,0 +1,67 @@
+<div id="content" ng-controller="socialCtrl">
+  <!-- Title and Misc -->
+  <h2>
+    <a>
+      <span class="logo_1 logo"></span>
+      <span class="logo_2 logo"></span>
+      <span class="logo_3 logo"></span>
+      <span class="logo_4 logo"></span>
+      <span class="logo_5 logo"></span>
+    </a>
+    Social Network
+  </h2>
+
+  <ul class="provider-list">
+    <li>
+      <img src="/assets/images/social/twitter-bird-light-bgs.png">
+      <span class="social-login-status">
+        <a ng-show="!checkProvider('twitter')" href="/twitter_login">Connect</a>
+        <b ng-show="checkProvider('twitter')">Connected</b>
+      </span>
+    </li>
+    <li>
+      <img src="/assets/images/social/FB-f-Logo__blue_50.png">
+      <span class="social-login-status">
+        <a ng-show="!checkProvider('facebook')" href="/facebook_login">Connect</a>
+        <b ng-show="checkProvider('facebook')">Connected</b>
+      </span>
+    </li>
+  </ul>
+
+  <div class="views">
+    <div class="input-prepend">
+      <span class="add-on">Order:</span>
+      <select ng-model="orderRule" ng-change="setOrderRule(orderRule)">
+        <option value="popular">Popularity</option>
+        <option value="-date">Date</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Feed Cards -->
+  <div ng-class="{'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (socialArticles | orderBy:orderRule))" ng-animate="animationMode">
+    <div class="media-body-text-only pull-left">
+      <h4 class="media-heading"><!-- ☆ -->
+        <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
+      </h4>
+      <span class="info">
+        <span class="date">{{article.date | prettyDate}}</span>
+        <span class="author">by <a>{{article.author}}</a></span>
+        <span class="from">from <a>{{article.feedName}}</a></span>
+      </span>
+      <p>
+        <div class="article-summary">{{article.summary}}</div>
+        <div class="article-description">
+          <div class="article-text" ng-bind-html-unsafe="article.description"></div>
+        </div>
+
+        <a ng-show="viewMode == 'listMode'" class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
+      </p>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <div ng-show="isLoading" class="loading-indicator feed-indicator"><img src="/assets/images/ajax-loader.gif"> Loading </div>
+  <div ng-show="isEndOfFeed" class="end-indicator feed-indicator"> End of Feed </div>
+
+</div>

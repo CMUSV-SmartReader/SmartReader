@@ -1,0 +1,59 @@
+.discover-category {
+	background-color: #f9f9f9;
+	background-size: cover;
+	min-height: 17.5em;
+	margin-bottom: 1.5em;
+	cursor: pointer;
+}
+
+.discover-row{
+	margin: 0 1em;
+}
+
+.discover-category span {
+	background-color: #222;	color: #eee;
+	float: left; padding: 0.3em;
+	font-size: 14px; font-weight: 700;
+}
+
+.discover-category:hover{
+  	box-shadow: 1px 1px 6px 2px #aaa;
+}
+
+.discover-category.half {
+	min-height: 8em;	
+}
+
+.discover-category.third-quarter {
+	min-height: 12em;	
+}
+
+#discover-sport {
+	background-image: url(/assets/images/discover/sports.jpg);
+	background-position: 0px -35px;
+}
+
+#discover-food {
+	background-image: url(/assets/images/discover/food.jpg);
+	background-position: 0px -35px;
+}
+
+#discover-travel {
+	background-image: url(/assets/images/discover/travel.jpg);
+	background-position: 0px -350px;
+}
+
+#discover-tech {
+	background-image: url(/assets/images/discover/tech.jpg);
+	background-position: 0px -35px;
+}
+
+#discover-lifestyle {
+	background-image: url(/assets/images/discover/lifestyle.jpg);
+	background-position: 0px -35px;
+}
+
+#discover-beauty {
+	background-image: url(/assets/images/discover/beauty.jpg);
+	background-position: 0px -55px;
+}

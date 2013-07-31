@@ -3,6 +3,7 @@ package util;
 import java.net.UnknownHostException;
 
 import models.Article;
+import models.ArticleCategory;
 import models.Feed;
 import models.FeedCategory;
 import models.SNSProvider;
@@ -46,6 +47,7 @@ public class ReaderDB {
             SmartReaderUtils.builder.registerTypeAdapter(Feed.class, new Feed.Serializer());
             SmartReaderUtils.builder.registerTypeAdapter(Article.class, new Article.Serializer());
             SmartReaderUtils.builder.registerTypeAdapter(SNSProvider.class, new SNSProvider.Serializer());
+            SmartReaderUtils.builder.registerTypeAdapter(ArticleCategory.class, new ArticleCategory.Serializer());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -73,6 +75,10 @@ public class ReaderDB {
 
     public static DBCollection getSNSProviderCollection() {
         return db.getCollection("SNSProvider");
+    }
+
+    public static DBCollection getArticleCategoryCollection() {
+        return db.getCollection("ArticleCategory");
     }
 
     private static class DBInfo {

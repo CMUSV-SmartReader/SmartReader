@@ -1,4 +1,4 @@
-<div ng-scrollend="fetchData(true)" ng-globalkeydown="keyTriggers($event)" ng-controller="feedCtrl" id="content">
+<div ng-scrollend="fetchData(true)" ng-globalkeydown="keyTriggers($event)" ng-controller="recommendationCtrl" id="content">
   <!-- Title and Misc -->
   <h2><a>
     <span class="logo_1 logo"></span>
@@ -6,7 +6,7 @@
     <span class="logo_3 logo"></span>
     <span class="logo_4 logo"></span>
     <span class="logo_5 logo"></span>
-    </a>{{selectedFeed.name}}
+    </a> Recommendation
   </h2>
 
   <div class="views">
@@ -24,8 +24,6 @@
         <option value="-date">Date</option>
       </select>
     </div>
-    <!-- <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
-    <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a> -->
   </div>
 
   <!-- Feed Cards -->
@@ -43,11 +41,6 @@
         <div class="article-summary">{{article.summary}}</div>
         <div class="article-description">
           <div class="article-text" ng-bind-html-unsafe="article.description"></div>
-          <ul class="dupArticles">
-            <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" ng-class="popular{{dupArticle.popular}}">
-              {{dupArticle.title}} from {{dupArticle.feedName}}
-            </li>
-          </ul>
         </div>
 
         <a ng-show="viewMode == 'listMode'" class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>

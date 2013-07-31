@@ -2,6 +2,8 @@ package util;
 
 import java.util.List;
 
+import models.User;
+
 import org.junit.Test;
 
 import twitter4j.Status;
@@ -9,6 +11,10 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
+import facebook4j.Post;
+import facebook4j.ResponseList;
 
 public class TwitterTest {
 
@@ -29,5 +35,25 @@ public class TwitterTest {
                                status.getText());
         }
 
+    }
+
+    @Test
+    public void testParseTwitter() {
+        ReaderDB.setUp();
+        User user = User.findByEmail("clyde1008li@gmail.com");
+        user.crawlTwitter();
+    }
+
+    @Test
+    public void testFacebook() throws FacebookException {
+        ReaderDB.setUp();
+        User user = User.findByEmail("seanlionheart@gmail.com");
+        Facebook facebook = user.getFacebook();
+        ResponseList<Post> feeds = facebook.getHome();
+        for (Post post : feeds) {
+            System.out.println(post.getCaption());
+            System.out.println(post.getType());
+            System.out.println(post.getMessage());
+        }
     }
 }

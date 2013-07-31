@@ -35,16 +35,13 @@ public class SNSProvider extends MongoModel {
     @Reference
     public User user;
 
-    @Reference
-    public List<Article> articles = new ArrayList<Article>();
-
     public SNSProvider() {
 
     }
 
     public SNSProvider(DBObject providerDB) {
         id = new ObjectId(providerDB.get("_id").toString());
-        provider = providerDB.get("popularity").toString();
+        provider = providerDB.get("provider").toString();
     }
 
     public static SNSProvider existingProvider(HashMap<String, Object>condition) {
@@ -71,6 +68,20 @@ public class SNSProvider extends MongoModel {
         BasicDBObject query = new BasicDBObject();
         query.put("user.$id", user.id);
         query.put("provider", "twitter");
+        DBObject entityDB = collection.findOne(query);
+        if (entityDB != null) {
+            return MongoModel.findEntity(entityDB.get("_id").toString(), SNSProvider.class);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public static SNSProvider findFacebookProvider(User user) {
+        DBCollection collection = ReaderDB.getSNSProviderCollection();
+        BasicDBObject query = new BasicDBObject();
+        query.put("user.$id", user.id);
+        query.put("provider", "facebook");
         DBObject entityDB = collection.findOne(query);
         if (entityDB != null) {
             return MongoModel.findEntity(entityDB.get("_id").toString(), SNSProvider.class);

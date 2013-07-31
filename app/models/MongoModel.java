@@ -10,6 +10,7 @@ import util.ReaderDB;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 public abstract class MongoModel {
@@ -64,10 +65,24 @@ public abstract class MongoModel {
         return collection.findOne(query);
     }
 
+    public static <T extends MongoModel> List<T> findAll(Class<T> clazz, int limit) {
+        DBCollection collection = ReaderDB.db.getCollection(clazz.getSimpleName());
+        DBCursor cursor = collection.find().limit(limit);
+        List<T> models = new ArrayList<T>();
+        try {
+            Constructor<T> constructor = clazz.getConstructor(DBObject.class);
+            while (cursor.hasNext()) {
+                models.add(constructor.newInstance(cursor.next()));
+            }
+
+        } catch (Exception e) {
+        }
+        return models;
+    }
 
     public static List<? extends MongoModel> all(Class<? extends MongoModel> klass, int limit) {
         if (ReaderDB.datastore != null) {
-            return ReaderDB.datastore.find(klass).limit(limit).asList();
+            return ReaderDB.datastore. find(klass).limit(limit).asList();
         } else {
             return new ArrayList<MongoModel>();
         }

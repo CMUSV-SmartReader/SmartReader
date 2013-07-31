@@ -29,6 +29,8 @@ import com.sun.syndication.feed.synd.SyndCategoryImpl;
 import com.sun.syndication.feed.synd.SyndContentImpl;
 import com.sun.syndication.feed.synd.SyndEntry;
 
+import facebook4j.Post;
+
 @Entity
 public class Article extends MongoModel {
 
@@ -47,8 +49,6 @@ public class Article extends MongoModel {
 
     public String contents = "";
 
-    public String summary;
-
     public String link;
 
     public Date publishDate;
@@ -61,7 +61,9 @@ public class Article extends MongoModel {
 
     public int popularity;
 
-    public long twitterStatusId;
+    public Long twitterStatusId;
+
+    public String facebookPostId;
 
     public List<String> categories = new ArrayList<String>();
 
@@ -70,6 +72,9 @@ public class Article extends MongoModel {
 
     @Reference(lazy=true)
     public List<Article> recommends = new ArrayList<Article>();
+
+    @Reference(lazy=true)
+    public List<ArticleCategory> articleCategories = new ArrayList<ArticleCategory>();
 
     public Article(SyndEntry entry) {
         Random rand = new Random();
@@ -88,7 +93,6 @@ public class Article extends MongoModel {
                 categories.add(category.getName());
             }
         }
-        this.summary = this.desc;
         this.popularity = rand.nextInt(5) + 1;
         this.publishDate = entry.getPublishedDate();
         this.updateDate = entry.getUpdatedDate();
@@ -99,10 +103,26 @@ public class Article extends MongoModel {
     }
 
     public Article(Status status) {
-        this.summary = status.getText();
+        this.desc = status.getText();
         this.author = status.getSource();
         this.publishDate = status.getCreatedAt();
+        this.link = status.getURLEntities()[0].getURL();
         this.twitterStatusId = status.getId();
+    }
+
+    public Article(Post post) {
+        this.title = post.getCaption();
+        this.desc = post.getMessage();
+        if (post.getSource() != null) {
+            this.author = post.getSource().toString();
+        }
+        this.contents = post.getStory();
+        this.publishDate = post.getCreatedTime();
+        this.updateDate = post.getUpdatedTime();
+        if (post.getLink() != null) {
+            this.link = post.getLink().toString();
+        }
+        this.facebookPostId = post.getId();
     }
 
     public Article(DBObject articleDB) {
@@ -116,7 +136,9 @@ public class Article extends MongoModel {
         if (articleDB.get("desc") != null) {
             this.desc = articleDB.get("desc").toString();
         }
-        this.author = articleDB.get("author").toString();
+        if (articleDB.get("author") != null) {
+            this.author = articleDB.get("author").toString();
+        }
         if (articleDB.get("publishDate") != null) {
             this.publishDate = (Date) articleDB.get("publishDate");
         }
@@ -200,14 +222,31 @@ public class Article extends MongoModel {
         }
     }
 
-    public Article createTwitterArticle() {
+    public Article createTwitterArticle(SNSProvider provider) {
         HashMap<String, Object> condition = new HashMap<String, Object>();
         condition.put("twitterStatusId", this.twitterStatusId);
+        condition.put("provider.$id", provider.id);
         Article existingArticle = Article.existingArticle(condition);
         if (existingArticle != null){
-            return existingArticle;
+            return null;
         }
         else {
+            this.provider = provider;
+            super.create();
+            return this;
+        }
+    }
+
+    public Article createFacebookArticle(SNSProvider provider) {
+        HashMap<String, Object> condition = new HashMap<String, Object>();
+        condition.put("facebookPostId", this.facebookPostId);
+        condition.put("provider.$id", provider.id);
+        Article existingArticle = Article.existingArticle(condition);
+        if (existingArticle != null){
+            return null;
+        }
+        else {
+            this.provider = provider;
             super.create();
             return this;
         }

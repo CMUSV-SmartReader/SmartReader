@@ -24,7 +24,8 @@ object ApplicationBuild extends Build {
     "cglib" % "cglib" % "2.2.2",
     "org.twitter4j" % "twitter4j-core" % "3.0.3",
     "com.thoughtworks.proxytoys" % "proxytoys" % "1.0",
-    "rome" % "rome" % "1.0"
+    "rome" % "rome" % "1.0",
+    "org.facebook4j" % "facebook4j-core" % "1.1.9"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

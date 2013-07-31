@@ -27,6 +27,20 @@ public class UserArticle extends MongoModel {
 
     public Integer rate;
 
+    public UserArticle() {
+
+    }
+
+    public UserArticle(DBObject object) {
+        id = new ObjectId(object.get("_id").toString());
+        if (object.containsField("rate")) {
+            rate = Integer.parseInt(object.get("rate").toString());
+        }
+        if (object.containsField("isRead")) {
+            isRead = Boolean.parseBoolean(object.get("isRead").toString());
+        }
+    }
+
     public static UserArticle getUserArticle(User user, Article article) {
         DBCollection collection = ReaderDB.getUserArticleCollection();
         BasicDBObject query = new BasicDBObject();
@@ -34,7 +48,7 @@ public class UserArticle extends MongoModel {
         query.put("article.$id", article.id);
         DBObject userArticleDB = collection.findOne(query);
         if (userArticleDB != null) {
-            return MongoModel.findEntity(userArticleDB.get("_id").toString(), UserArticle.class);
+            return new UserArticle(userArticleDB);
         }
         else {
             return null;

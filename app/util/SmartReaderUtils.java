@@ -10,6 +10,9 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import com.google.gson.GsonBuilder;
 
+import facebook4j.Facebook;
+import facebook4j.FacebookFactory;
+
 public class SmartReaderUtils {
 
     public static User getCurrentUser() {
@@ -21,8 +24,9 @@ public class SmartReaderUtils {
 
     private static Twitter twitter;
 
-    public static Twitter getTwitter() {
+    private static Facebook facebook;
 
+    public static Twitter getTwitter() {
         if (twitter == null) {
             ConfigurationBuilder builder = new ConfigurationBuilder();
             builder.setDebugEnabled(true);
@@ -34,5 +38,15 @@ public class SmartReaderUtils {
         }
         return twitter;
     }
+
+    public static Facebook getFacebook() {
+        if (facebook == null) {
+            facebook = new FacebookFactory().getInstance();
+            facebook.setOAuthAppId("421655734614850", "4466551b2b5a71f8bc0ea17e0a5f8835");
+            facebook.setOAuthPermissions("read_stream");
+        }
+        return facebook;
+    }
+
 
 }

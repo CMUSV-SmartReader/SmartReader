@@ -1,10 +1,13 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import models.Article;
 import models.Feed;
+import models.MongoModel;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -17,6 +20,9 @@ import util.SmartReaderUtils;
 import views.html.main;
 
 import com.google.gson.Gson;
+
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
 public class Application extends Controller {
 
     /**
@@ -65,7 +71,7 @@ public class Application extends Controller {
         }
     }
 
-    @SecureSocial.UserAwareAction
+    @SecureSocial.SecuredAction
     public static Result getCategories() {
         Identity identity = SecureSocial.currentUser();
         User user = User.findByEmail(identity.email().get());
@@ -74,7 +80,7 @@ public class Application extends Controller {
     }
 
 
-    @SecureSocial.UserAwareAction
+    @SecureSocial.SecuredAction
     public static Result twitterCallback() {
         RequestToken token = new RequestToken(session().get("token"), session().get("tokenSec"));
         String verifier = request().getQueryString("oauth_verifier");
@@ -82,27 +88,66 @@ public class Application extends Controller {
         user.createTwitterProvider();
         try {
             AccessToken accessToken = SmartReaderUtils.getTwitter().getOAuthAccessToken(token, verifier);
-            user.updateAccessToken(accessToken.getToken(), accessToken.getTokenSecret());
+            user.updateTwitterAccessToken(accessToken.getToken(), accessToken.getTokenSecret());
+            return redirect("/");
         } catch (TwitterException e) {
             e.printStackTrace();
         }
         return ok();
     }
 
-    @SecureSocial.UserAwareAction
+    @SecureSocial.SecuredAction
     public static Result twitterLogin() {
         try {
-            RequestToken twitterRequestToken = SmartReaderUtils.getTwitter().getOAuthRequestToken();
-            String token = twitterRequestToken.getToken();
-            String tokenSecret = twitterRequestToken.getTokenSecret();
-            session().put("token", token);
-            session().put("tokenSec", tokenSecret);
-            String authorizationUrl = twitterRequestToken.getAuthorizationURL();
-            return redirect(authorizationUrl);
+            User user = SmartReaderUtils.getCurrentUser();
+            if (user.twitterAccessToken == null && user.twitterAccessTokenSecret == null) {
+                RequestToken twitterRequestToken = user.getTwitter().getOAuthRequestToken();
+                String token = twitterRequestToken.getToken();
+                String tokenSecret = twitterRequestToken.getTokenSecret();
+                session().put("token", token);
+                session().put("tokenSec", tokenSecret);
+                String authorizationUrl = twitterRequestToken.getAuthorizationURL();
+                return redirect(authorizationUrl);
+            }
+            else {
+                return redirect("/");
+            }
         } catch (TwitterException e) {
 
         }
         return ok();
     }
 
+    @SecureSocial.SecuredAction
+    public static Result facebookLogin() {
+        Facebook facebook = SmartReaderUtils.getFacebook();
+        String callbackUrl = routes.Application.facebookCallback().absoluteURL(request());
+        return redirect(facebook.getOAuthAuthorizationURL(callbackUrl));
+    }
+
+    @SecureSocial.SecuredAction
+    public static Result facebookCallback() {
+        Facebook facebook = SmartReaderUtils.getFacebook();
+        String oauthCode = request().getQueryString("code");
+        User user = SmartReaderUtils.getCurrentUser();
+        user.createFacebookProvider();
+        try {
+            facebook4j.auth.AccessToken token = facebook.getOAuthAccessToken(oauthCode);
+            user.updateFacebookAccessToken(token.getToken());
+        } catch (FacebookException e) {
+            e.printStackTrace();
+        }
+        return redirect("/");
+    }
+
+    public static Result randomArticles() {
+        List<Article> candidateArticles = MongoModel.findAll(Article.class, 100);
+        List<Article> articles = new ArrayList<Article>();
+        Random random = new Random();
+        for(int i = 0; i < 20; i++) {
+            articles.add(candidateArticles.get(random.nextInt(candidateArticles.size())));
+        }
+        Gson gson = SmartReaderUtils.builder.create();
+        return ok(gson.toJson(articles));
+    }
 }
