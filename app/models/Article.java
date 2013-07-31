@@ -110,11 +110,15 @@ public class Article extends MongoModel {
     public Article(Post post) {
         this.title = post.getCaption();
         this.desc = post.getMessage();
-        this.author = post.getSource().toString();
+        if (post.getSource() != null) {
+            this.author = post.getSource().toString();
+        }
         this.contents = post.getStory();
         this.publishDate = post.getCreatedTime();
         this.updateDate = post.getUpdatedTime();
-        this.link = post.getLink().toString();
+        if (post.getLink() != null) {
+            this.link = post.getLink().toString();
+        }
         this.facebookPostId = post.getId();
     }
 
@@ -129,7 +133,9 @@ public class Article extends MongoModel {
         if (articleDB.get("desc") != null) {
             this.desc = articleDB.get("desc").toString();
         }
-        this.author = articleDB.get("author").toString();
+        if (articleDB.get("author") != null) {
+            this.author = articleDB.get("author").toString();
+        }
         if (articleDB.get("publishDate") != null) {
             this.publishDate = (Date) articleDB.get("publishDate");
         }

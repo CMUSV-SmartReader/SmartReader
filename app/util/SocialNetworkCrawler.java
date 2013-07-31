@@ -26,6 +26,7 @@ public class SocialNetworkCrawler {
                         for (User user : users) {
                             Logger.debug("Start Crawling twitter for " + user.email);
                             user.crawlTwitter();
+                            Logger.debug("Start Crawling facebook for " + user.email);
                             user.crawlFacebook();
                         }
                     }
