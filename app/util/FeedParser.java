@@ -57,7 +57,9 @@ public class FeedParser {
 
     public static Feed parseFeedInfo(String link) throws Exception {
         SyndFeed syndFeed = getFeedInfo(link);
-        return new Feed(syndFeed);
-
+        Feed newFeed = new Feed();
+        newFeed.xmlUrl = link;
+        newFeed.mergeFeed(syndFeed);
+        return newFeed;
     }
 }
