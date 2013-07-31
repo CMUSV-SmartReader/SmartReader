@@ -178,6 +178,7 @@ thermoreader.recommendationCtrl = function($scope, dbService){
 /* The controller for Social Network Page */
 thermoreader.socialCtrl = function($scope, dbService){
   $scope.providers = dbService.getProviders();
+  $scope.socialArticles = dbService.getSocialArticles();
 
   $scope.checkProvider = function(provider){
     return $scope.providers.hasOwnProperty(provider);

@@ -36,12 +36,10 @@
         <option value="-date">Date</option>
       </select>
     </div>
-    <!-- <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
-    <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a> -->
   </div>
 
   <!-- Feed Cards -->
-  <div ng-show="article.id == orderedArticles[currentArticleIndex].id || viewMode == 'listMode'" ng-class="{'read': article.read, 'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="animationMode">
+  <div ng-class="{'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (socialArticles | orderBy:orderRule))" ng-animate="animationMode">
     <div class="media-body-text-only pull-left">
       <h4 class="media-heading"><!-- ☆ -->
         <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>

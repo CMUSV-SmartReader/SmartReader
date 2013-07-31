@@ -3,6 +3,7 @@ var thermoreader = thermoreader || {};
 thermoreader.dbService = function($http){
   this.userId = localStorage.hasOwnProperty('userId')? JSON.parse(localStorage['userId']):"";
   this.providers = {};
+  this.socialArticles = [];
   this.categoryFeeds = [];
   this.recommendations = { name: "Recommendations", articles: [] };
   this.feedArticles = {};
@@ -106,8 +107,19 @@ thermoreader.dbService = function($http){
       for(var i=0; i<d.length; ++i){
         self.providers[d[i].provider] = d[i].id;
       }
+      self.getSocialArticles();
     });
     return this.providers;
+  };
+
+  this.getSocialArticles = function(isReload){
+    var self = this;
+    for(var provider in this.providers){
+      $http.get('social/'+this.providers[provider]+'/articles').success(function(d){
+        console.log(d);
+      });
+    }
+    return this.socialArticles;
   };
 
 };
