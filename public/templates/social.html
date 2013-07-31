@@ -1,4 +1,4 @@
-<div ng-scrollend="fetchData(true)" ng-globalkeydown="keyTriggers($event)"  id="content">
+<div id="content" ng-controller="socialCtrl">
   <!-- Title and Misc -->
   <h2>
     <a>
@@ -8,14 +8,24 @@
       <span class="logo_4 logo"></span>
       <span class="logo_5 logo"></span>
     </a>
-    Social 
+    Social Network
   </h2>
 
   <ul class="provider-list">
-    <li><img src="/assets/images/social/twitter-bird-light-bgs.png">
-      <a href="/twitter_login"></a>
+    <li>
+      <img src="/assets/images/social/twitter-bird-light-bgs.png">
+      <span class="social-login-status">
+        <a ng-show="!checkProvider('twitter')" href="/twitter_login">Connect</a>
+        <b ng-show="checkProvider('twitter')">Connected</b>
+      </span>
     </li>
-    <li><img src="/assets/images/social/FB-f-Logo__blue_50.png"><a href="/facebook_login"></a></li>
+    <li>
+      <img src="/assets/images/social/FB-f-Logo__blue_50.png">
+      <span class="social-login-status">
+        <a ng-show="!checkProvider('facebook')" href="/facebook_login">Connect</a>
+        <b ng-show="checkProvider('facebook')">Connected</b>
+      </span>
+    </li>
   </ul>
 
   <div class="views">
@@ -26,12 +36,10 @@
         <option value="-date">Date</option>
       </select>
     </div>
-    <!-- <a><img src="http://b.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/bulleted_list.png"></a>
-    <a><img src="http://c.dryicons.com/images/icon_sets/wysiwyg_sapphire/png/128x128/align_justify.png"></a> -->
   </div>
 
   <!-- Feed Cards -->
-  <div ng-show="article.id == orderedArticles[currentArticleIndex].id || viewMode == 'listMode'" ng-class="{'read': article.read, 'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (selectedFeed.articles | orderBy:orderRule))" ng-animate="animationMode">
+  <div ng-class="{'popular{{article.popular}}': true}" class="card expanded" ng-repeat="article in (orderedArticles = (socialArticles | orderBy:orderRule))" ng-animate="animationMode">
     <div class="media-body-text-only pull-left">
       <h4 class="media-heading"><!-- ☆ -->
         <a ng-href="{{article.link}}" rel="external" target="_blank"> {{article.title}} </a>
@@ -45,11 +53,6 @@
         <div class="article-summary">{{article.summary}}</div>
         <div class="article-description">
           <div class="article-text" ng-bind-html-unsafe="article.description"></div>
-          <ul class="dupArticles">
-            <li ng-repeat="dupArticle in article.duplicates" ng-click="replaceArticle(article, dupArticle)" ng-class="popular{{dupArticle.popular}}">
-              {{dupArticle.title}} from {{dupArticle.feedName}}
-            </li>
-          </ul>
         </div>
 
         <a ng-show="viewMode == 'listMode'" class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>

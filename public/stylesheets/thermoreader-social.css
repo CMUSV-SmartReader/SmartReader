@@ -4,9 +4,19 @@
 }
 
 .provider-list li {
+  background-color: #eee;
 	display: inline-block;
+  border: 1px solid #ccc; border-radius: 1px;
 }
 
 .provider-list img {
 	width: 24px; height: 24px;
+}
+
+.provider-list .social-login-status {
+  margin: 5px;
+}
+
+.provider-list .social-login-status a {
+  text-decoration: none;
 }
