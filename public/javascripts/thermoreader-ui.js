@@ -15,6 +15,11 @@ thermoreader.ui = (function(){
         $('#side-container').toggleClass('side-inverse');
       });
 
+      $('#main-feeds').on('click', 'a', function(){
+        $('#main-feeds a').removeClass('active');
+        $(this).addClass('active');
+      });
+
       $('#side-container').perfectScrollbar({wheelSpeed: 60});
       $('#content-container').perfectScrollbar({wheelSpeed: 60});
     };

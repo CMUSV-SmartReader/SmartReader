@@ -23,7 +23,7 @@
 #side-menu ul li a { color: #413839; }
 #side-menu ul li a.hasUpdate { font-weight: 700; }
 #side-container.side-inverse #side-menu ul li a { color: #ddd; }
-#side-menu ul li a:hover, #side-menu ul li:active {
+#side-menu ul li a:hover, #side-menu ul li a.active {
   /* IE10 Consumer Preview */
   /*background-image: -ms-linear-gradient(right, #A8C7E6 0%, #C1C6D2 100%);*/
   /* Mozilla Firefox */
@@ -38,8 +38,8 @@
   /*background-image: linear-gradient(to left, #A8C7E6 0%, #C1C6D2 100%);*/
   background-color: #e6e6e6;
 }
-#side-container.side-inverse #side-menu ul li a:hover,
-#side-container.side-inverse #side-menu ul li a:active {
+#side-container.side-inverse #side-menu ul li:hover,
+#side-container.side-inverse #side-menu ul li.active {
   background-image: -webkit-linear-gradient(right, #666 0%, #444 100%);
 }
 

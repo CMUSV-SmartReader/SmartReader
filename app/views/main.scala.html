@@ -70,14 +70,15 @@
             <!-- FB-like Slide Menu-->
             <div id="main-feeds">
               <ul class="nav nav-list">
-                <li> <a href="#/dicover"> Discover </a> </li>
+                <li> <a href="#/dicover" class="active"> Discover </a> </li>
                 <li> <a href="#/recommendation"> Recommendation </a> </li>
                 <li> <a href="#/social"> Social Network </a> </li>
-                <li> <a href='#/manage'> Manage RSS </a> </li>
+                <li> <a href='javascript: void(0)' ng-click="toggleRSS();"> RSS Feeds </a> </li>
+                <li> <a href='#/manage'> Manage </a> </li>
               </ul>
             </div>
 
-            <div id="user-feeds">
+            <div ng-show="rssVisible" ng-animate="{enter: 'slideup-in', leave: 'slidedown-out'}" id="user-feeds">
               <div ng-repeat="category in allFeeds">
                 <ul class="nav nav-list">
                   <li class="divider"></li>

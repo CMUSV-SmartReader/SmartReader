@@ -3,6 +3,10 @@ var thermoreader = thermoreader || {};
 /* The controller for Menu */
 thermoreader.menuCtrl = function($scope, dbService) {
   $scope.allFeeds = dbService.getAllFeeds(false);
+  $scope.rssVisible = false;
+  $scope.toggleRSS = function(){
+    $scope.rssVisible = !$scope.rssVisible;
+  };
 };
 
 /* The controller for RSS Manage */
