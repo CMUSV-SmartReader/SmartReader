@@ -102,31 +102,35 @@ thermoreader.dbService = function($http){
     });
   };
 
-  this.getProviders = function(){
+  this.getProviders = function(callback){
     var self = this;
     $http.get('/social/all_provider').success(function(d){
       for(var i=0; i<d.length; ++i){
         self.providers[d[i].provider] = d[i].id;
       }
-      self.getSocialArticles();
+      //self.getSocialArticles();
+      if(callback){ callback(); }
     });
     return this.providers;
   };
 
-  this.getSocialArticles = function(isReload){
+  this.getSocialArticles = function(callback){
     var self = this;
-    for(var provider in this.providers){
-      $http.get('social/'+this.providers[provider]+'/articles').success(function(d){
-        // console.log(d);
-        self.socialArticles.length = 0;
-        for(var i=0; i<d.length; ++i){
-          self.socialArticles.push( new thermoreader.model.article(
-            d[i].id, d[i].desc.slice(0, 12), d[i].author || d[i].feed.title, d[i].publishDate,
-            provider, d[i].desc.slice(0, 48), d[i].desc,
-            d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
-          ));
-        }
-      });
+    if(this.socialArticles.length == 0){
+      self.socialArticles.length = 0;
+      for(var provider in this.providers){
+        $http.get('social/'+this.providers[provider]+'/articles').success(function(d){
+          // console.log(d);
+          for(var i=0; i<d.length; ++i){
+            self.socialArticles.push( new thermoreader.model.article(
+              d[i].id, d[i].desc.slice(0, 12), d[i].author || d[i].feed.title, d[i].publishDate,
+              provider, d[i].desc.slice(0, 48), d[i].desc,
+              d[i].link, Math.floor(Math.random()*5+1), d[i].isRead
+            ));
+          }
+          if(d.length > 0 && callback){ callback(); }
+        });
+      }
     }
     return this.socialArticles;
   };

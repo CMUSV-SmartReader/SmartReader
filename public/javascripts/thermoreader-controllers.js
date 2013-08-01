@@ -193,8 +193,12 @@ thermoreader.topicCtrl = function($scope, $routeParams, dbService){
 
 /* The controller for Social Network Page */
 thermoreader.socialCtrl = function($scope, dbService){
-  $scope.providers = dbService.getProviders();
-  $scope.socialArticles = dbService.getSocialArticles();
+  $scope.isLoading = true;
+  $scope.providers = dbService.getProviders(function(){
+    $scope.socialArticles = dbService.getSocialArticles(function(){
+      $scope.isLoading = false;
+    });
+  });
 
   $scope.checkProvider = function(provider){
     return $scope.providers.hasOwnProperty(provider);
