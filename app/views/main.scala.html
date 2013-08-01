@@ -70,11 +70,11 @@
             <!-- FB-like Slide Menu-->
             <div id="main-feeds">
               <ul class="nav nav-list">
-                <li> <a href="#/dicover" class="active"> Discover </a> </li>
-                <li> <a href="#/recommendation"> Recommendation </a> </li>
-                <li> <a href="#/social"> Social Network </a> </li>
-                <li> <a href='javascript: void(0)' ng-click="toggleRSS();"> RSS Feeds </a> </li>
-                <li> <a href='#/manage'> Manage </a> </li>
+                <li> <a href="#/dicover" ng-click="closeRSS();" class="active"> Discover </a> </li>
+                <li> <a href="#/recommendation" ng-click="closeRSS();"> Recommendation </a> </li>
+                <li> <a href="#/social" ng-click="closeRSS();"> Social Network </a> </li>
+                <li> <a href='#/manage' ng-click="openRSS();"> RSS Feeds </a> </li>
+                <!-- <li> <a href='#/manage'> Manage </a> </li> -->
               </ul>
             </div>
 

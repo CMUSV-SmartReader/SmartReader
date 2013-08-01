@@ -15,14 +15,14 @@
     <li>
       <img src="/assets/images/social/twitter-bird-light-bgs.png">
       <span class="social-login-status">
-        <a ng-show="!checkProvider('twitter')" href="/twitter_login">Connect</a>
+        <a ng-show="!checkProvider('twitter')" href="/twitter_login"><b>Connect</b></a>
         <b ng-show="checkProvider('twitter')">Connected</b>
       </span>
     </li>
     <li>
       <img src="/assets/images/social/FB-f-Logo__blue_50.png">
       <span class="social-login-status">
-        <a ng-show="!checkProvider('facebook')" href="/facebook_login">Connect</a>
+        <a ng-show="!checkProvider('facebook')" href="/facebook_login"><b>Connect</b></a>
         <b ng-show="checkProvider('facebook')">Connected</b>
       </span>
     </li>
@@ -54,8 +54,6 @@
         <div class="article-description">
           <div class="article-text" ng-bind-html-unsafe="article.description"></div>
         </div>
-
-        <a ng-show="viewMode == 'listMode'" class ="continue-article" ng-click="expandArticle(article)" href="javascript: void(0)"> </a>
       </p>
     </div>
     <div class="clearfix"></div>

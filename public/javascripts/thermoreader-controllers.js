@@ -4,8 +4,11 @@ var thermoreader = thermoreader || {};
 thermoreader.menuCtrl = function($scope, dbService) {
   $scope.allFeeds = dbService.getAllFeeds(false);
   $scope.rssVisible = false;
-  $scope.toggleRSS = function(){
-    $scope.rssVisible = !$scope.rssVisible;
+  $scope.openRSS = function(){
+    $scope.rssVisible = true;
+  };
+  $scope.closeRSS = function(){
+    $scope.rssVisible = false;
   };
 };
 
