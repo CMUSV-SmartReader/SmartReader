@@ -305,6 +305,7 @@ public class Article extends MongoModel {
             else {
                 article.add("content", new JsonPrimitive(""));
             }
+            article.add("popularity", new JsonPrimitive(src.popularity));
             article.add("categories", ctx.serialize(src.categories));
             article.add("isRead", new JsonPrimitive(src.isRead));
             return article;
