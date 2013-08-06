@@ -49,6 +49,9 @@ public class Feed extends MongoModel {
 
     public String errorReason;
 
+    @Reference(lazy=true)
+    public ArticleCategory articleCategory;
+
     @Transient
     public List<Article> articles = new ArrayList<Article>();
 
@@ -138,6 +141,9 @@ public class Feed extends MongoModel {
             List<Article> articles = FeedParser.parseFeed(this);
             for (Article article : articles) {
                 article.feed = this;
+                if (this.articleCategory != null) {
+                    article.articleCategories.add(this.articleCategory);
+                }
                 article = article.createUnique();
             }
             this.hasError = false;
