@@ -67,7 +67,11 @@ public class ArticleCategory extends MongoModel {
         List<Article> articles = new ArrayList<Article>();
         DBCollection articleCollection = ReaderDB.getArticleCollection();
         BasicDBObject query = new BasicDBObject();
-        query.put("feed.$id", new ObjectId(id));
+        BasicDBObject elementMatch = new BasicDBObject();
+        BasicDBObject articleQuery = new BasicDBObject();
+        articleQuery.put("$id", new ObjectId(id));
+        elementMatch.put("$elemMatch", articleQuery);
+        query.put("articleCategories", elementMatch);
         BasicDBObject orderBy = new BasicDBObject();
         DBCursor cursor = articleCollection.find(query).sort(orderBy).limit(20);
         User currentUser = SmartReaderUtils.getCurrentUser();
@@ -88,6 +92,11 @@ public class ArticleCategory extends MongoModel {
         BasicDBObject orderBy = new BasicDBObject();
         orderBy.put("publishDate", -1);
         orderBy.put("updateDate", -1);
+        BasicDBObject elementMatch = new BasicDBObject();
+        BasicDBObject articleQuery = new BasicDBObject();
+        articleQuery.put("$id", new ObjectId(id));
+        elementMatch.put("$elemMatch", articleQuery);
+        query.put("articleCategories", elementMatch);
         DBCursor cursor = articleCollection.find(query).sort(orderBy).limit(20);
         User currentUser = SmartReaderUtils.getCurrentUser();
         while (cursor.hasNext()) {
