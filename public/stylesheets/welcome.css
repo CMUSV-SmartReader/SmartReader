@@ -20,14 +20,14 @@ input:focus:-moz-placeholder,textarea:focus:-moz-placeholder{color:transparent !
 strong{font-family:"Apercu Pro Bold",'Trebuchet MS',Arial,sans-serif;font-weight:bold;font-style:normal;}
 html,body{height:100%;}
 .curtain-removed .readymag,.curtain-removed .login,.curtain-removed .menu{display:block;}
-.login{position:fixed;width:88px;height:40px;top:54px;right:32px;border-radius:20px;box-shadow:0 0 0 1px rgba(255, 255, 255, 0.42);text-align:center;font-family:"Apercu Pro Regular",'Trebuchet MS',Arial,sans-serif;font-weight:normal;font-style:normal;color:#fff;font-size:14px;line-height:40px;text-decoration:none;} .login:hover{text-decoration:none; color: white; box-shadow:0 0 0 1px rgba(255, 255, 255, 0.82);}
+.login{position:fixed;width:170px;height:40px;top:54px;right:32px;border-radius:20px;box-shadow:0 0 0 1px rgba(255, 255, 255, 0.42);text-align:center;font-family:"Apercu Pro Regular",'Trebuchet MS',Arial,sans-serif;font-weight:normal;font-style:normal;color:#fff;font-size:14px;line-height:40px;text-decoration:none;} .login:hover{text-decoration:none; color: white; box-shadow:0 0 0 1px rgba(255, 255, 255, 0.82);}
 .menu{position:fixed;width:314px;height:56px;left:50%;bottom:26px;margin-left:-200px;background:#fff;border-radius:28px;text-align:justify;line-height:56px;padding:0 43px;}.menu ul,.menu li{display:inline;}
 .menu li{font-family:"Apercu Pro Regular",'Trebuchet MS',Arial,sans-serif;font-weight:normal;font-style:normal;font-size:16px;color:#8c8a8b;cursor:pointer;}.no-touch .menu li:hover{color:#363234 !important;}
 .menu span{display:inline-block;position:relative;width:100%;height:0;}
 .content-wrapper{background-color:#B2D1F0;}.content-wrapper.inactive{position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden !important;}
 .no-touch .content-wrapper{position:fixed;top:0;left:0;width:100%;height:100%;overflow-y:scroll;}
 .content-wrapper .page{position:relative;width:100%;height:100%;min-height:672px;overflow:hidden;}.content-wrapper .page.page-intro .content{position:absolute;width:840px;height:450px;left:50%;top:50%;margin-top:-150px;margin-left:-420px;}.content-wrapper .page.page-intro .content .message{text-align:center;font-family:"Apercu Pro Regular",'Trebuchet MS',Arial,sans-serif;font-weight:normal;font-style:normal;line-height:58px;font-size:48px;color:#fff;}
-.content-wrapper .page.page-intro .scroll-down{position:absolute; height:67px; width:200px; left:50%; bottom:0; margin-left:-100px;}
+.content-wrapper .page.page-intro .scroll-down{text-align:center;margin-top:200px;}
 .content-wrapper .page.page-create{min-height:790px;}.content-wrapper .page.page-create .content{position:absolute;width:1504px;height:635px;left:50%;top:50%;margin-top:-240px;margin-left:-752px;}.content-wrapper .page.page-create .content .mac{position:absolute;top:0;left:0;width:1262px;height:635px;}.content-wrapper .page.page-create .content .mac .mac-body{position:absolute;width:610px;height:490px;top:2px;left:200px;background-image:url('../images/welcome/mac-body.png');background-size: cover;background-repeat:no-repeat;}.content-wrapper .page.page-create .content .mac .mac-body .mac-video{position:absolute;left:103px;top:36px;width:478px;height:270px;background:#000;}
 .content-wrapper .page.page-create .content .message{position:absolute;left:50%;margin-left:116px;top:85px;width:332px;height:180px;}.content-wrapper .page.page-create .content .message .caption{font-family:"Apercu Pro Bold",'Trebuchet MS',Arial,sans-serif;font-weight:bold;font-style:normal;font-size:88px;color:#000;}
 .content-wrapper .page.page-create .content .message .text{margin-top:27px;font-family:"Apercu Pro Regular",'Trebuchet MS',Arial,sans-serif;font-weight:normal;font-style:normal;font-size:20px;color:rgba(0, 0, 0, 0.7);line-height:26px;}
@@ -70,3 +70,4 @@ html,body{height:100%;}
 
 /* customization */
 .container { width: auto !important; }
+.hide { display: none; }

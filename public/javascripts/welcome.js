@@ -8,9 +8,13 @@ var colors = [
 ];
 
 var height = 0;
+var isChrome = window.chrome;
 
 $(document).on('ready', function(){
 	height = $('.content-wrapper').height() - window.innerHeight;
+	if(isChrome) {
+		$('#add-chrome-ext').removeClass('hide');
+	}
 });
 
 $(document).scroll(function() {
@@ -36,5 +40,4 @@ $(document).scroll(function() {
    
    $('.content-wrapper').css('background-color', 'rgb('+ newRgb.join(',') +')');
 
-//   $('.login').html(' ' + red + ' ' + green + ' ' + blue);
 });
