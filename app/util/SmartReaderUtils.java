@@ -26,12 +26,32 @@ public class SmartReaderUtils {
 
     private static Facebook facebook;
 
+    public static String getTwitterKey() {
+        String key = System.getenv("TWITTER_KEY");
+        return key != null ? key : "BploO8qFE4tWwmdNNsE1g";
+    }
+
+    public static String getTwitterSecret() {
+        String secret = System.getenv("TWITTER_SECRET");
+        return secret != null ? secret : "lpcBV30Wrr1dN1RO9ehxYDhfrGUkJjqa7V0idWKcoM";
+    }
+
+    public static String getFacebookKey() {
+        String key = System.getenv("FACEBOOK_KEY");
+        return key != null ? key : "421655734614850";
+    }
+
+    public static String getFacebookSecret() {
+        String secret = System.getenv("FACEBOOK_SECRET");
+        return secret != null ? secret : "4466551b2b5a71f8bc0ea17e0a5f8835";
+    }
+
     public static Twitter getTwitter() {
         if (twitter == null) {
             ConfigurationBuilder builder = new ConfigurationBuilder();
             builder.setDebugEnabled(true);
-            builder.setOAuthConsumerKey("BploO8qFE4tWwmdNNsE1g");
-            builder.setOAuthConsumerSecret("lpcBV30Wrr1dN1RO9ehxYDhfrGUkJjqa7V0idWKcoM");
+            builder.setOAuthConsumerKey(getTwitterKey());
+            builder.setOAuthConsumerSecret(getTwitterSecret());
             Configuration configuration = builder.build();
             TwitterFactory factory = new TwitterFactory(configuration);
             twitter = factory.getInstance();
@@ -42,7 +62,7 @@ public class SmartReaderUtils {
     public static Facebook getFacebook() {
         if (facebook == null) {
             facebook = new FacebookFactory().getInstance();
-            facebook.setOAuthAppId("421655734614850", "4466551b2b5a71f8bc0ea17e0a5f8835");
+            facebook.setOAuthAppId(getFacebookKey(), getFacebookSecret());
             facebook.setOAuthPermissions("read_stream");
         }
         return facebook;

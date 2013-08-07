@@ -28,6 +28,7 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import util.GoogleReaderImporter;
 import util.ReaderDB;
+import util.SmartReaderUtils;
 
 import com.google.code.morphia.annotations.Entity;
 import com.google.code.morphia.annotations.Id;
@@ -257,8 +258,8 @@ public class User extends MongoModel implements Identity {
     public Twitter getTwitter() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
         builder.setDebugEnabled(true);
-        builder.setOAuthConsumerKey("BploO8qFE4tWwmdNNsE1g");
-        builder.setOAuthConsumerSecret("lpcBV30Wrr1dN1RO9ehxYDhfrGUkJjqa7V0idWKcoM");
+        builder.setOAuthConsumerKey(SmartReaderUtils.getTwitterKey());
+        builder.setOAuthConsumerSecret(SmartReaderUtils.getTwitterSecret());
         Configuration configuration = builder.build();
         TwitterFactory factory = new TwitterFactory(configuration);
         Twitter twitter = factory.getInstance();
@@ -271,7 +272,7 @@ public class User extends MongoModel implements Identity {
 
     public Facebook getFacebook() {
         Facebook facebook = new FacebookFactory().getInstance();
-        facebook.setOAuthAppId("421655734614850", "4466551b2b5a71f8bc0ea17e0a5f8835");
+        facebook.setOAuthAppId(SmartReaderUtils.getFacebookKey(), SmartReaderUtils.getFacebookSecret());
         facebook.setOAuthPermissions("read_stream");
         facebook.setOAuthAccessToken(new facebook4j.auth.AccessToken(facebookAccessToken, null));
         return facebook;
