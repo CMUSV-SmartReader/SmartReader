@@ -47,6 +47,7 @@ thermoreader.instance = angular.module('thermoReader', [])
     .when("/discover", {controller: "baseCtrl", templateUrl: "/assets/templates/discover.html"})
     .when("/social", {controller: "baseCtrl", templateUrl: "/assets/templates/social.html"})
     .when("/manage", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
+    .when("/manage/:fnName", {controller: "manageCtrl", templateUrl: "/assets/templates/manage.html"})
     .when("/topic/:topicName", {controller: "baseCtrl", templateUrl: "/assets/templates/topic.html"})
     .when("/feed/:feedId", {controller: "baseCtrl", templateUrl: "/assets/templates/feed.html"})
     .otherwise({redirectTo: '/discover'});

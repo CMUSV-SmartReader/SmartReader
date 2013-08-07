@@ -13,7 +13,7 @@ thermoreader.menuCtrl = function($scope, dbService) {
 };
 
 /* The controller for RSS Manage */
-thermoreader.manageCtrl = function($scope, $http, dbService){
+thermoreader.manageCtrl = function($scope, $http, $routeParams, dbService){
   $scope.allFeeds = dbService.getAllFeeds(false);
 
   $scope.addNewCategory = function(){
@@ -53,6 +53,9 @@ thermoreader.manageCtrl = function($scope, $http, dbService){
 
   $scope.$on('$viewContentLoaded', function(){
     $('#content-container').scrollTop(0);
+    if($routeParams.fnName == "import"){
+      $('#import-modal').modal('show');
+    }
   });
 
 };
