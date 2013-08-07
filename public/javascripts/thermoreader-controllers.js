@@ -4,16 +4,12 @@ var thermoreader = thermoreader || {};
 thermoreader.menuCtrl = function($scope, dbService) {
   $scope.allFeeds = dbService.getAllFeeds(false);
   $scope.rssVisible = false;
-  $scope.openRSS = function(){
-    $scope.rssVisible = true;
-  };
-  $scope.closeRSS = function(){
-    $scope.rssVisible = false;
-  };
+  $scope.openRSS = function(){ $scope.rssVisible = true; };
+  $scope.closeRSS = function(){ $scope.rssVisible = false; };
 };
 
 /* The controller for RSS Manage */
-thermoreader.manageCtrl = function($scope, $http, dbService){
+thermoreader.manageCtrl = function($scope, $http, $routeParams, dbService){
   $scope.allFeeds = dbService.getAllFeeds(false);
 
   $scope.addNewCategory = function(){
@@ -53,6 +49,9 @@ thermoreader.manageCtrl = function($scope, $http, dbService){
 
   $scope.$on('$viewContentLoaded', function(){
     $('#content-container').scrollTop(0);
+    if($routeParams.fnName == "import"){
+      $('#import-modal').modal('show');
+    }
   });
 
 };

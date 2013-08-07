@@ -1,7 +1,7 @@
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
-    var url = "http://localhost:9000/import-feeds";
+    var url = "/import-feeds";
     
 //    $('#manage-importfeed-btn').click(function(){
 //        $('#import-result').html();

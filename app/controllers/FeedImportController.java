@@ -107,7 +107,7 @@ public class FeedImportController extends Controller{
                 try {
                     feedEntity.crawl();
                 } catch (Exception e){
-                    System.out.println("||||||caught exception when crawl");
+//                    System.out.println("||||||caught exception when crawl");
                 }
                 
             }
