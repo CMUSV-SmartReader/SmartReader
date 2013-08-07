@@ -4,12 +4,8 @@ var thermoreader = thermoreader || {};
 thermoreader.menuCtrl = function($scope, dbService) {
   $scope.allFeeds = dbService.getAllFeeds(false);
   $scope.rssVisible = false;
-  $scope.openRSS = function(){
-    $scope.rssVisible = true;
-  };
-  $scope.closeRSS = function(){
-    $scope.rssVisible = false;
-  };
+  $scope.openRSS = function(){ $scope.rssVisible = true; };
+  $scope.closeRSS = function(){ $scope.rssVisible = false; };
 };
 
 /* The controller for RSS Manage */
